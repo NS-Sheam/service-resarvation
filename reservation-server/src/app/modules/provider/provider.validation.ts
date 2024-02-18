@@ -26,14 +26,16 @@ const createProviderValidationSchema = z.object({
 
 const updateProviderValidationSchema = z.object({
   body: z.object({
-    provider: z.object({
-      name: z.string().optional(),
-      email: z.string().optional(),
-      phone: z.string().optional(),
-      image: z.string().optional(),
-      location: z.string().optional(),
-      isDeleted: z.boolean().optional(),
-    }),
+    provider: z
+      .object({
+        name: z.string().optional(),
+        email: z.string().optional(),
+        phone: z.string().optional(),
+        image: z.string().optional(),
+        location: z.string().optional(),
+        isDeleted: z.boolean().optional(),
+      })
+      .optional(),
   }),
 });
 

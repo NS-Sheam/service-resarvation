@@ -28,7 +28,7 @@ const getSingleCustomer = catchAsync(async (req: Request, res: Response) => {
 
 const updateCustomer = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { customer } = req.body;
+  const customer = req.body?.customer || req.body;
 
   const result = await CustomerServices.updateCustomer(id, customer, req.file);
   sendResponse(res, {

@@ -23,13 +23,15 @@ const createCustomerValidationSchema = z.object({
 
 const updateCustomerValidationSchema = z.object({
   body: z.object({
-    customer: z.object({
-      name: z.string().optional(),
-      email: z.string().optional(),
-      phone: z.string().optional(),
-      image: z.string().optional(),
-      isDeleted: z.boolean().optional(),
-    }),
+    customer: z
+      .object({
+        name: z.string().optional(),
+        email: z.string().optional(),
+        phone: z.string().optional(),
+        image: z.string().optional(),
+        isDeleted: z.boolean().optional(),
+      })
+      .optional(),
   }),
 });
 

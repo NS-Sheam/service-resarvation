@@ -28,7 +28,7 @@ router.post(
 
 router.get(
   "/me",
-  auth(USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.vendor),
+  auth(USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.provider),
   UserControllers.getMe,
 );
 export const UserRoutes = router;
