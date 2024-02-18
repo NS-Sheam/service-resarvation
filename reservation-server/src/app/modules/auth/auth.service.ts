@@ -1,12 +1,12 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { User } from "../user/user.model";
 import config from "../../config";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { sendEmail } from "../../utils/sendEmail";
 import { TLoginUser } from "./auth.interface";
+import { User } from "../user/user.model";
 import { createToken, verifyToken } from "./auth.utils";
 const loginUser = async (payload: TLoginUser) => {
   const { email, password } = payload;
@@ -33,7 +33,7 @@ const loginUser = async (payload: TLoginUser) => {
   const jwtPayload = {
     userId: user._id,
     email: user.email,
-    userType: user.role,
+    role: user.role,
   };
 
   //   Create a JWT access token and send it to the client
@@ -104,6 +104,8 @@ const refreshToken = async (token: string) => {
   const { email, iat } = decoded as JwtPayload;
   // check if the user exists in the database
   const user = await User.findOne({ email });
+  console.log(user);
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
@@ -127,7 +129,7 @@ const refreshToken = async (token: string) => {
   // create a new JWT access token and send it to the client
   const jwtPayload = {
     email: user.email,
-    userType: user.role,
+    role: user.role,
   };
 
   const accessToken = createToken(
@@ -153,7 +155,7 @@ const forgetPassword = async (email: string) => {
 
   const jwtPayload = {
     email: user.email,
-    userType: user.userType,
+    role: user.role,
   };
 
   // create a reset token
@@ -201,7 +203,7 @@ const resetPassword = async (
 
   // updating the password
   await User.findOneAndUpdate(
-    { email: decoded.email, userType: decoded.userType },
+    { email: decoded.email, role: decoded.role },
     { password: newHashedPassword, passwordChangedAt: new Date() },
   );
   return null;

@@ -12,7 +12,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 
 // application route
-// app.use("/api/v1", router);
+app.use("/api/v1", router);
 
 app.get("/", (req, res) => {
   res.status(200).json({

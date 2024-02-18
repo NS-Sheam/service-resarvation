@@ -9,7 +9,7 @@ import httpStatus from "http-status";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { TProvider } from "../provider/provider.interface";
 import { Provider } from "../provider/provider.model";
-import { verifyToken } from "../auth/auth.utils";
+import { verifyToken } from "../Auth/auth.utils";
 import config from "../../config";
 import { JwtPayload } from "jsonwebtoken";
 
