@@ -20,6 +20,8 @@ router.post(
 
 router.post(
   "/create-provider",
+  upload.single("file"),
+  textToJsonParser,
   validateRequest(ProviderValidations.createProviderValidationSchema),
   UserControllers.createProvider,
 );

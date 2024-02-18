@@ -24,9 +24,8 @@ export const sendImageToCloudinary = async (
         fs.unlink(imagePath, (err) => {
           if (err) {
             reject(err);
-          } else {
-            console.log("File is deleted.");
           }
+          resolve(result as UploadApiResponse);
         });
       },
     );
@@ -35,6 +34,8 @@ export const sendImageToCloudinary = async (
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    console.log(process.cwd() + "/uploads");
+
     cb(null, process.cwd() + "/uploads");
   },
   filename: function (req, file, cb) {

@@ -87,7 +87,12 @@ const createProvider = async (
     payload.user = newUser[0]._id;
 
     // Transaction 2: Create Vendor
+    const { secure_url } = (await sendImageToCloudinary(
+      payload.userName,
+      file?.path,
+    )) as any;
 
+    payload.image = secure_url;
     const newProvider = await Provider.create([payload], { session });
 
     if (!newProvider) {
