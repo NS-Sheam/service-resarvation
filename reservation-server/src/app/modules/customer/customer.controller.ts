@@ -29,36 +29,12 @@ const getSingleCustomer = catchAsync(async (req: Request, res: Response) => {
 const updateCustomer = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const { customer } = req.body;
+
   const result = await CustomerServices.updateCustomer(id, customer, req.file);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Customer updated successfully",
-    data: result,
-  });
-});
-
-const updateWishList = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.user;
-  const { productId } = req.body;
-
-  const result = await CustomerServices.updateWishList(userId, productId);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Wishlist updated successfully",
-    data: result,
-  });
-});
-const updateShoppingCart = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.user;
-  const { productId } = req.body;
-
-  const result = await CustomerServices.updateShoppingCart(userId, productId);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Wishlist updated successfully",
     data: result,
   });
 });
@@ -79,7 +55,5 @@ export const CustomerControllers = {
   getAllCustomers,
   getSingleCustomer,
   updateCustomer,
-  updateWishList,
-  updateShoppingCart,
   deleteCustomer,
 };

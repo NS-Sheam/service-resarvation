@@ -32,5 +32,14 @@ const customerSchema = new Schema<TCustomer>(
     timestamps: true,
   },
 );
+customerSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+
+  next();
+});
+customerSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
 
 export const Customer = model<TCustomer>("Customer", customerSchema);

@@ -7,6 +7,7 @@ import httpStatus from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { customerSearchableFields } from "./customer.const";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
+import { TUser } from "../user/user.interface";
 
 const getAllCustomers = async (query: Record<string, unknown>) => {
   const customerQuery = new QueryBuilder(Customer.find(), query)
@@ -32,68 +33,20 @@ const updateCustomer = async (
   file: any,
 ) => {
   const customer = await Customer.findById(customerId).populate("user");
+  const user = (await User.findById(customer?.user)) as TUser & { _id: string };
 
-  // const { secure_url } = (await sendImageToCloudinary(
-  //   (customer?.user as TUser)?.userName,
-  //   file?.path,
-  // )) as any;
+  if (file) {
+    const { secure_url } = (await sendImageToCloudinary(
+      user?.userName,
+      file?.path,
+    )) as any;
 
-  // payload.image = secure_url;
-
-  // const result = Customer.findByIdAndUpdate(customerId, customer, {
-  //   new: true,
-  // });
-  return customer;
-};
-
-const updateWishList = async (
-  customerId: string,
-  productId: Types.ObjectId,
-) => {
-  let result;
-  const customer = await Customer.findOne({ user: customerId });
-  if (!customer) {
-    throw new AppError(httpStatus.NOT_FOUND, "Customer not found");
+    payload.image = secure_url;
   }
 
-  if (customer.wishList.includes(productId)) {
-    result = await Customer.findOneAndUpdate(
-      { user: customerId },
-      { $pull: { wishList: productId } },
-      { new: true },
-    );
-  } else {
-    result = await Customer.findOneAndUpdate(
-      { user: customerId },
-      { $push: { wishList: productId } },
-      { new: true },
-    );
-  }
-  return result;
-};
-const updateShoppingCart = async (
-  customerId: string,
-  productId: Types.ObjectId,
-) => {
-  let result;
-  const customer = await Customer.findOne({ user: customerId });
-  if (!customer) {
-    throw new AppError(httpStatus.NOT_FOUND, "Customer not found");
-  }
-
-  if (customer.shoppingCart.includes(productId)) {
-    result = await Customer.findOneAndUpdate(
-      { user: customerId },
-      { $pull: { wishList: productId } },
-      { new: true },
-    );
-  } else {
-    result = await Customer.findOneAndUpdate(
-      { user: customerId },
-      { $push: { wishList: productId } },
-      { new: true },
-    );
-  }
+  const result = Customer.findByIdAndUpdate(customerId, payload, {
+    new: true,
+  });
   return result;
 };
 
@@ -140,8 +93,6 @@ const deleteCustomer = async (customerId: string) => {
 export const CustomerServices = {
   getAllCustomers,
   getSingleCustomer,
-  updateWishList,
-  updateShoppingCart,
   updateCustomer,
   deleteCustomer,
 };
