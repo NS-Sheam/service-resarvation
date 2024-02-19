@@ -1,10 +1,3 @@
-// •	ID (ObjectId)
-// •	user (reference of user)
-// •	name
-// •	email
-// •	phone
-// •	isDeleted
-
 import { Types } from "mongoose";
 
 export type TCustomer = {
