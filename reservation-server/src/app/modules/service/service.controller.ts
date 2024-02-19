@@ -2,58 +2,64 @@ import { Request, Response } from "express";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
-import { ProviderServices } from "./provider.service";
+import { ServiceServices } from "./service.service";
 
-const getAllProviders = catchAsync(async (req: Request, res: Response) => {
-  const result = await ProviderServices.getAllProviders(req.query);
+const getAllServices = catchAsync(async (req: Request, res: Response) => {
+  const result = await ServiceServices.getAllServices(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "All providers fetched successfully",
+    message: "All services fetched successfully",
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
+const getSingleService = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await ServiceServices.getSingleService(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service fetched successfully",
     data: result,
   });
 });
 
-const getSingleProvider = catchAsync(async (req: Request, res: Response) => {
+const updateService = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ProviderServices.getSingleProvider(id);
+  const service = req.body;
+
+  const result = await ServiceServices.updateService(
+    id,
+    service,
+    req.user,
+    req.file,
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Provider fetched successfully",
+    message: "Service updated successfully",
     data: result,
   });
 });
 
-const updateProvider = catchAsync(async (req: Request, res: Response) => {
+const deleteService = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const provider = req.body?.provider || req.body;
 
-  const result = await ProviderServices.updateProvider(id, provider, req.file);
+  const result = await ServiceServices.deleteService(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Provider updated successfully",
-    data: result,
-  });
-});
-
-const deleteProvider = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const result = await ProviderServices.deleteProvider(id);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Provider deleted successfully",
+    message: "Service deleted successfully",
     data: result,
   });
 });
 
 export const ProviderControllers = {
-  getAllProviders,
-  getSingleProvider,
-  updateProvider,
-  deleteProvider,
+  getAllServices,
+  getSingleService,
+  updateService,
+  deleteService,
 };
