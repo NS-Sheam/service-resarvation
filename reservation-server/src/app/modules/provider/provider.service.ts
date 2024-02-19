@@ -19,8 +19,12 @@ const getAllProviders = async (query: Record<string, unknown>) => {
     .paginate();
 
   const result = await providerQuery.modelQuery;
+  const meta = await providerQuery.countTotal();
 
-  return result;
+  return {
+    result,
+    meta,
+  };
 };
 
 const getSingleProvider = async (providerId: string) => {

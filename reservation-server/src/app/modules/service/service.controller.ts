@@ -11,8 +11,7 @@ const getAllProviders = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "All providers fetched successfully",
-    meta: result.meta,
-    data: result.result,
+    data: result,
   });
 });
 
