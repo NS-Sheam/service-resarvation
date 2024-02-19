@@ -34,4 +34,15 @@ const serviceSchema = new Schema<TService>(
   },
 );
 
+serviceSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+
+  next();
+});
+
+serviceSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
 export const Service = model<TService>("Service", serviceSchema);
