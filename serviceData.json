@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Massage Therapy",
+    "description": "Relaxing and rejuvenating massage therapy session.",
+    "provider": "61594b9f2a2d48002cf2d830",
+    "pricePerHour": 50,
+    "images": ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
+    "isDeleted": false,
+    "createdAt": "2024-02-17T12:34:56.789Z",
+    "updatedAt": "2024-02-17T12:34:56.789Z"
+  },
+  {
+    "name": "Haircut",
+    "description": "Professional haircut and styling service.",
+    "provider": "61594b9f2a2d48002cf2d831",
+    "pricePerHour": 30,
+    "images": ["https://example.com/image3.jpg"],
+    "isDeleted": false,
+    "createdAt": "2024-02-17T12:34:56.789Z",
+    "updatedAt": "2024-02-17T12:34:56.789Z"
+  },
+  {
+    "name": "Yoga Class",
+    "description": "Gentle yoga class suitable for all levels.",
+    "provider": "61594b9f2a2d48002cf2d832",
+    "pricePerHour": 20,
+    "images": ["https://example.com/image4.jpg", "https://example.com/image5.jpg"],
+    "isDeleted": false,
+    "createdAt": "2024-02-17T12:34:56.789Z",
+    "updatedAt": "2024-02-17T12:34:56.789Z"
+  },
+  {
+    "name": "Manicure and Pedicure",
+    "description": "Professional nail care service including manicure and pedicure.",
+    "provider": "61594b9f2a2d48002cf2d833",
+    "pricePerHour": 40,
+    "images": ["https://example.com/image6.jpg"],
+    "isDeleted": false,
+    "createdAt": "2024-02-17T12:34:56.789Z",
+    "updatedAt": "2024-02-17T12:34:56.789Z"
+  },
+  {
+    "name": "Personal Training Session",
+    "description": "Customized workout session with a certified personal trainer.",
+    "provider": "61594b9f2a2d48002cf2d834",
+    "pricePerHour": 60,
+    "images": ["https://example.com/image7.jpg", "https://example.com/image8.jpg"],
+    "isDeleted": false,
+    "createdAt": "2024-02-17T12:34:56.789Z",
+    "updatedAt": "2024-02-17T12:34:56.789Z"
+  }
+]

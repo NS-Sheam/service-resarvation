@@ -104,7 +104,6 @@ const refreshToken = async (token: string) => {
   const { email, iat } = decoded as JwtPayload;
   // check if the user exists in the database
   const user = await User.findOne({ email });
-  console.log(user);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
@@ -165,7 +164,7 @@ const forgetPassword = async (email: string) => {
     "10m",
   );
 
-  const resetUrlLink = `${config.reset_password_url_link}?email=${user?.email}&token=${resetToken}`;
+  const resetUrlLink = `${config.reset_password_url_link}reset-password?email=${user?.email}&token=${resetToken}`;
   sendEmail(resetUrlLink, user.email);
 };
 

@@ -1,9 +1,10 @@
+import config from "../config";
 import { User } from "../modules/user/user.model";
 
 const admin = {
-  userName: "sakib",
-  email: "sakib@gmail.com",
-  password: "12345678",
+  userName: config.super_admin_userName,
+  email: config.super_admin_email,
+  password: config.super_admin_password,
   phone: "01700000000",
   role: "admin",
   isDeleted: false,
