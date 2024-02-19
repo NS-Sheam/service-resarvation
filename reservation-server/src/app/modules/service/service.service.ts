@@ -8,9 +8,17 @@ import { TService } from "./service.interface";
 import { Service } from "./service.model";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { JwtPayload } from "jsonwebtoken";
+import { Provider } from "../provider/provider.model";
+import mongoose from "mongoose";
 
 const addService = async (payload: TService, files: any) => {
+  const isProviderExist = await Provider.findById(payload.provider);
+  if (!isProviderExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
+  }
+
   const images: string[] = [];
+
   if (files && files.length) {
     let imageNo = 0;
     for (const file of files) {
@@ -53,7 +61,7 @@ const getSingleService = async (serviceId: string) => {
 
 const updateService = async (
   serviceId: string,
-  payload: Partial<TService>,
+  payload: Partial<TService> & { deletedImages: string[] },
   user: JwtPayload,
   files: any,
 ) => {
@@ -63,36 +71,57 @@ const updateService = async (
     throw new AppError(httpStatus.NOT_FOUND, "Service not found");
   }
 
-  const isUserOwnerOfTheService = await Service.findOne({
-    _id: serviceId,
-    provider: user.email,
-  });
+  const isUserOwnerOfTheService = await Service.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(serviceId),
+      },
+    },
+    // {
+    //   $lookup: {
+    //     from: "providers",
+    //     localField: "provider",
+    //     foreignField: "_id",
+    //     as: "provider",
+    //   },
+    // },
+  ]);
 
-  if (!isUserOwnerOfTheService) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
-  }
+  console.log(isUserOwnerOfTheService);
 
-  if (files && files.length && service) {
-    const modifiedImages: string[] = [...service.images];
-    files.forEach(async (image: any) => {
-      if (!service.images.includes(image)) {
-        const imageName = `${service.name}-"image"-${service.images.length}`;
-        const path = image?.path;
+  //   if (!isUserOwnerOfTheService) {
+  //     throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
+  //   }
 
-        // send image to cloudinary
-        const { secure_url } = await sendImageToCloudinary(imageName, path);
+  //   let modifiedImages: string[] = [...service.images];
 
-        modifiedImages.push(secure_url as string);
-      }
-    });
+  //   // Process files to delete and add images
+  //   if (files && files.length) {
+  //     // Add new images
+  //     for (const image of files) {
+  //       const imageName = `${service.name}-"image"-${modifiedImages.length}`;
+  //       const path = image.path;
 
-    payload.images = modifiedImages;
-  }
+  //       // send image to cloudinary
+  //       const { secure_url } = await sendImageToCloudinary(imageName, path);
 
-  const result = Service.findByIdAndUpdate(serviceId, payload, {
-    new: true,
-  });
-  return result;
+  //       modifiedImages.push(secure_url as string);
+  //     }
+
+  //     // Remove deleted images
+  //     if (payload.deletedImages && payload.deletedImages.length) {
+  //       modifiedImages = modifiedImages.filter((image) => {
+  //         return !payload.deletedImages.includes(image);
+  //       });
+  //     }
+  //   }
+
+  //   payload.images = modifiedImages;
+
+  //   const result = Service.findByIdAndUpdate(serviceId, payload, {
+  //     new: true,
+  //   });
+  return null;
 };
 
 const deleteService = async (serviceId: string, user: JwtPayload) => {

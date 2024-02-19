@@ -13,7 +13,7 @@ const serviceSchema = new Schema<TService>(
     },
     provider: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Provider",
       required: true,
     },
     pricePerHour: {

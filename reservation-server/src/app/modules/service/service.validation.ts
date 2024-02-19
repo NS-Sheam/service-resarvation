@@ -6,7 +6,6 @@ const createServiceValidationSchema = z.object({
     description: z.string(),
     provider: z.string(),
     pricePerHour: z.number(),
-    images: z.array(z.string()),
     isDeleted: z.boolean().default(false),
   }),
 });
@@ -17,12 +16,11 @@ const updateServiceValidationSchema = z.object({
     description: z.string().optional(),
     provider: z.string().optional(),
     pricePerHour: z.number().optional(),
-    images: z.array(z.string()).optional(),
     isDeleted: z.boolean().optional(),
   }),
 });
 
-const ServiceValidations = {
+export const ServiceValidations = {
   createServiceValidationSchema,
   updateServiceValidationSchema,
 };

@@ -4,6 +4,16 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import { ServiceServices } from "./service.service";
 
+const addService = catchAsync(async (req: Request, res: Response) => {
+  const result = await ServiceServices.addService(req.body, req.files);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service created successfully",
+    data: result,
+  });
+});
+
 const getAllServices = catchAsync(async (req: Request, res: Response) => {
   const result = await ServiceServices.getAllServices(req.query);
 
@@ -35,7 +45,7 @@ const updateService = catchAsync(async (req: Request, res: Response) => {
     id,
     service,
     req.user,
-    req.file,
+    req.files,
   );
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -57,7 +67,8 @@ const deleteService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const ProviderControllers = {
+export const ServiceControllers = {
+  addService,
   getAllServices,
   getSingleService,
   updateService,
