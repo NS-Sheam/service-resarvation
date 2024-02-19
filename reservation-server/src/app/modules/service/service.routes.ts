@@ -24,7 +24,7 @@ router.post(
 router.patch(
   "/:id",
   auth(USER_ROLE.admin, USER_ROLE.provider),
-  upload.array("file", 10),
+  upload.array("files", 10),
   textToJsonParser,
 
   validateRequest(ServiceValidations.updateServiceValidationSchema),

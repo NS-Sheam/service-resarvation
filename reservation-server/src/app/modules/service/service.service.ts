@@ -77,51 +77,57 @@ const updateService = async (
         _id: new mongoose.Types.ObjectId(serviceId),
       },
     },
-    // {
-    //   $lookup: {
-    //     from: "providers",
-    //     localField: "provider",
-    //     foreignField: "_id",
-    //     as: "provider",
-    //   },
-    // },
+    {
+      $lookup: {
+        from: "providers",
+        localField: "provider",
+        foreignField: "_id",
+        as: "provider",
+      },
+    },
+    {
+      $unwind: "$provider",
+    },
+    {
+      $match: {
+        "provider.email": user.email,
+      },
+    },
   ]);
 
-  console.log(isUserOwnerOfTheService);
+  if (!isUserOwnerOfTheService) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
+  }
 
-  //   if (!isUserOwnerOfTheService) {
-  //     throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
-  //   }
+  let modifiedImages: string[] = [...service.images];
 
-  //   let modifiedImages: string[] = [...service.images];
+  // Process files to delete and add images
+  if (files && files.length) {
+    // Add new images
+    for (const image of files) {
+      const imageName = `${service.name}-"image"-${modifiedImages.length}`;
+      const path = image.path;
 
-  //   // Process files to delete and add images
-  //   if (files && files.length) {
-  //     // Add new images
-  //     for (const image of files) {
-  //       const imageName = `${service.name}-"image"-${modifiedImages.length}`;
-  //       const path = image.path;
+      // send image to cloudinary
+      const { secure_url } = await sendImageToCloudinary(imageName, path);
 
-  //       // send image to cloudinary
-  //       const { secure_url } = await sendImageToCloudinary(imageName, path);
+      modifiedImages.push(secure_url as string);
+    }
 
-  //       modifiedImages.push(secure_url as string);
-  //     }
+    // Remove deleted images
+    if (payload.deletedImages && payload.deletedImages.length) {
+      modifiedImages = modifiedImages.filter((image) => {
+        return !payload.deletedImages.includes(image);
+      });
+    }
+  }
 
-  //     // Remove deleted images
-  //     if (payload.deletedImages && payload.deletedImages.length) {
-  //       modifiedImages = modifiedImages.filter((image) => {
-  //         return !payload.deletedImages.includes(image);
-  //       });
-  //     }
-  //   }
+  payload.images = modifiedImages;
 
-  //   payload.images = modifiedImages;
-
-  //   const result = Service.findByIdAndUpdate(serviceId, payload, {
-  //     new: true,
-  //   });
-  return null;
+  const result = Service.findByIdAndUpdate(serviceId, payload, {
+    new: true,
+  });
+  return result;
 };
 
 const deleteService = async (serviceId: string, user: JwtPayload) => {
