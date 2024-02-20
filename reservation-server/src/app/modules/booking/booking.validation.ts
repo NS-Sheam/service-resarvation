@@ -11,8 +11,16 @@ const createBookingValidationSchema = z.object({
     service: z.string({
       required_error: "Service is required",
     }),
-    schedule: z.string({
-      required_error: "Schedule is required",
+    schedule: z.object({
+      day: z.string({
+        required_error: "Day is required",
+      }),
+      startTime: z.string({
+        required_error: "Start time is required",
+      }),
+      endTime: z.string({
+        required_error: "End time is required",
+      }),
     }),
   }),
 });
