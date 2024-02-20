@@ -19,9 +19,18 @@ const bookingSchema = new Schema<TBooking>(
       required: true,
     },
     schedule: {
-      type: Schema.Types.ObjectId,
-      ref: "Schedule",
-      required: true,
+      day: {
+        type: String,
+        required: true,
+      },
+      startTime: {
+        type: String,
+        required: true,
+      },
+      endTime: {
+        type: String,
+        required: true,
+      },
     },
   },
   {

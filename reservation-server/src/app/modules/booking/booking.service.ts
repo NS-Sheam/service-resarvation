@@ -3,6 +3,9 @@ import { Booking } from "./booking.model";
 
 const createBooking = async (payload: TBooking) => {
   const bookingSchedule = payload.schedule;
+  console.log(bookingSchedule);
+
+  return null;
 };
 
 const getAllBooking = async () => {
