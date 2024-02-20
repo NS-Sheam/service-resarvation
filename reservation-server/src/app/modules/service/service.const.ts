@@ -1,1 +1,1 @@
-export const serviceSearchableFields = ["name", "description"];
+export const serviceSearchableFields = ["name", "description", "provider"];
