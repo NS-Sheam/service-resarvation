@@ -7,10 +7,10 @@ export type TProvider = {
   phone: string;
   image?: string;
   location: string;
-  isDeleted: boolean;
   availableSchedule: {
     day: string;
-    start: string;
-    end: string;
+    startTime: string;
+    endTime: string;
   }[];
+  isDeleted: boolean;
 };

@@ -27,6 +27,25 @@ const providerSchema = new Schema<TProvider>(
       type: String,
       required: true,
     },
+    availableSchedule: {
+      type: [
+        {
+          day: {
+            type: String,
+            required: true,
+          },
+          startTime: {
+            type: String,
+            required: true,
+          },
+          endTime: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
     isDeleted: {
       type: Boolean,
       default: false,

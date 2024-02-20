@@ -86,17 +86,18 @@ const createProvider = async (
     }
     payload.user = newUser[0]._id;
 
-    // Transaction 2: Create Vendor
+    // Transaction 2: Create Provider
     const { secure_url } = (await sendImageToCloudinary(
       payload.userName,
       file?.path,
     )) as any;
 
     payload.image = secure_url;
+
     const newProvider = await Provider.create([payload], { session });
 
     if (!newProvider) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Vendor creation failed");
+      throw new AppError(httpStatus.BAD_REQUEST, "Provider creation failed");
     }
     await session.commitTransaction();
     await session.endSession();

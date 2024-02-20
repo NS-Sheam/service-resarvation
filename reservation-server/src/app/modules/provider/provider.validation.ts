@@ -19,6 +19,19 @@ const createProviderValidationSchema = z.object({
       location: z.string({
         required_error: "Location is required",
       }),
+      availableSchedule: z.array(
+        z.object({
+          day: z.string({
+            required_error: "Day is required",
+          }),
+          startTime: z.string({
+            required_error: "Start time is required",
+          }),
+          endTime: z.string({
+            required_error: "End time is required",
+          }),
+        }),
+      ),
       isDeleted: z.boolean().default(false),
     }),
   }),
@@ -33,6 +46,15 @@ const updateProviderValidationSchema = z.object({
         phone: z.string().optional(),
         image: z.string().optional(),
         location: z.string().optional(),
+        availableSchedule: z
+          .array(
+            z.object({
+              day: z.string().optional(),
+              startTime: z.string().optional(),
+              endTime: z.string().optional(),
+            }),
+          )
+          .optional(),
         isDeleted: z.boolean().optional(),
       })
       .optional(),
