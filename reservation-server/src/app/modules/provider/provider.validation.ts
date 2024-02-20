@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { weekDays } from "./provider.const";
 
 const createProviderValidationSchema = z.object({
   body: z.object({
@@ -21,7 +22,7 @@ const createProviderValidationSchema = z.object({
       }),
       availableSchedule: z.array(
         z.object({
-          day: z.string({
+          day: z.enum([...weekDays] as [string, ...string[]], {
             required_error: "Day is required",
           }),
           startTime: z.string({
@@ -49,7 +50,7 @@ const updateProviderValidationSchema = z.object({
         availableSchedule: z
           .array(
             z.object({
-              day: z.string().optional(),
+              day: z.enum([...weekDays] as [string, ...string[]]).optional(),
               startTime: z.string().optional(),
               endTime: z.string().optional(),
             }),

@@ -1,5 +1,14 @@
 import { Types } from "mongoose";
 
+export type TDay =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
+
 export type TProvider = {
   user: Types.ObjectId;
   name: string;
@@ -8,7 +17,7 @@ export type TProvider = {
   image?: string;
   location: string;
   availableSchedule: {
-    day: string;
+    day: TDay;
     startTime: string;
     endTime: string;
   }[];

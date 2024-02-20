@@ -7,6 +7,7 @@ import { Provider } from "../provider/provider.model";
 import { Service } from "../service/service.model";
 import { Schedule } from "../schedule/schedule.model";
 import { startSession } from "mongoose";
+import { getDayFromDate } from "../../utils/getDayFromDate";
 
 const createBooking = async (payload: TBooking) => {
   const customer = await Customer.findById(payload.customer);
@@ -24,10 +25,22 @@ const createBooking = async (payload: TBooking) => {
   }
   const isProviderScheduleAlreadyBooked = await Schedule.findOne({
     provider: payload.provider,
-    day: payload.schedule.day,
+    day: payload.schedule.date,
     startTime: payload.schedule.startTime,
     endTime: payload.schedule.endTime,
   });
+
+  const isProviderAvailableAtThatDay = provider.availableSchedule.some(
+    (schedule) => schedule.day === getDayFromDate(payload.schedule.date),
+  );
+
+  if (!isProviderAvailableAtThatDay) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Provider is not available on the booking day",
+    );
+  }
+  return null;
 
   if (isProviderScheduleAlreadyBooked) {
     throw new AppError(
@@ -35,6 +48,8 @@ const createBooking = async (payload: TBooking) => {
       "Provider schedule is already booked",
     );
   }
+
+  console.log(isProviderScheduleAlreadyBooked);
 
   const session = await startSession();
 
@@ -51,7 +66,7 @@ const createBooking = async (payload: TBooking) => {
       [
         {
           provider: payload.provider,
-          day: payload.schedule.day,
+          day: payload.schedule.date,
           startTime: payload.schedule.startTime,
           endTime: payload.schedule.endTime,
           booking: newBooking[0]._id,

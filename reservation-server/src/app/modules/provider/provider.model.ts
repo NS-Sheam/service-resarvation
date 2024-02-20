@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { TProvider } from "./provider.interface";
+import { weekDays } from "./provider.const";
 
 const providerSchema = new Schema<TProvider>(
   {
@@ -32,6 +33,7 @@ const providerSchema = new Schema<TProvider>(
         {
           day: {
             type: String,
+            enum: weekDays,
             required: true,
           },
           startTime: {

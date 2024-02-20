@@ -2,7 +2,12 @@ import { Schema, model } from "mongoose";
 import { TSchedule } from "./schedule.interface";
 
 const scheduleSchema = new Schema<TSchedule>({
-  day: {
+  provider: {
+    type: Schema.Types.ObjectId,
+    ref: "Provider",
+    required: true,
+  },
+  date: {
     type: String,
     required: true,
   },
@@ -13,6 +18,10 @@ const scheduleSchema = new Schema<TSchedule>({
   endTime: {
     type: String,
     required: true,
+  },
+  booking: {
+    type: Schema.Types.ObjectId,
+    ref: "Booking",
   },
 });
 

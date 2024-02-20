@@ -19,7 +19,7 @@ const bookingSchema = new Schema<TBooking>(
       required: true,
     },
     schedule: {
-      day: {
+      date: {
         type: String,
         required: true,
       },
