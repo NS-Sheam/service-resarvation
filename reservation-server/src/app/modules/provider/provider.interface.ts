@@ -8,4 +8,9 @@ export type TProvider = {
   image?: string;
   location: string;
   isDeleted: boolean;
+  availableSchedule: {
+    day: string;
+    start: string;
+    end: string;
+  }[];
 };
