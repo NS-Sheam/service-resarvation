@@ -1,9 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#1b6392",
+        orange: "#fa8232",
+        warning: "#ebc80c",
+        gray: "#5f6c72",
+        grayBlack: "#191C1F",
+        grayWhite: "#E4E7E9",
+        grayWhite2: "#F2F4F5",
+      },
+    },
+  },
+  corePlugins: {
+    preflight: false,
   },
   plugins: [],
-}
-
+};
