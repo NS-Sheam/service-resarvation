@@ -10,8 +10,6 @@ export const hasTimeConflict = (
   const scheduleStart = schedule.startTime;
   const scheduleEnd = schedule.endTime;
 
-  console.log(bookingStart, bookingEnd, scheduleStart, scheduleEnd);
-
   if (
     (bookingStart >= scheduleStart && bookingStart <= scheduleEnd) ||
     (bookingEnd >= scheduleStart && bookingEnd <= scheduleEnd)

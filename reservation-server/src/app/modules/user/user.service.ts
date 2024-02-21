@@ -117,8 +117,6 @@ const getMe = async (token: string) => {
   // check if user exists
   let result = null;
   if (role === "customer") {
-    console.log(role);
-
     result = await Customer.findOne({ user: userId }).populate("user");
   } else if (role === "provider") {
     result = await Provider.findOne({ user: userId }).populate("user");
