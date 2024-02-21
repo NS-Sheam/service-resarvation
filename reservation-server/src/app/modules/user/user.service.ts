@@ -113,17 +113,15 @@ const createProvider = async (
 const getMe = async (token: string) => {
   const decoded = verifyToken(token, config.jwt_access_secret as string);
 
-  const { userId, userType } = decoded as JwtPayload;
+  const { userId, role } = decoded as JwtPayload;
   // check if user exists
   let result = null;
-  if (userType === "customer") {
-    result = await Customer.findOne({ user: userId }).populate(
-      "user wishList shoppingCart",
-    );
-  } else if (userType === "provider") {
-    result = await Provider.findOne({ user: userId }).populate(
-      "user wishList shoppingCart",
-    );
+  if (role === "customer") {
+    console.log(role);
+
+    result = await Customer.findOne({ user: userId }).populate("user");
+  } else if (role === "provider") {
+    result = await Provider.findOne({ user: userId }).populate("user");
   }
 
   return result;
