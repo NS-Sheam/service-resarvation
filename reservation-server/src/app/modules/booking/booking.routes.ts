@@ -13,5 +13,29 @@ router.post(
   validateRequest(BookingValidations.createBookingValidationSchema),
   BookingControllers.createBooking,
 );
+router.get("/", auth(USER_ROLE.admin), BookingControllers.getAllBookings);
+
+router.get(
+  "/customer",
+  auth(USER_ROLE.customer),
+  BookingControllers.customerBooking,
+);
+
+router.get(
+  "/provider",
+  auth(USER_ROLE.provider),
+  BookingControllers.providerBooking,
+);
+router.get(
+  "/:id",
+  auth(USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.provider),
+  BookingControllers.getSingleBooking,
+);
+
+router.delete(
+  "/:id",
+  auth(USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.provider),
+  BookingControllers.cancelBooking,
+);
 
 export const BookingRoutes = router;

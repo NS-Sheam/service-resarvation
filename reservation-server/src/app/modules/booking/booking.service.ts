@@ -89,7 +89,7 @@ const createBooking = async (payload: TBooking) => {
     await session.abortTransaction();
     await session.endSession();
 
-    throw error;
+    throw new AppError(httpStatus.BAD_REQUEST, "Booking creation failed");
   }
 };
 
@@ -100,7 +100,59 @@ const getAllBooking = async () => {
   return result;
 };
 
+const getSingleBooking = async (id: string) => {
+  const result = await Booking.findById(id).populate(
+    "customer service provider schedule",
+  );
+  return result;
+};
+
+const customerBooking = async (customerId: string) => {
+  const result = await Booking.find({ customer: customerId }).populate(
+    "customer service provider schedule",
+  );
+  return result;
+};
+const providerBooking = async (providerId: string) => {
+  const result = await Booking.find({ provider: providerId }).populate(
+    "customer service provider schedule",
+  );
+  return result;
+};
+const cancelBooking = async (id: string) => {
+  const booking = await Booking.findById(id);
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  }
+  const session = await startSession();
+  try {
+    session.startTransaction();
+    const booking = await Booking.findByIdAndDelete(id, { session });
+    if (!booking) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Booking cancelation failed");
+    }
+
+    const schedule = await Schedule.findOneAndDelete(
+      { booking: id },
+      { session },
+    );
+    if (!schedule) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Booking cancelation failed");
+    }
+    await session.commitTransaction();
+    await session.endSession();
+    return null;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, "Booking cancelation failed");
+  }
+};
 export const BookingServices = {
   createBooking,
   getAllBooking,
+  getSingleBooking,
+  customerBooking,
+  providerBooking,
+  cancelBooking,
 };
