@@ -2,33 +2,19 @@ import { TSchedule } from "../schedule/schedule.interface";
 import { TBooking } from "./booking.interface";
 
 export const hasTimeConflict = (
-  schedule: TSchedule,
+  schedule: TSchedule & { _id: string },
   booking: TBooking,
 ): boolean => {
-  const scheduleStartTime = new Date(`${schedule.date}T${schedule.startTime}`);
-  const scheduleEndTime = new Date(`${schedule.date}T${schedule.endTime}`);
+  const bookingStart = booking.schedule.startTime;
+  const bookingEnd = booking.schedule.endTime;
+  const scheduleStart = schedule.startTime;
+  const scheduleEnd = schedule.endTime;
 
-  const bookingStartTime = new Date(
-    `${booking.schedule.date}T${booking.schedule.startTime}`,
-  );
-  const bookingEndTime = new Date(
-    `${booking.schedule.date}T${booking.schedule.endTime}`,
-  );
+  console.log(bookingStart, bookingEnd, scheduleStart, scheduleEnd);
 
   if (
-    bookingStartTime >= scheduleStartTime &&
-    bookingStartTime < scheduleEndTime
-  ) {
-    return true;
-  }
-
-  if (bookingEndTime > scheduleStartTime && bookingEndTime <= scheduleEndTime) {
-    return true;
-  }
-
-  if (
-    bookingStartTime <= scheduleStartTime &&
-    bookingEndTime >= scheduleEndTime
+    (bookingStart >= scheduleStart && bookingStart <= scheduleEnd) ||
+    (bookingEnd >= scheduleStart && bookingEnd <= scheduleEnd)
   ) {
     return true;
   }

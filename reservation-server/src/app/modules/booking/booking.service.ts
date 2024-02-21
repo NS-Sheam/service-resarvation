@@ -8,6 +8,7 @@ import { Service } from "../service/service.model";
 import { Schedule } from "../schedule/schedule.model";
 import { startSession } from "mongoose";
 import { getDayFromDate } from "../../utils/getDayFromDate";
+import { hasTimeConflict } from "./booking.utils";
 
 const createBooking = async (payload: TBooking) => {
   payload.schedule.date = new Date(payload.schedule.date).toISOString();
@@ -25,12 +26,6 @@ const createBooking = async (payload: TBooking) => {
   if (!service) {
     throw new AppError(httpStatus.NOT_FOUND, "Service not found");
   }
-  const isProviderScheduleAlreadyBooked = await Schedule.findOne({
-    provider: payload.provider,
-    date: payload.schedule.date,
-    startTime: payload.schedule.startTime,
-    endTime: payload.schedule.endTime,
-  });
 
   const isProviderAvailableAtThatDay = provider.availableSchedule.some(
     (schedule) => schedule.day === getDayFromDate(payload.schedule.date),
@@ -43,15 +38,23 @@ const createBooking = async (payload: TBooking) => {
     );
   }
 
-  if (isProviderScheduleAlreadyBooked) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Provider schedule is already booked",
-    );
+  const providerSchedule = (await Schedule.findOne({
+    provider: payload.provider,
+    date: payload.schedule.date,
+  })) as any;
+
+  if (providerSchedule) {
+    const isThereTimeConflict = hasTimeConflict(providerSchedule, payload);
+
+    if (isThereTimeConflict) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "There is a time conflict with another booking",
+      );
+    }
   }
 
-  console.log(isProviderScheduleAlreadyBooked);
-
+  return null;
   const session = await startSession();
 
   try {
