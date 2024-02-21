@@ -15,7 +15,7 @@
     "userName": "customer",
     "name": "Customer Name",
     "email": "customer@gmail.com",
-    "phone": "+0123456789"
+    "phone": "+01234567890"
   }
 }
 ```
@@ -28,13 +28,13 @@
 
 ```json
 {
-  "password": "provider3",
+  "password": "provider",
   "provider": {
-    "userName": "provider3",
-    "name": "Provider No 3",
-    "email": "provider3@gmail.com",
-    "phone": "+01234567883",
-    "location": "Kazipara, Dhaka, Bangladesh",
+    "userName": "provider",
+    "name": "Provider Name",
+    "email": "provider@gmail.com",
+    "phone": "+01234567890",
+    "location": "Address Of Provider",
     "availableSchedule": [
       {
         "day": "Monday",
@@ -64,40 +64,6 @@
     ]
   }
 }
-```
-
-### create Admin
-
-- **Method:** **`POST`**
-- **Endpoint:** **`/users/create-admin`**
-  **Request Body:**
-
-```json
-{
-  "password": "admin123",
-  "admin": {
-    "userName": "Admin",
-    "name": {
-      "firstName": "Admin",
-      "middleName": "Nazmus",
-      "lastName": "Sakib"
-    },
-    "email": "admin@example.com",
-    "mobileNo": "12345678961",
-    "image": "https://example.com/john-doe.jpg"
-  }
-}
-```
-
-### make Vendor
-
-- **Method:** **`PATCH`**
-- **Endpoint:** **`/users/make-vendor/_id`**
-
-#### Headers
-
-```bash
-Authorization <ADMIN_ACCESS_TOKEN>
 ```
 
 ### Get Me
