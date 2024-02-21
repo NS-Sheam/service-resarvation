@@ -72,10 +72,7 @@ export const sendBookingEmail = async (
     // Send emails to both customer and provider
     await transporter.sendMail(customerMailOptions);
     await transporter.sendMail(providerMailOptions);
-
-    console.log("Booking confirmation emails sent successfully");
   } catch (error) {
-    console.error("Error sending booking confirmation emails:", error);
     throw new Error("Failed to send booking confirmation emails");
   }
 };

@@ -10,6 +10,8 @@ import { startSession } from "mongoose";
 import { hasTimeConflict } from "./booking.utils";
 import { sendBookingEmail } from "../../utils/sendBookingEmail";
 import { getDayFromDate } from "../../utils/date.utils.";
+import QueryBuilder from "../../builder/QueryBuilder";
+import { cancelBookingEmail } from "../../utils/sendCancelBookingEmail";
 
 const createBooking = async (payload: TBooking) => {
   payload.schedule.date = new Date(payload.schedule.date).toISOString();
@@ -93,11 +95,20 @@ const createBooking = async (payload: TBooking) => {
   }
 };
 
-const getAllBooking = async () => {
-  const result = await Booking.find().populate(
-    "customer service provider schedule",
-  );
-  return result;
+const getAllBooking = async (query: Record<string, unknown>) => {
+  const bookingQuery = new QueryBuilder(
+    Booking.find().populate("customer service provider schedule"),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await bookingQuery.modelQuery;
+  const meta = await bookingQuery.countTotal();
+
+  return { result, meta };
 };
 
 const getSingleBooking = async (id: string) => {
@@ -107,28 +118,65 @@ const getSingleBooking = async (id: string) => {
   return result;
 };
 
-const customerBooking = async (customerId: string) => {
-  const result = await Booking.find({ customer: customerId }).populate(
-    "customer service provider schedule",
-  );
-  return result;
+const customerBooking = async (
+  userId: string,
+  query: Record<string, unknown>,
+) => {
+  const customer = await Customer.findOne({ user: userId });
+
+  const customerBookingQuery = new QueryBuilder(
+    Booking.find({ customer: customer?._id }).populate(
+      "customer service provider schedule",
+    ),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await customerBookingQuery.modelQuery;
+  const meta = await customerBookingQuery.countTotal();
+
+  return { result, meta };
 };
-const providerBooking = async (providerId: string) => {
-  const result = await Booking.find({ provider: providerId }).populate(
-    "customer service provider schedule",
-  );
-  return result;
+const providerBooking = async (
+  userId: string,
+  query: Record<string, unknown>,
+) => {
+  const provider = await Provider.findOne({ user: userId });
+  const providerBookingQuery = new QueryBuilder(
+    Booking.find({ provider: provider?._id }).populate(
+      "customer service provider schedule",
+    ),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await providerBookingQuery.modelQuery;
+  const meta = await providerBookingQuery.countTotal();
+
+  return { result, meta };
 };
 const cancelBooking = async (id: string) => {
-  const booking = await Booking.findById(id);
+  const booking = await Booking.findById(id).populate(
+    "customer provider service schedule",
+  );
+
   if (!booking) {
     throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
   }
   const session = await startSession();
   try {
     session.startTransaction();
-    const booking = await Booking.findByIdAndDelete(id, { session });
-    if (!booking) {
+    const deletedBooking = await Booking.findByIdAndDelete(id, {
+      session,
+      new: true,
+    });
+    if (!deletedBooking) {
       throw new AppError(httpStatus.BAD_REQUEST, "Booking cancelation failed");
     }
 
@@ -139,9 +187,15 @@ const cancelBooking = async (id: string) => {
     if (!schedule) {
       throw new AppError(httpStatus.BAD_REQUEST, "Booking cancelation failed");
     }
+    await cancelBookingEmail(
+      booking?.customer as any,
+      booking?.provider as any,
+      booking?.schedule as any,
+      booking?.service as any,
+    );
     await session.commitTransaction();
     await session.endSession();
-    return null;
+    return deletedBooking;
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();

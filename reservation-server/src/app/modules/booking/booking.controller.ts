@@ -15,13 +15,14 @@ const createBooking = catchAsync(async (req, res) => {
 });
 
 const getAllBookings = catchAsync(async (req, res) => {
-  const result = await BookingServices.getAllBooking();
+  const result = await BookingServices.getAllBooking(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Bookings fetched successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 
@@ -37,24 +38,32 @@ const getSingleBooking = catchAsync(async (req, res) => {
 });
 
 const customerBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.customerBooking(req.user._id);
+  const result = await BookingServices.customerBooking(
+    req.user.userId,
+    req.query,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Bookings fetched successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 
 const providerBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.providerBooking(req.user._id);
+  const result = await BookingServices.providerBooking(
+    req.user.userId,
+    req.query,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Bookings fetched successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 
