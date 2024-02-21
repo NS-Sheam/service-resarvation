@@ -7,8 +7,9 @@ import { Provider } from "../provider/provider.model";
 import { Service } from "../service/service.model";
 import { Schedule } from "../schedule/schedule.model";
 import { startSession } from "mongoose";
-import { getDayFromDate } from "../../utils/getDayFromDate";
 import { hasTimeConflict } from "./booking.utils";
+import { sendBookingEmail } from "../../utils/sendBookingEmail";
+import { getDayFromDate } from "../../utils/date.utils.";
 
 const createBooking = async (payload: TBooking) => {
   payload.schedule.date = new Date(payload.schedule.date).toISOString();
@@ -54,7 +55,6 @@ const createBooking = async (payload: TBooking) => {
     }
   }
 
-  return null;
   const session = await startSession();
 
   try {
@@ -81,6 +81,8 @@ const createBooking = async (payload: TBooking) => {
 
     await session.commitTransaction();
     await session.endSession();
+
+    await sendBookingEmail(customer, provider, payload.schedule, service);
 
     return newBooking[0];
   } catch (error) {
