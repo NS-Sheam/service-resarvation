@@ -89,7 +89,7 @@ Authorization <USER_ACCESS_TOKEN>
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN>
 ```
 
 ### Get Single Customer
@@ -119,9 +119,7 @@ Authorization <ADMIN_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKEN>
 ```json
 {
   "customer": {
-    "name": {
-      "firstName": "Sakib"
-    }
+    "name": "Customer Name"
     // Other field to update
   }
 }
@@ -140,127 +138,62 @@ Authorization <ADMIN_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKEN>
 
 ---
 
-## `Vendor Routes`
+## `Provider Routes`
 
-### Get All vendors
+### Get All providers
 
 - **Method:** **`GET`**
-- **Endpoint:** **`/vendors`**
+- **Endpoint:** **`/providers`**
 
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN | VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN>
 ```
 
-### Get Single Vendor
+### Get Single Provider
 
 - **Method:** **`GET`**
-- **Endpoint:** **`/vendors/:_id`**
+- **Endpoint:** **`/providers/:_id`**
 
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN | VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN>
 ```
 
-### Update Single Vendor
+### Update Single provider
 
 - **Method:** **`PATCH`**
-- **Endpoint:** **`/vendors/:_id`**
+- **Endpoint:** **`/providers/:_id`**
 
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN | VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN>
 ```
 
 **Request Body:**
 
 ```json
 {
-  "vendor": {
-    "name": {
-      "firstName": "Sakib"
-    }
+  "provider": {
+    "name": "Provider Name"
     // Other field to update
   }
 }
 ```
 
-### Delete Single Vendor
+### Delete Single Provider
 
 - **Method:** **`DELETE`**
-- **Endpoint:** **`/vendors/:_id`**
+- **Endpoint:** **`/providers/:_id`**
 
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN | VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN>
 ```
-
----
-
-## `Admin Routes`
-
-### Get All Admins
-
-- **Method:** **`GET`**
-- **Endpoint:** **`/admins`**
-
-#### Headers
-
-```bash
-Authorization <ADMIN_ACCESS_TOKEN>
-```
-
-### Get Single Admin
-
-- **Method:** **`GET`**
-- **Endpoint:** **`/admins/:_id`**
-
-#### Headers
-
-```bash
-Authorization <ADMIN_ACCESS_TOKEN>
-```
-
-### Update Single Vendor
-
-- **Method:** **`PATCH`**
-- **Endpoint:** **`/admins/:_id`**
-
-#### Headers
-
-```bash
-Authorization <ADMIN_ACCESS_TOKEN>
-```
-
-**Request Body:**
-
-```json
-{
-  "admin": {
-    "name": {
-      "firstName": "Sakib"
-    }
-    // Other field to update
-  }
-}
-```
-
-### Delete Single Vendor
-
-- **Method:** **`DELETE`**
-- **Endpoint:** **`/admins/:_id`**
-
-#### Headers
-
-```bash
-Authorization <ADMIN_ACCESS_TOKEN>
-```
-
----
 
 ## Auth Routes
 
@@ -273,8 +206,8 @@ Authorization <ADMIN_ACCESS_TOKEN>
 
 ```json
 {
-  "email": "admin@example.com",
-  "password": "admin123"
+  "email": "user@example.com",
+  "password": "user123"
 }
 ```
 
@@ -285,7 +218,8 @@ Authorization <ADMIN_ACCESS_TOKEN>
   "success": true,
   "message": "User logged in successfully",
   "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZlbmRvMkBleGFtcGxlLmNvbSIsInVzZXJUeXBlIjoidmVuZG9yIiwiaWF0IjoxNzAzOTYwMjQ2LCJleHAiOjE3MDQwNDY2NDZ9.RbITJSc2XqpoEjHrS6k7ylsXVJcu5_z3mSF4iwqeDB0"
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQ0YjRmY2QxNzAxYTEyMDZmZDhiZjUiLCJlbWFpbCI6Ijc1ODJtbnNha2lic0BnbWFpbC5jb20iLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE3MDg1MTc1MjksImV4cCI6MTcxMTEwOTUyOX0.hlmYKTgdDpcKs5X0-5e4-HhU1KOG0Iy-TfwNfEZeU4A",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQ0YjRmY2QxNzAxYTEyMDZmZDhiZjUiLCJlbWFpbCI6Ijc1ODJtbnNha2lic0BnbWFpbC5jb20iLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE3MDg1MTc1MjksImV4cCI6MTcxMTEwOTUyOX0.eKqo9A1qrLDFN6AhlG5ZOGCKfaBo9SLPpKhno4yZByQ"
   }
 }
 ```
@@ -322,7 +256,7 @@ Authorization <ADMIN_ACCESS_TOKEN>
 #### Request Cookies
 
 ```bash
-refreshToken <ADMIN_REFRESH_TOKEN>
+refreshToken <USER_REFRESH_TOKEN>
 ```
 
 **Response Body:**
@@ -348,7 +282,7 @@ refreshToken <ADMIN_REFRESH_TOKEN>
 
 ```json
 {
-  "email": "vendor@gmail.com"
+  "email": "user@gmail.com"
 }
 ```
 
@@ -367,70 +301,69 @@ Authorization <USER_ACCESS_TOKEN>
 
 ```json
 {
-  "email": "8625sakib@gmail.com",
-  "newPassword": "amiVendor"
+  "email": "user@gmail.com",
+  "newPassword": "user123"
 }
 ```
 
 ---
 
-## `Product Routes`
+## `Service Routes`
 
-### Create Product
+### Create Service
 
 - **Method:** **`POST`**
-- **Endpoint:** **`/products`**
-- Only vendors can add a product
+- **Endpoint:** **`/services`**
+- Only provider can add a product
 
 #### Headers
 
 ```bash
-Authorization <VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN  | PROVIDER_ACCESS_TOKEN>
 ```
 
 ```json
 {
-  "name": "Laptop",
-  "description": "Powerful laptop for professional use",
-  "price": 1200,
-  "images": ["laptop_image1.jpg", "laptop_image2.jpg"],
-  "category": "CategoryId123",
-  "inventory": {
-    "quantity": 10,
-    "lowSockNotification": "No"
-  },
-  "discount": 100
+  "name": "Manicure and Pedicure",
+  "description": "Professional nail care service including manicure and pedicure.",
+  "provider": "65d4b501d1701a1206fd8bf8",
+  "pricePerHour": 40
 }
 ```
 
-### Get All products
+### Get All services
 
 - **Method:** **`GET`**
-- **Endpoint:** **`/vendors`**
+- **Endpoint:** **`/services`**
 
-### Get Single Product
+### Get Single Service
 
 - **Method:** **`GET`**
-- **Endpoint:** **`/products/:_id`**
+- **Endpoint:** **`/services/:_id`**
 
-### Update Single Product
+### Update Single Service
 
-- **Method:** **`PUT`**
-- **Endpoint:** **`/products/:_id`**
-- Only vendors can update a product
+- **Method:** **`PATCH`**
+- **Endpoint:** **`/services/:_id`**
+- Only providers and admin can update a product
 
 #### Headers
 
 ```bash
-Authorization <VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN  | PROVIDER_ACCESS_TOKEN>
 ```
 
 **Request Body:**
 
 ```json
 {
-  "images": ["laptop_image3.jpg", "laptop_image4.jpg"]
-  // Other field to update
+  "name": "Sallon",
+  "deletedImages": [
+    "https://res.cloudinary.com/duuwqmunp/image/upload/v1708356492/Hair%20Wash-%22image%22-0.jpg",
+    "https://res.cloudinary.com/duuwqmunp/image/upload/v1708356497/Hair%20Wash-%22image%22-1.jpg",
+    "https://res.cloudinary.com/duuwqmunp/image/upload/v1708356500/Hair%20Wash-%22image%22-2.jpg"
+  ] // If we want to delete any service image then we have to send as array
+  // Other fields to update
 }
 ```
 
@@ -438,40 +371,76 @@ Authorization <VENDOR_ACCESS_TOKEN>
 
 - **Method:** **`DELETE`**
 - **Endpoint:** **`/products/:_id`**
-- Only vendors and admins can delete a product
+- Only providers and admins can delete a product
 
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN | VENDOR_ACCESS_TOKEN>
+Authorization <ADMIN_ACCESS_TOKEN  | PROVIDER_ACCESS_TOKEN>
 ```
 
 ---
 
-## `Category Routes`
+## `Booking Routes`
 
-### Create Product
+### Create Booking
 
 - **Method:** **`POST`**
-- **Endpoint:** **`/categories`**
-- Only vendors can add a product
+- **Endpoint:** **`/booking`**
+- Only customer can book any service
 
 #### Headers
 
 ```bash
-Authorization <ADMIN_ACCESS_TOKEN| VENDOR_ACCESS_TOKEN>
+Authorization <CUSTOMER_ACCESS_TOKEN>
 ```
 
 ```json
 {
-  "name": "Electric"
+  "customer": "65d39a11517b812d2f2a3bc4", // customer id
+  "service": "65d4bd4db59778574378d411", // service id
+  "provider": "65d4b501d1701a1206fd8bf8", //provider id
+  "schedule": {
+    "date": "2024-02-23",
+    "startTime": "12:00",
+    "endTime": "14:00"
+  }
 }
 ```
 
-### Get All categories
+### Get All Booking
 
 - **Method:** **`GET`**
-- **Endpoint:** **`/categories`**
+- **Endpoint:** **`/booking`**
+
+```bash
+Authorization <ADMIN_ACCESS_TOKEN>
+```
+
+### Get Single Booking
+
+- **Method:** **`GET`**
+- **Endpoint:** **`/services/:_id`**
+
+#### Headers
+
+```bash
+Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKEN>
+```
+
+### Delete Booking
+
+- **Method:** **`DELETE`**
+- **Endpoint:** **`/booking/:_id`**
+- Only providers and admins can delete a product
+
+#### Headers
+
+```bash
+Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKEN>
+```
+
+#### Headers
 
 ---
 
@@ -494,53 +463,6 @@ router.post(
   validateRequest(CustomerValidations.createCustomerValidationSchema),
   UserControllers.createCustomer,
 );
-```
-
-**`Cloudiniary:`**
-
-```javascript
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: "ex_cloud_name",
-  api_key: "ex_api_key",
-  api_secret: "ex_api_secret",
-});
-
-return new Promise(resolve, reject) =>{
-  cloudinary.uploader.upload(
-  "file_path",
-  { public_id: "file_name" },
-  function (error, result) {
-    if (error) {
-      reject(error);
-    }
-    resolve(result);
-    fs.unlink(imagePath, (err) => { // Delete file from temporary location after uploading in cloudinary
-      if (err) {
-        reject(err);
-      } else {
-        console.log("File is deleted.");
-      }
-    });
-  },
-)};
-```
-
-**`Multer:`**
-
-```javascript
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, process.cwd() + "/temporary_file_uploading_path");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix); // can customize file name
-  },
-});
-
-export const upload = multer({ storage: storage }); // export upload for parsing file in router eg:- upload.single("file")
 ```
 
 ---
