@@ -455,6 +455,8 @@ Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKE
 
 **`Route:`**
 
+#### For single upload
+
 ```javascript
 router.post(
   "/create-customer",
@@ -462,6 +464,20 @@ router.post(
   textToJsonParser, // parse req.data.body which is in text formate to req.body with textToJson Middleware
   validateRequest(CustomerValidations.createCustomerValidationSchema),
   UserControllers.createCustomer,
+);
+```
+
+#### For multiple upload
+
+```javascript
+router.post(
+  "/",
+  upload.array("files", 10),
+  textToJsonParser,
+  auth(USER_ROLE.admin, USER_ROLE.provider),
+
+  validateRequest(ServiceValidations.createServiceValidationSchema),
+  ServiceControllers.addService,
 );
 ```
 
