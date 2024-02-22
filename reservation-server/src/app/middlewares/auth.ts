@@ -30,10 +30,10 @@ const auth = (...requiredTypes: TUserRole[]) => {
 
       throw new AppError(httpStatus.UNAUTHORIZED, "Invalid token");
     }
-    const { email, role } = decoded;
+    const { userId, email, role } = decoded;
 
     // check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findById(userId);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "User not found");
