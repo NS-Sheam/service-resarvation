@@ -1,5 +1,9 @@
 export type TDay = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
-
+export type TAvailableSchedule = {
+  day: TDay;
+  startTime: string;
+  endTime: string;
+};
 export type TUser = {
   _id: string;
   userName: string;
@@ -21,11 +25,7 @@ export type TProvider = {
   phone: string;
   image?: string;
   location: string;
-  availableSchedule: {
-    day: TDay;
-    startTime: string;
-    endTime: string;
-  }[];
+  availableSchedule: TAvailableSchedule[];
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
