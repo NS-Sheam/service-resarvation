@@ -1,21 +1,27 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Row } from "antd";
 import { toast } from "sonner";
-import { useChangePasswordMutation } from "../../redux/redux/features/auth/auth.api";
+import { useForgetPasswordMutation } from "../../redux/redux/features/auth/auth.api";
 
 import RForm from "../../components/form/RForm";
 import RInput from "../../components/form/RInput";
+import { useState } from "react";
+import { IoIosCloudDone } from "react-icons/io";
 
 const ForgetPassword = () => {
-  const [ChangePassword] = useChangePasswordMutation();
+  const [sentEmail, setSentEmail] = useState(false);
+
+  const [forgetPassword] = useForgetPasswordMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Changing password...");
+
     try {
-      const res: any = await ChangePassword(data);
+      const res: any = await forgetPassword(data);
 
       if (!res.error) {
         toast.success("Password changed successfully", { id: toastId });
+        setSentEmail(true);
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || res.error.message, {
           id: toastId,
@@ -50,32 +56,31 @@ const ForgetPassword = () => {
             align="middle"
           >
             <Col span={24}>
-              <RForm onSubmit={onSubmit}>
-                <Row gutter={8}>
-                  <Col span={24}>
-                    <RInput
-                      style={commonInputStyle}
-                      type="password"
-                      name="oldPassword"
-                      label="Old Password"
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <RInput
-                      style={commonInputStyle}
-                      type="password"
-                      name="newPassword"
-                      label="New Password"
-                    />
-                  </Col>
-                </Row>
-                <Button
-                  htmlType="submit"
-                  style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
-                >
-                  Login
-                </Button>
-              </RForm>
+              {sentEmail ? (
+                <div className="flex flex-col justify-center items-center text-center">
+                  <IoIosCloudDone className="text-7xl text-primary" />
+                  <h1 className="text-xl font-bold">Reset password link send to the email</h1>
+                </div>
+              ) : (
+                <RForm onSubmit={onSubmit}>
+                  <Row gutter={8}>
+                    <Col span={24}>
+                      <RInput
+                        style={commonInputStyle}
+                        type="email"
+                        name="email"
+                        label="Email"
+                      />
+                    </Col>
+                  </Row>
+                  <Button
+                    htmlType="submit"
+                    style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
+                  >
+                    Send Reset Password Link
+                  </Button>
+                </RForm>
+              )}
             </Col>
           </Row>
         </div>

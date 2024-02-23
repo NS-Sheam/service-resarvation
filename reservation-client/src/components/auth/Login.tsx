@@ -8,6 +8,7 @@ import { useLoginMutation } from "../../redux/redux/features/auth/auth.api";
 import { TUser } from "../../types";
 import { verifyToken } from "../../utils/verifyToken";
 import { setUser } from "../../redux/redux/features/auth/auth.Slice";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [login] = useLoginMutation();
@@ -68,11 +69,26 @@ const Login = () => {
                   name="password"
                   label="Password"
                 />
+                <Link to="/auth/forget-password">
+                  <Button
+                    style={{
+                      marginBottom: "1rem",
+                    }}
+                    type="link"
+                  >
+                    Forget Password
+                  </Button>
+                </Link>
               </Col>
             </Row>
             <Button
               htmlType="submit"
-              style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
+              style={{
+                width: "100%",
+                backgroundColor: "#00509d",
+                color: "white",
+                fontWeight: "bold",
+              }}
             >
               Login
             </Button>

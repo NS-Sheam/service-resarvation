@@ -161,10 +161,12 @@ const forgetPassword = async (email: string) => {
   const resetToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "10m",
+    "2d",
   );
 
-  const resetUrlLink = `${config.reset_password_url_link}/reset-password?email=${user?.email}&token=${resetToken}`;
+  // FIXME: descrease the time of the token
+
+  const resetUrlLink = `${config.reset_password_url_link}/auth/reset-password?email=${user?.email}&token=${resetToken}`;
   sendEmail(resetUrlLink, user.email);
 };
 

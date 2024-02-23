@@ -32,17 +32,20 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
     forgetPassword: builder.mutation({
-      query: (email) => ({
+      query: (payload) => ({
         url: "/auth/forget-password",
         method: "POST",
-        body: email,
+        body: payload,
       }),
     }),
     resetPassword: builder.mutation({
       query: (payload) => ({
         url: "/auth/reset-password",
         method: "POST",
-        body: payload,
+        body: payload.data,
+        headers: {
+          Authorization: payload.token,
+        },
       }),
     }),
 

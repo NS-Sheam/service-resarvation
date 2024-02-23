@@ -3,6 +3,8 @@ import App from "../App";
 import Home from "../pages/Home";
 import Auth from "../pages/auth/Auth";
 import ChangePassword from "../pages/auth/ChangePassword";
+import ForgetPassword from "../pages/auth/ForgetPassword";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -21,29 +23,14 @@ const router = createBrowserRouter([
         path: "/auth/change-password",
         element: <ChangePassword />,
       },
-      //   {
-      //     path: "/product/:id",
-      //     element: <ProductDetails />,
-      //   },
-
-      //   {
-      //     path: "customer",
-      //     element: (
-      //       <ProtectedRoute role="customer">
-      //         <Dashboard />
-      //       </ProtectedRoute>
-      //     ),
-      //     children: routesGenerator(customerDashboardItems),
-      //   },
-      //   {
-      //     path: "vendor",
-      //     element: (
-      //       <ProtectedRoute role="vendor">
-      //         <Dashboard />
-      //       </ProtectedRoute>
-      //     ),
-      //     children: routesGenerator(vendorDashboardItems),
-      //   },
+      {
+        path: "/auth/forget-password",
+        element: <ForgetPassword />,
+      },
+      {
+        path: "/auth/reset-password",
+        element: <ResetPassword />,
+      },
     ],
   },
 ]);
