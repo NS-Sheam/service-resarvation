@@ -8,6 +8,12 @@ import RStartAndEndTimePicker from "../form/RStartAndEndTimePicker";
 import RSelect from "../form/RSelect";
 import { useState } from "react";
 import RProfileImageUploader from "../form/RProfileImageUploader";
+import {
+  useCustomerRegistrationMutation,
+  useProviderRegistrationMutation,
+} from "../../redux/redux/features/auth/auth.api";
+import { toast } from "sonner";
+import { TReduxResponse, TResponse } from "../../types";
 /** TODO:
  * - Add google Login
  * - Add autmatic login after registration
@@ -15,12 +21,12 @@ import RProfileImageUploader from "../form/RProfileImageUploader";
  *
  */
 const defaultValues = {
-  userName: "customer321",
+  userName: "testUser",
   name: "Test User",
-  email: "sakib@gmail.com",
+  email: "testuser@gmail.com",
   phone: "012323232323",
   location: "Dhaka",
-  password: "customer321",
+  password: "testUser",
 };
 
 // availableSchedule: {
@@ -31,8 +37,11 @@ const defaultValues = {
 
 const Register = () => {
   const [isCustomer, setIsCustomer] = useState(true);
-  // const [registerUser] = useRegistrationMutation();
+  const [customerRegistration] = useCustomerRegistrationMutation();
+  const [providerRegistration] = useProviderRegistrationMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading("Registering...");
+
     const availableSchedule = data?.day?.map((day: string) => {
       return {
         day,
@@ -41,28 +50,49 @@ const Register = () => {
       };
     });
 
-    const userInfo = {
-      ...data,
+    const userInfo: any = {
+      password: data.password,
     };
+
     if (!isCustomer) {
-      userInfo["availableSchedule"] = availableSchedule;
-      delete userInfo.day;
-      delete userInfo.startAndEndTime;
+      userInfo.provider = {
+        ...data,
+      };
+    } else {
+      userInfo.customer = {
+        ...data,
+      };
+    }
+
+    if (!isCustomer) {
+      userInfo.provider["availableSchedule"] = availableSchedule;
+      delete userInfo.provider.day;
+      delete userInfo.provider.startAndEndTime;
+      delete userInfo.provider.password;
     }
 
     console.log(userInfo);
 
-    // const formData = new FormData();
-    // formData.append("data", JSON.stringify(userInfo));
-    // if (data.image) formData.append("file", data.image?.originFileObj);
-    // try {
-    //   const res = (await registerUser(formData)) as TReduxResponse<any>;
-    //   if (!res.error) {
-    //     toast.success("Registered successfully");
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error.message || "Something went wrong");
-    // }
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(userInfo));
+    if (data.image) formData.append("file", data.image?.originFileObj);
+    try {
+      const res = isCustomer
+        ? ((await customerRegistration(formData)) as TResponse<any>)
+        : ((await providerRegistration(formData)) as TResponse<any>);
+
+      console.log(res);
+
+      if (!res.error) {
+        toast.success("Registered successfully");
+      } else {
+        toast.error(res?.error?.data?.message || "Something went wrong", {
+          id: toastId,
+        });
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Something went wrong", { id: toastId });
+    }
   };
 
   const commonInputStyle = {
@@ -119,6 +149,7 @@ const Register = () => {
                   type="text"
                   name="userName"
                   label="User Name"
+                  required
                 />
               </Col>
               <Col span={24}>
@@ -127,6 +158,7 @@ const Register = () => {
                   type="text"
                   name="name"
                   label="Name"
+                  required
                 />
               </Col>
               <Col span={24}>
@@ -135,6 +167,7 @@ const Register = () => {
                   type="text"
                   name="email"
                   label="Email"
+                  required
                 />
               </Col>
               <Col span={24}>
@@ -143,6 +176,7 @@ const Register = () => {
                   type="text"
                   name="phone"
                   label="Mobile No"
+                  required
                 />
               </Col>
               <Col span={24}>
@@ -151,11 +185,13 @@ const Register = () => {
                   type="text"
                   name="location"
                   label="Location"
+                  required
                 />
               </Col>
               {!isCustomer && (
                 <Col span={24}>
                   <RSelect
+                    required
                     label="Day"
                     name="day"
                     options={[
@@ -171,6 +207,7 @@ const Register = () => {
                   />
 
                   <RStartAndEndTimePicker
+                    required
                     style={commonInputStyle}
                     name="startAndEndTime"
                   />
@@ -182,6 +219,7 @@ const Register = () => {
                   type="text"
                   name="password"
                   label="Password"
+                  required
                 />
               </Col>
               <Col span={24}>

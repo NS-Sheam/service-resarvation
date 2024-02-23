@@ -14,6 +14,7 @@ const RInput = ({ type, name, label, disabled, ...remainingProps }: TRInputProps
     <div>
       <Controller
         name={name}
+        rules={{ required: "This field is required" }}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
             <Input

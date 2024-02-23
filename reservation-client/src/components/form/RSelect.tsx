@@ -13,14 +13,26 @@ type TRSelectProps = {
   mode?: "multiple" | "tags" | undefined;
   loading?: boolean;
   defaultValue?: string;
+  required?: boolean;
   [key: string]: any;
 };
 
-const RSelect = ({ label, name, options, disabled, mode, loading, defaultValue, ...remaining }: TRSelectProps) => {
+const RSelect = ({
+  label,
+  name,
+  options,
+  disabled,
+  mode,
+  loading,
+  required,
+  defaultValue,
+  ...remaining
+}: TRSelectProps) => {
   return (
     <Controller
       name={name}
       defaultValue={defaultValue}
+      rules={{ required: required && "This field is required" }}
       render={({ field, fieldState: { error } }) => (
         <Form.Item label={label}>
           <Select

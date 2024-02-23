@@ -6,10 +6,18 @@ type TRStartAndEndTimePickerProps = {
   name: string;
   label?: string;
   disabled?: boolean;
+  required?: boolean;
   [key: string]: any;
 };
 
-const RStartAndEndTimePicker = ({ type, name, label, disabled, ...remaining }: TRStartAndEndTimePickerProps) => {
+const RStartAndEndTimePicker = ({
+  type,
+  name,
+  label,
+  disabled,
+  required,
+  ...remaining
+}: TRStartAndEndTimePickerProps) => {
   return (
     <div>
       <Controller
@@ -17,6 +25,7 @@ const RStartAndEndTimePicker = ({ type, name, label, disabled, ...remaining }: T
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
             <TimePicker.RangePicker
+              required={required}
               {...remaining}
               use12Hours
               format="h:mm a"
