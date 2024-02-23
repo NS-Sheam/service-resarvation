@@ -6,9 +6,10 @@ type TRInputProps = {
   name: string;
   label: string;
   disabled?: boolean;
+  [key: string]: any;
 };
 
-const RInput = ({ type, name, label, disabled }: TRInputProps) => {
+const RInput = ({ type, name, label, disabled, ...remainingProps }: TRInputProps) => {
   return (
     <div>
       <Controller
@@ -16,6 +17,7 @@ const RInput = ({ type, name, label, disabled }: TRInputProps) => {
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
             <Input
+              {...remainingProps}
               {...field}
               type={type}
               disabled={disabled}

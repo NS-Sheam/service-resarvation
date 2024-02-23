@@ -2,13 +2,14 @@ import { Form, TimePicker } from "antd";
 import { Controller } from "react-hook-form";
 
 type TRStartAndEndTimePickerProps = {
-  type: string;
+  type?: string;
   name: string;
-  label: string;
+  label?: string;
   disabled?: boolean;
+  [key: string]: any;
 };
 
-const RStartAndEndTimePicker = ({ type, name, label, disabled }: TRStartAndEndTimePickerProps) => {
+const RStartAndEndTimePicker = ({ type, name, label, disabled, ...remaining }: TRStartAndEndTimePickerProps) => {
   return (
     <div>
       <Controller
@@ -16,6 +17,7 @@ const RStartAndEndTimePicker = ({ type, name, label, disabled }: TRStartAndEndTi
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
             <TimePicker.RangePicker
+              {...remaining}
               use12Hours
               format="h:mm a"
               {...field}

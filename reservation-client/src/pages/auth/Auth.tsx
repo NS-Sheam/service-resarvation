@@ -31,16 +31,16 @@ const Auth = () => {
           <Col
             onClick={() => setShowRegister(false)}
             span={12}
-            className="border-b-4 border-orange "
+            className="border-b-4 border-darkPrimary "
           >
             <p
               className={`text-center text-xl font-semibold text-grayBlack py-2 cursor-pointer ${
                 !showRegister ? "bg-grayWhite" : ""
               }`}
             >
-              Sign in
+              Login
             </p>
-            <hr className={`h-2 w-full bg-orange ${!showRegister ? "visible" : "hidden"}`} />
+            <hr className={`h-2 w-full bg-darkPrimary ${!showRegister ? "visible" : "hidden"}`} />
           </Col>
           <Col
             onClick={() => setShowRegister(true)}
@@ -51,9 +51,9 @@ const Auth = () => {
                 showRegister ? "bg-grayWhite" : ""
               }`}
             >
-              Sign up
+              Register
             </p>
-            <hr className={`h-2 w-full bg-orange ${showRegister ? "visible" : "hidden"}`} />
+            <hr className={`h-2 w-full bg-darkPrimary ${showRegister ? "visible" : "hidden"}`} />
           </Col>
         </Row>
         {showRegister ? <Register /> : <Login />}

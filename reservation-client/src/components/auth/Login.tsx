@@ -38,6 +38,12 @@ const Login = () => {
       toast.error(error.message, { id: toastId });
     }
   };
+  const commonInputStyle = {
+    padding: "0.5rem 1rem",
+    fontWeight: "bold",
+    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+    borderRadius: "5px",
+  };
   return (
     <div className="p-4">
       <Row
@@ -52,6 +58,7 @@ const Login = () => {
             <Row gutter={8}>
               <Col span={24}>
                 <RInput
+                  style={commonInputStyle}
                   type="text"
                   name="email"
                   label="Email"
@@ -59,6 +66,7 @@ const Login = () => {
               </Col>
               <Col span={24}>
                 <RInput
+                  style={commonInputStyle}
                   type="text"
                   name="password"
                   label="Password"
@@ -67,7 +75,7 @@ const Login = () => {
             </Row>
             <Button
               htmlType="submit"
-              style={{ width: "100%", backgroundColor: "#fa8232", color: "white", fontWeight: "bold" }}
+              style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
             >
               Login
             </Button>

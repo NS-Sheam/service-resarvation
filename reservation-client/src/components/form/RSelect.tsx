@@ -1,7 +1,7 @@
 import { Form, Select } from "antd";
 import { Controller } from "react-hook-form";
 
-type TEComSelectProps = {
+type TRSelectProps = {
   label: string;
   name: string;
   options: {
@@ -13,9 +13,10 @@ type TEComSelectProps = {
   mode?: "multiple" | "tags" | undefined;
   loading?: boolean;
   defaultValue?: string;
+  [key: string]: any;
 };
 
-const EComSelect = ({ label, name, options, disabled, mode, loading, defaultValue }: TEComSelectProps) => {
+const RSelect = ({ label, name, options, disabled, mode, loading, defaultValue, ...remaining }: TRSelectProps) => {
   return (
     <Controller
       name={name}
@@ -23,6 +24,7 @@ const EComSelect = ({ label, name, options, disabled, mode, loading, defaultValu
       render={({ field, fieldState: { error } }) => (
         <Form.Item label={label}>
           <Select
+            {...remaining}
             {...field}
             mode={mode}
             options={options}
@@ -36,4 +38,4 @@ const EComSelect = ({ label, name, options, disabled, mode, loading, defaultValu
   );
 };
 
-export default EComSelect;
+export default RSelect;

@@ -3,12 +3,12 @@ import { Controller } from "react-hook-form";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
-type TEComProfileImageUploaderProps = {
+type TRProfileImageUploaderProps = {
   name: string;
   label: string;
 };
 
-const EComProfileImageUploader = ({ name, label }: TEComProfileImageUploaderProps) => {
+const RProfileImageUploader = ({ name, label }: TRProfileImageUploaderProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const getBase64 = (img: any, callback: (url: string) => void) => {
@@ -82,4 +82,4 @@ const EComProfileImageUploader = ({ name, label }: TEComProfileImageUploaderProp
   );
 };
 
-export default EComProfileImageUploader;
+export default RProfileImageUploader;
