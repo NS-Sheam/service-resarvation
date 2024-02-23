@@ -30,7 +30,9 @@ const Login = () => {
         dispatch(setUser({ user: { ...user, image: userInfo?.data?.image }, token: res.data.data.accessToken }));
         toast.success("Logged in successfully", { id: toastId });
       } else {
-        toast.error(res.error.message, { id: toastId });
+        toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || res.error.message, {
+          id: toastId,
+        });
       }
     } catch (error: any) {
       toast.error(error.message, { id: toastId });

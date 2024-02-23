@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
 import Auth from "../pages/auth/Auth";
+import ChangePassword from "../pages/auth/ChangePassword";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/auth",
         element: <Auth />,
+      },
+      {
+        path: "/auth/change-password",
+        element: <ChangePassword />,
       },
       //   {
       //     path: "/product/:id",
