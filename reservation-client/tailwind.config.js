@@ -4,9 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#1b6392",
-        orange: "#fa8232",
-        warning: "#ebc80c",
+        primary: "#00509d",
+        darkPrimary: "#003f88",
+        nevyBlue: "#00296b",
+        orange: "#fdc500",
+        warning: "#ffd500",
         gray: "#5f6c72",
         grayBlack: "#191C1F",
         grayWhite: "#E4E7E9",
