@@ -40,12 +40,14 @@ const createCustomer = async (
     payload.user = newUser[0]._id;
 
     // Transaction 2: Create Customer
-    const { secure_url } = (await sendImageToCloudinary(
-      payload.userName,
-      file?.path,
-    )) as any;
+    if (file) {
+      const { secure_url } = (await sendImageToCloudinary(
+        payload.userName,
+        file?.path,
+      )) as any;
 
-    payload.image = secure_url;
+      payload.image = secure_url;
+    }
     const newCustomer = await Customer.create([payload], { session });
     if (!newCustomer) {
       throw new AppError(httpStatus.BAD_REQUEST, "Customer creation failed");
@@ -87,12 +89,13 @@ const createProvider = async (
     payload.user = newUser[0]._id;
 
     // Transaction 2: Create Provider
-    const { secure_url } = (await sendImageToCloudinary(
-      payload.userName,
-      file?.path,
-    )) as any;
-
-    payload.image = secure_url;
+    if (file) {
+      const { secure_url } = (await sendImageToCloudinary(
+        payload.userName,
+        file?.path,
+      )) as any;
+      payload.image = secure_url;
+    }
 
     const newProvider = await Provider.create([payload], { session });
 

@@ -1,24 +1,29 @@
 import { z } from "zod";
 
 const createCustomerValidationSchema = z.object({
-  body: z.object({
-    password: z.string({
-      required_error: "Password is required",
-    }),
-    customer: z.object({
-      name: z.string({
-        required_error: "Name is required",
+  body: z.object(
+    {
+      password: z.string({
+        required_error: "Password is required",
       }),
-      email: z.string({
-        required_error: "Email is required",
+      customer: z.object({
+        name: z.string({
+          required_error: "Name is required",
+        }),
+        email: z.string({
+          required_error: "Email is required",
+        }),
+        phone: z.string({
+          required_error: "Phone is required",
+        }),
+        image: z.string().optional(),
+        isDeleted: z.boolean().default(false),
       }),
-      phone: z.string({
-        required_error: "Phone is required",
-      }),
-      image: z.string().optional(),
-      isDeleted: z.boolean().default(false),
-    }),
-  }),
+    },
+    {
+      required_error: "Customer is required",
+    },
+  ),
 });
 
 const updateCustomerValidationSchema = z.object({

@@ -58,10 +58,12 @@ const Register = () => {
       userInfo.provider = {
         ...data,
       };
+      delete userInfo.provider.image;
     } else {
       userInfo.customer = {
         ...data,
       };
+      delete userInfo.customer.image;
     }
 
     if (!isCustomer) {
@@ -71,22 +73,20 @@ const Register = () => {
       delete userInfo.provider.password;
     }
 
-    console.log(userInfo);
-
     const formData = new FormData();
     formData.append("data", JSON.stringify(userInfo));
     if (data.image) formData.append("file", data.image?.originFileObj);
     try {
       const res = isCustomer
-        ? ((await customerRegistration(formData)) as TResponse<any>)
-        : ((await providerRegistration(formData)) as TResponse<any>);
+        ? ((await customerRegistration(userInfo)) as TResponse<any>)
+        : ((await providerRegistration(userInfo)) as TResponse<any>);
 
       console.log(res);
 
       if (!res.error) {
         toast.success("Registered successfully");
       } else {
-        toast.error(res?.error?.data?.message || "Something went wrong", {
+        toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
           id: toastId,
         });
       }

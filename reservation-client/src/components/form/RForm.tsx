@@ -23,7 +23,6 @@ const RForm = ({ onSubmit, children, defaultValues, resolver }: TRFormProps) => 
 
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
-    methods.reset();
   };
 
   return (
