@@ -13,27 +13,12 @@ import {
   useProviderRegistrationMutation,
 } from "../../redux/redux/features/auth/auth.api";
 import { toast } from "sonner";
-import { TReduxResponse, TResponse } from "../../types";
+import { TResponse } from "../../types";
 /** TODO:
- * - Add google Login
  * - Add autmatic login after registration
  * - Automatically redirect to page where user was before login or want to go
  *
  */
-const defaultValues = {
-  userName: "testUser",
-  name: "Test User",
-  email: "testuser@gmail.com",
-  phone: "012323232323",
-  location: "Dhaka",
-  password: "testUser",
-};
-
-// availableSchedule: {
-//   day: TDay;
-//   startTime: string;
-//   endTime: string;
-// }[];
 
 const Register = () => {
   const [isCustomer, setIsCustomer] = useState(true);
@@ -65,6 +50,7 @@ const Register = () => {
       };
       delete userInfo.customer.image;
     }
+    console.log(userInfo);
 
     if (!isCustomer) {
       userInfo.provider["availableSchedule"] = availableSchedule;
@@ -78,8 +64,8 @@ const Register = () => {
     if (data.image) formData.append("file", data.image?.originFileObj);
     try {
       const res = isCustomer
-        ? ((await customerRegistration(userInfo)) as TResponse<any>)
-        : ((await providerRegistration(userInfo)) as TResponse<any>);
+        ? ((await customerRegistration(formData)) as TResponse<any>)
+        : ((await providerRegistration(formData)) as TResponse<any>);
 
       console.log(res);
 
@@ -138,10 +124,7 @@ const Register = () => {
         </Col>
 
         <Col span={24}>
-          <RForm
-            onSubmit={onSubmit}
-            defaultValues={defaultValues}
-          >
+          <RForm onSubmit={onSubmit}>
             <Row gutter={8}>
               <Col span={24}>
                 <RInput
@@ -179,39 +162,42 @@ const Register = () => {
                   required
                 />
               </Col>
-              <Col span={24}>
-                <RInput
-                  style={commonInputStyle}
-                  type="text"
-                  name="location"
-                  label="Location"
-                  required
-                />
-              </Col>
               {!isCustomer && (
-                <Col span={24}>
-                  <RSelect
-                    required
-                    label="Day"
-                    name="day"
-                    options={[
-                      { value: "Saturday", label: "Saturday" },
-                      { value: "Sunday", label: "Sunday" },
-                      { value: "Monday", label: "Monday" },
-                      { value: "Tuesday", label: "Tuesday" },
-                      { value: "Wednesday", label: "Wednesday" },
-                      { value: "Thursday", label: "Thursday" },
-                      { value: "Friday", label: "Friday" },
-                    ]}
-                    mode="multiple"
-                  />
+                <>
+                  <Col span={24}>
+                    <RInput
+                      style={commonInputStyle}
+                      type="text"
+                      name="location"
+                      label="Location"
+                      required
+                    />
+                  </Col>
 
-                  <RStartAndEndTimePicker
-                    required
-                    style={commonInputStyle}
-                    name="startAndEndTime"
-                  />
-                </Col>
+                  <Col span={24}>
+                    <RSelect
+                      required
+                      label="Day"
+                      name="day"
+                      options={[
+                        { value: "Saturday", label: "Saturday" },
+                        { value: "Sunday", label: "Sunday" },
+                        { value: "Monday", label: "Monday" },
+                        { value: "Tuesday", label: "Tuesday" },
+                        { value: "Wednesday", label: "Wednesday" },
+                        { value: "Thursday", label: "Thursday" },
+                        { value: "Friday", label: "Friday" },
+                      ]}
+                      mode="multiple"
+                    />
+
+                    <RStartAndEndTimePicker
+                      required
+                      style={commonInputStyle}
+                      name="startAndEndTime"
+                    />
+                  </Col>
+                </>
               )}
               <Col span={24}>
                 <RInput
