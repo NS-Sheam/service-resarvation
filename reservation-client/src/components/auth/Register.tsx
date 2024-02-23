@@ -50,7 +50,6 @@ const Register = () => {
       };
       delete userInfo.customer.image;
     }
-    console.log(userInfo);
 
     if (!isCustomer) {
       userInfo.provider["availableSchedule"] = availableSchedule;
@@ -66,8 +65,6 @@ const Register = () => {
       const res = isCustomer
         ? ((await customerRegistration(formData)) as TResponse<any>)
         : ((await providerRegistration(formData)) as TResponse<any>);
-
-      console.log(res);
 
       if (!res.error) {
         toast.success("Registered successfully");
@@ -211,7 +208,7 @@ const Register = () => {
               <Col span={24}>
                 <RProfileImageUploader
                   name="image"
-                  label="Profile Image"
+                  label="Image"
                 />
               </Col>
             </Row>
