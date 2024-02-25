@@ -1,12 +1,13 @@
 import { Col, Row } from "antd";
 import "../../styles/Navbar.css";
 import ActiveNavLink from "../ActiveNavLink";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/redux/hooks";
+import { toggleMenu } from "../../redux/redux/features/header/header.slice";
 
 const Navbar = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { isMenuOpen } = useAppSelector((state) => state.header);
+  const dispatch = useAppDispatch();
   const mainMenuItems = [
     {
       title: "Home",
@@ -17,8 +18,8 @@ const Navbar = () => {
       path: "/services",
     },
     {
-      title: "Service Providers",
-      path: "/service-providers",
+      title: "Providers",
+      path: "/providers",
     },
   ];
 
@@ -64,14 +65,10 @@ const Navbar = () => {
         justify="end"
         className="z-50"
       >
-        <GiHamburgerMenu
-          className="text-white text-3xl absolute top-2 right-2"
-          onClick={() => setShowMobileMenu(true)}
-        />
         <Col
           span={20}
           className={`absolute top-2 right-2 transform ${
-            showMobileMenu ? "flex" : "hidden"
+            isMenuOpen ? "flex" : "hidden"
           } transition-all duration-300 z-50`}
         >
           <Row
@@ -89,7 +86,10 @@ const Navbar = () => {
                 key={index}
                 span={24}
               >
-                <span className="relative">
+                <span
+                  className="relative"
+                  onClick={() => dispatch(toggleMenu())}
+                >
                   <ActiveNavLink
                     to={item.path}
                     className=""
@@ -100,7 +100,10 @@ const Navbar = () => {
               </Col>
             ))}
             <Col span={24}>
-              <span className="relative">
+              <span
+                className="relative"
+                onClick={() => dispatch(toggleMenu())}
+              >
                 <ActiveNavLink
                   to="/auth"
                   className="text-xl font-semibold text-white"
@@ -110,7 +113,7 @@ const Navbar = () => {
               </span>
             </Col>
             <RxCross1
-              onClick={() => setShowMobileMenu(false)}
+              onClick={() => dispatch(toggleMenu())}
               className="text-orange text-3xl absolute top-2 right-2"
             />
           </Row>

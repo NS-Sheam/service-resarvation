@@ -1,10 +1,12 @@
 import Search from "antd/es/input/Search";
 import "../../../styles/Banner.css";
 import { Col, Row } from "antd";
+import HamburgerToggler from "../HamburgerToggler";
 
 const Banner = () => {
   return (
     <div className="banner min-h-[calc(100vh-20vh)] bg-fixed inner-container">
+      <HamburgerToggler className="text-white md:hidden" />
       <Row
         align="middle"
         justify="center"

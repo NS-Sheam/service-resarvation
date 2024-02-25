@@ -1,25 +1,16 @@
-import { Col, Row } from "antd";
-
 const Footer = () => {
   return (
-    <Row
-      align="middle"
-      justify="center"
-      className="py-6 bg-orange text-primary"
-    >
-      <Col
-        span={12}
-        className="text-right "
-      >
+    <div className="py-6 bg-orange text-primary flex justify-center items-start gap-6">
+      <div className="text-right ">
         <h3 className="text-3xl">Logo</h3>
         <p>&copy; 2021 All rights reserved</p>
-      </Col>
-      <Col span={12}>
+      </div>
+      <div>
         <p>Privacy Policy</p>
         <p>Terms of Service</p>
         <p>Cookie Policy</p>
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 

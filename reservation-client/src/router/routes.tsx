@@ -5,6 +5,8 @@ import Auth from "../pages/auth/Auth";
 import ChangePassword from "../pages/auth/ChangePassword";
 import ForgetPassword from "../pages/auth/ForgetPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
+import Services from "../pages/Services";
+import Providers from "../pages/Providers";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "/auth/reset-password",
         element: <ResetPassword />,
+      },
+      {
+        path: "/services",
+        element: <Services />,
+      },
+      {
+        path: "/providers",
+        element: <Providers />,
       },
     ],
   },
