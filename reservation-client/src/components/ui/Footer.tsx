@@ -5,12 +5,12 @@ const Footer = () => {
     <Row
       align="middle"
       justify="center"
+      className="py-6 bg-orange text-primary"
       gutter={[16, 16]}
-      className="navbar py-6 bg-orange inner-container text-primary"
     >
       <Col
         span={12}
-        className="text-right"
+        className="text-right "
       >
         <h3 className="text-3xl">Logo</h3>
         <p>&copy; 2021 All rights reserved</p>
