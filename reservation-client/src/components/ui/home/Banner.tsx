@@ -4,14 +4,15 @@ import { Col, Row } from "antd";
 
 const Banner = () => {
   return (
-    <div className="banner min-h-[calc(100vh-20vh)] bg-fixed ">
+    <div className="banner min-h-[calc(100vh-20vh)] bg-fixed inner-container">
       <Row
         align="middle"
         justify="center"
         className="text-center min-h-[calc(100vh-20vh)] "
       >
         <Col
-          span={12}
+          span={24}
+          md={{ span: 12 }}
           style={{ height: "100%" }}
         >
           <Search
@@ -19,6 +20,7 @@ const Banner = () => {
             enterButton="Search"
             size="large"
             onSearch={(value) => console.log(value)}
+            onChange={(e) => console.log(e.target.value)}
           />
         </Col>
       </Row>

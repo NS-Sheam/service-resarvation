@@ -6,7 +6,6 @@ const Footer = () => {
       align="middle"
       justify="center"
       className="py-6 bg-orange text-primary"
-      gutter={[16, 16]}
     >
       <Col
         span={12}
