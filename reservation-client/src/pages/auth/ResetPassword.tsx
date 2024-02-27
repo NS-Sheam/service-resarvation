@@ -16,16 +16,8 @@ const ResetPassword = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Resetting password...");
     try {
-      const res: any = await resetPassword({ data, token });
-      console.log(res);
-
-      if (!res.error) {
-        toast.success("Password reset successfully", { id: toastId });
-      } else {
-        toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || res.error.message, {
-          id: toastId,
-        });
-      }
+      await resetPassword({ data, token });
+      toast.success("Password reset successfully", { id: toastId });
     } catch (error: any) {
       toast.error(error.message, { id: toastId });
     }

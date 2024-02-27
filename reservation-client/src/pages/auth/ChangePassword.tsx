@@ -12,15 +12,8 @@ const ChangePassword = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Changing password...");
     try {
-      const res: any = await ChangePassword(data);
-
-      if (!res.error) {
-        toast.success("Password changed successfully", { id: toastId });
-      } else {
-        toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || res.error.message, {
-          id: toastId,
-        });
-      }
+      await ChangePassword(data);
+      toast.success("Password changed successfully", { id: toastId });
     } catch (error: any) {
       toast.error(error.message, { id: toastId });
     }

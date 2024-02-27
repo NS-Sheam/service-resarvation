@@ -17,16 +17,10 @@ const ForgetPassword = () => {
     const toastId = toast.loading("Changing password...");
 
     try {
-      const res: any = await forgetPassword(data);
+      await forgetPassword(data);
 
-      if (!res.error) {
-        toast.success("Password changed successfully", { id: toastId });
-        setSentEmail(true);
-      } else {
-        toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || res.error.message, {
-          id: toastId,
-        });
-      }
+      toast.success("Password changed successfully", { id: toastId });
+      setSentEmail(true);
     } catch (error: any) {
       toast.error(error.message, { id: toastId });
     }
