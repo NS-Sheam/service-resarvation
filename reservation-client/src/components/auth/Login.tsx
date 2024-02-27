@@ -1,13 +1,13 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Row } from "antd";
-import { useAppDispatch } from "../../redux/redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { toast } from "sonner";
 import RForm from "../form/RForm";
 import RInput from "../form/RInput";
-import { useLoginMutation } from "../../redux/redux/features/auth/auth.api";
+import { useLoginMutation } from "../../redux/auth/auth.api";
 import { TUser } from "../../types";
 import { verifyToken } from "../../utils/verifyToken";
-import { setUser } from "../../redux/redux/features/auth/auth.Slice";
+import { setUser } from "../../redux/auth/auth.Slice";
 import { Link } from "react-router-dom";
 import CommonButton from "../ui/CommonButton";
 

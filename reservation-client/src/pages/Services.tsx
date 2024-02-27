@@ -9,11 +9,11 @@ import "../styles/Services.css";
 const Services = () => {
   return (
     <div>
-      <HamburgerToggler className="md:hidden text-black" />
+      <HamburgerToggler className="md:hidden text-black " />
       <div className="services-container">
         <Row
           justify="center"
-          align="top"
+          align="middle"
           className=" min-h-[calc(100vh-20vh)] bg-primary bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
         >
           <Col

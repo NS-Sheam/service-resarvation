@@ -8,10 +8,7 @@ import RStartAndEndTimePicker from "../form/RStartAndEndTimePicker";
 import RSelect from "../form/RSelect";
 import { useState } from "react";
 import RProfileImageUploader from "../form/RProfileImageUploader";
-import {
-  useCustomerRegistrationMutation,
-  useProviderRegistrationMutation,
-} from "../../redux/redux/features/auth/auth.api";
+import { useCustomerRegistrationMutation, useProviderRegistrationMutation } from "../../redux/auth/auth.api";
 import { toast } from "sonner";
 import { TResponse } from "../../types";
 /** TODO:

@@ -1,7 +1,7 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Row } from "antd";
 import { toast } from "sonner";
-import { useChangePasswordMutation } from "../../redux/redux/features/auth/auth.api";
+import { useChangePasswordMutation } from "../../redux/auth/auth.api";
 
 import RForm from "../../components/form/RForm";
 import RInput from "../../components/form/RInput";

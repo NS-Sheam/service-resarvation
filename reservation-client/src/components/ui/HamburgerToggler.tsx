@@ -1,6 +1,6 @@
 import { GiHamburgerMenu } from "react-icons/gi";
-import { toggleMenu } from "../../redux/redux/features/header/header.slice";
-import { useAppDispatch } from "../../redux/redux/hooks";
+import { toggleMenu } from "../../redux/features/header/header.slice";
+import { useAppDispatch } from "../../redux/hooks";
 
 type THamburgerTogglerProps = {
   className?: string;

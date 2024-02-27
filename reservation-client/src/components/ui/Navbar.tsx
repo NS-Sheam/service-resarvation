@@ -2,8 +2,8 @@ import { Col, Row } from "antd";
 import "../../styles/Navbar.css";
 import ActiveNavLink from "../ActiveNavLink";
 import { RxCross1 } from "react-icons/rx";
-import { useAppDispatch, useAppSelector } from "../../redux/redux/hooks";
-import { toggleMenu } from "../../redux/redux/features/header/header.slice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { toggleMenu } from "../../redux/features/header/header.slice";
 
 const Navbar = () => {
   const { isMenuOpen } = useAppSelector((state) => state.header);

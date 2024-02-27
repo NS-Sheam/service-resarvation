@@ -1,8 +1,8 @@
 import { BaseQueryApi, BaseQueryFn, FetchArgs, FetchBaseQueryError, fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { RootState } from "../store";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { logOut, setUser } from "../features/auth/auth.Slice";
-import { TReduxResponse } from "../../../types";
+import { logOut, setUser } from "../auth/auth.Slice";
+import { TReduxResponse } from "../../types";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:4000/api/v1",
@@ -50,5 +50,5 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
   endpoints: () => ({}),
-  tagTypes: ["user", "product", "category", "customer", "order", "auth", "wishlist"],
+  tagTypes: ["user", "customer", "provider", "service"],
 });
