@@ -4,7 +4,7 @@ import Footer from "../ui/Footer";
 
 const MainLayout = () => {
   return (
-    <div className="container bg-white max-w-7xl mx-auto">
+    <div className="container bg-white max-w-7xl mx-auto min-h-screen">
       <Navbar />
       <Outlet />
       <Footer />

@@ -58,7 +58,7 @@ const ForgetPassword = () => {
             <Col span={24}>
               {sentEmail ? (
                 <div className="flex flex-col justify-center items-center text-center">
-                  <IoIosCloudDone className="text-7xl text-primary" />
+                  <IoIosCloudDone className="text-7xl text-darkPrimary" />
                   <h1 className="text-xl font-bold">Reset password link send to the email</h1>
                 </div>
               ) : (
@@ -75,7 +75,7 @@ const ForgetPassword = () => {
                   </Row>
                   <Button
                     htmlType="submit"
-                    style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
+                    style={{ width: "100%", backgroundColor: "#0096c7", color: "white", fontWeight: "bold" }}
                   >
                     Send Reset Password Link
                   </Button>

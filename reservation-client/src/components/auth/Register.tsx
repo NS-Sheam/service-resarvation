@@ -99,7 +99,7 @@ const Register = () => {
             htmlType="submit"
             onClick={() => setIsCustomer(true)}
             style={{
-              backgroundColor: isCustomer ? "#00509d" : "#ffffff",
+              backgroundColor: isCustomer ? "#0096c7" : "#ffffff",
               color: isCustomer ? "white" : "#000000",
               fontWeight: "bold",
               marginRight: "10px",
@@ -111,7 +111,7 @@ const Register = () => {
             htmlType="submit"
             onClick={() => setIsCustomer(false)}
             style={{
-              backgroundColor: !isCustomer ? "#00509d" : "#ffffff",
+              backgroundColor: !isCustomer ? "#0096c7" : "#ffffff",
               color: !isCustomer ? "white" : "#000000",
               fontWeight: "bold",
             }}
@@ -214,7 +214,7 @@ const Register = () => {
             </Row>
             <Button
               htmlType="submit"
-              style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
+              style={{ width: "100%", backgroundColor: "#0096c7", color: "white", fontWeight: "bold" }}
             >
               Register
             </Button>

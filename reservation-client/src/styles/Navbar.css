@@ -1,6 +1,6 @@
 .navbar .menu-link,
 .navbar .active-menu-link {
-  color: #fff;
+  color: #00296b;
   transition: all 0.3s ease;
 }
 .menu-link:before,

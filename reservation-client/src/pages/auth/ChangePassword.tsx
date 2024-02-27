@@ -71,7 +71,7 @@ const ChangePassword = () => {
                 </Row>
                 <Button
                   htmlType="submit"
-                  style={{ width: "100%", backgroundColor: "#00509d", color: "white", fontWeight: "bold" }}
+                  style={{ width: "100%", backgroundColor: "#0096c7", color: "white", fontWeight: "bold" }}
                 >
                   Change Password
                 </Button>

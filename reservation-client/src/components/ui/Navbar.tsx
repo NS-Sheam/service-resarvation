@@ -31,7 +31,7 @@ const Navbar = () => {
         className="navbar text-center py-6 bg-primary hidden md:flex"
       >
         <Col span={6}>
-          <h1 className="text-white">Logo</h1>
+          <h1 className="text-nevyBlue">Logo</h1>
         </Col>
         <Col span={12}>
           <Row justify="center">
@@ -87,7 +87,7 @@ const Navbar = () => {
                 span={24}
               >
                 <span
-                  className="relative"
+                  className="relative "
                   onClick={() => dispatch(toggleMenu())}
                 >
                   <ActiveNavLink
@@ -106,7 +106,7 @@ const Navbar = () => {
               >
                 <ActiveNavLink
                   to="/auth"
-                  className="text-xl font-semibold text-white"
+                  className="text-xl font-semibold text-nevyBlue"
                 >
                   Login
                 </ActiveNavLink>
@@ -114,7 +114,7 @@ const Navbar = () => {
             </Col>
             <RxCross1
               onClick={() => dispatch(toggleMenu())}
-              className="text-orange text-3xl absolute top-2 right-2"
+              className="text-nevyBlue text-3xl absolute top-2 right-2"
             />
           </Row>
         </Col>

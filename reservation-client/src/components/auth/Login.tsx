@@ -9,6 +9,7 @@ import { TUser } from "../../types";
 import { verifyToken } from "../../utils/verifyToken";
 import { setUser } from "../../redux/redux/features/auth/auth.Slice";
 import { Link } from "react-router-dom";
+import CommonButton from "../ui/CommonButton";
 
 const Login = () => {
   const [login] = useLoginMutation();
@@ -81,17 +82,7 @@ const Login = () => {
                 </Link>
               </Col>
             </Row>
-            <Button
-              htmlType="submit"
-              style={{
-                width: "100%",
-                backgroundColor: "#00509d",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              Login
-            </Button>
+            <CommonButton htmlType="submit">Login</CommonButton>
           </RForm>
         </Col>
       </Row>

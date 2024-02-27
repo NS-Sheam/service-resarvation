@@ -13,7 +13,7 @@ const Auth = () => {
       <Row
         justify="center"
         align="middle"
-        style={{ minHeight: "50vh", position: "relative" }}
+        style={{ minHeight: "100vh", position: "relative" }}
         className="shadow-md py-14 md:py-16 lg:py-20"
       >
         <Col

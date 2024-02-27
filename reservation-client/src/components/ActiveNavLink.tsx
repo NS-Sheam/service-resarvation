@@ -7,7 +7,7 @@ type TActiveNavLinkProps = {
 };
 
 const ActiveNavLink = ({ to, children, ...remaining }: TActiveNavLinkProps) => {
-  const commonStyles = "text-xl md:text-2xl font-semibold text-white";
+  const commonStyles = "text-xl md:text-2xl font-semibold text-nevyBlue";
   return (
     <NavLink
       to={to}
