@@ -6,13 +6,14 @@ import { useGetServicesQuery } from "../redux/features/serviceManagement/service
 import ServiceCard from "../components/ui/ServiceCard";
 import { FormEvent, useState } from "react";
 import NoItemCard from "../components/ui/NoItemCard";
+import CardLoader from "../components/ui/CardLoader";
 /**
  * TODO:
  * 1. Fix the layout of the services page
  */
 const Services = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data } = useGetServicesQuery([
+  const { data, isFetching: isServiceFetching } = useGetServicesQuery([
     {
       name: "searchTerm",
       value: searchTerm,
@@ -42,7 +43,15 @@ const Services = () => {
             <CommonSearchBar onChange={onChange} />
           </Col>
 
-          {serviceData?.length ? (
+          {isServiceFetching ? (
+            <Col
+              className=" shadow-lg bg-white"
+              span={24}
+              md={{ span: 16 }}
+            >
+              <CardLoader />
+            </Col>
+          ) : serviceData?.length ? (
             serviceData?.map((service, index) => (
               <Col
                 className=" shadow-lg"
