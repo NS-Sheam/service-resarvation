@@ -14,7 +14,7 @@ const ProviderCard = ({ provider }: TProviderCardProps) => {
       gutter={[8, 8]}
     >
       <Col
-        span={24}
+        span={8}
         md={{ span: 4 }}
         className="w-24 h-24 rounded-lg overflow-hidden"
       >
@@ -26,7 +26,7 @@ const ProviderCard = ({ provider }: TProviderCardProps) => {
       </Col>
 
       <Col
-        span={24}
+        span={126}
         md={{ span: 16 }}
         className="text-left"
       >

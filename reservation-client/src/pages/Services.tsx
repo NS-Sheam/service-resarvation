@@ -26,56 +26,54 @@ const Services = () => {
   };
 
   return (
-    <div>
-      <HamburgerToggler className="md:hidden text-black sticky top-0 right-0 " />
-      <div className="services-container min-h-[80vh]">
-        <Row
-          justify="center"
-          align="middle"
-          gutter={[0, 8]}
-          className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
+    <div className="services-container min-h-[80vh]">
+      <HamburgerToggler className="text-white" />
+      <Row
+        justify="center"
+        align="middle"
+        gutter={[0, 8]}
+        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
+      >
+        <Col
+          span={24}
+          md={{ span: 16 }}
+          className="sticky top-0 z-10 shadow-lg"
         >
+          <CommonSearchBar onChange={onChange} />
+        </Col>
+
+        {isServiceFetching ? (
           <Col
+            className=" shadow-lg bg-white"
             span={24}
             md={{ span: 16 }}
-            className="sticky top-0 z-10 shadow-lg"
           >
-            <CommonSearchBar onChange={onChange} />
+            <CardLoader />
           </Col>
-
-          {isServiceFetching ? (
-            <Col
-              className=" shadow-lg bg-white"
-              span={24}
-              md={{ span: 16 }}
-            >
-              <CardLoader />
-            </Col>
-          ) : serviceData?.length ? (
-            serviceData?.map((service, index) => (
-              <Col
-                className=" shadow-lg"
-                key={index}
-                span={24}
-                md={{ span: 16 }}
-              >
-                <ServiceCard
-                  key={index}
-                  service={service}
-                />
-              </Col>
-            ))
-          ) : (
+        ) : serviceData?.length ? (
+          serviceData?.map((service, index) => (
             <Col
               className=" shadow-lg"
+              key={index}
               span={24}
               md={{ span: 16 }}
             >
-              <NoItemCard title="Service" />
+              <ServiceCard
+                key={index}
+                service={service}
+              />
             </Col>
-          )}
-        </Row>
-      </div>
+          ))
+        ) : (
+          <Col
+            className=" shadow-lg"
+            span={24}
+            md={{ span: 16 }}
+          >
+            <NoItemCard title="Service" />
+          </Col>
+        )}
+      </Row>
     </div>
   );
 };

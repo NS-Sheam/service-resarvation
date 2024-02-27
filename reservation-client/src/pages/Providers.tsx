@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton } from "antd";
+import { Col, Row } from "antd";
 import HamburgerToggler from "../components/ui/HamburgerToggler";
 import CommonSearchBar from "../components/ui/CommonSearchBar";
 import "../styles/Providers.css";
@@ -26,55 +26,53 @@ const Providers = () => {
   };
 
   return (
-    <div>
-      <HamburgerToggler className="md:hidden text-black sticky top-0 right-0 " />
-      <div className="providers-container min-h-[80vh]">
-        <Row
-          justify="center"
-          align="middle"
-          gutter={[0, 8]}
-          className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
+    <div className="providers-container min-h-[80vh]">
+      <HamburgerToggler className="text-white" />
+      <Row
+        justify="center"
+        align="middle"
+        gutter={[0, 8]}
+        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
+      >
+        <Col
+          span={24}
+          md={{ span: 16 }}
+          className="sticky top-0 z-10 shadow-lg"
         >
+          <CommonSearchBar onChange={onChange} />
+        </Col>
+        {isProviderFetching ? (
           <Col
+            className=" shadow-lg bg-white"
             span={24}
             md={{ span: 16 }}
-            className="sticky top-0 z-10 shadow-lg"
           >
-            <CommonSearchBar onChange={onChange} />
+            <CardLoader />
           </Col>
-          {isProviderFetching ? (
-            <Col
-              className=" shadow-lg bg-white"
-              span={24}
-              md={{ span: 16 }}
-            >
-              <CardLoader />
-            </Col>
-          ) : providerData?.length ? (
-            providerData?.map((provider, index) => (
-              <Col
-                className=" shadow-lg"
-                key={index}
-                span={24}
-                md={{ span: 16 }}
-              >
-                <ProviderCard
-                  key={index}
-                  provider={provider}
-                />
-              </Col>
-            ))
-          ) : (
+        ) : providerData?.length ? (
+          providerData?.map((provider, index) => (
             <Col
               className=" shadow-lg"
+              key={index}
               span={24}
               md={{ span: 16 }}
             >
-              <NoItemCard title="Provider" />
+              <ProviderCard
+                key={index}
+                provider={provider}
+              />
             </Col>
-          )}
-        </Row>
-      </div>
+          ))
+        ) : (
+          <Col
+            className=" shadow-lg"
+            span={24}
+            md={{ span: 16 }}
+          >
+            <NoItemCard title="Provider" />
+          </Col>
+        )}
+      </Row>
     </div>
   );
 };

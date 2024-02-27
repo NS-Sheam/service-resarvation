@@ -9,10 +9,12 @@ type THamburgerTogglerProps = {
 const HamburgerToggler = ({ className }: THamburgerTogglerProps) => {
   const dispatch = useAppDispatch();
   return (
-    <GiHamburgerMenu
-      className={` absolute text-3xl top-2 right-2 z-10 ${className}`}
-      onClick={() => dispatch(toggleMenu())}
-    />
+    <div className={` py-4 text-3xl top-2 right-2 ${className}`}>
+      <GiHamburgerMenu
+        className="absolute top-2 right-2"
+        onClick={() => dispatch(toggleMenu())}
+      />
+    </div>
   );
 };
 
