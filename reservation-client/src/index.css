@@ -23,3 +23,6 @@ body {
 .my-container {
   @apply xl:mx-20 md:mx-10 mx-4 sm:mx-2;
 }
+.scrollable-content::-webkit-scrollbar {
+  display: none;
+}
