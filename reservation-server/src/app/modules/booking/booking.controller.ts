@@ -4,7 +4,7 @@ import { BookingServices } from "./booking.service";
 import sendResponse from "../../utils/sendResponse";
 
 const createBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.createBooking(req.body);
+  const result = await BookingServices.createBooking(req.user.userId, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -68,7 +68,10 @@ const providerBooking = catchAsync(async (req, res) => {
 });
 
 const cancelBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.cancelBooking(req.params.id);
+  const result = await BookingServices.cancelBooking(
+    req.user.userId,
+    req.params.id,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

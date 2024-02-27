@@ -13,21 +13,22 @@ import { getDayFromDate } from "../../utils/date.utils.";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { cancelBookingEmail } from "../../utils/sendCancelBookingEmail";
 
-const createBooking = async (payload: TBooking) => {
-  payload.schedule.date = new Date(payload.schedule.date).toISOString();
-
-  const customer = await Customer.findById(payload.customer);
+const createBooking = async (userId: string, payload: TBooking) => {
+  const customer = await Customer.findOne({ user: userId });
   if (!customer) {
     throw new AppError(httpStatus.NOT_FOUND, "Customer not found");
   }
-  const provider = await Provider.findById(payload.provider);
-  if (!provider) {
-    throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
-  }
+  payload.customer = customer._id;
+  payload.schedule.date = new Date(payload.schedule.date).toISOString();
 
   const service = await Service.findById(payload.service);
   if (!service) {
     throw new AppError(httpStatus.NOT_FOUND, "Service not found");
+  }
+  payload.provider = service.provider;
+  const provider = await Provider.findById(service.provider);
+  if (!provider) {
+    throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
   }
 
   const isProviderAvailableAtThatDay = provider.availableSchedule.some(
@@ -71,7 +72,7 @@ const createBooking = async (payload: TBooking) => {
     await Schedule.create(
       [
         {
-          provider: payload.provider,
+          provider: service.provider,
           date: payload.schedule.date,
           startTime: payload.schedule.startTime,
           endTime: payload.schedule.endTime,
@@ -161,14 +162,28 @@ const providerBooking = async (
 
   return { result, meta };
 };
-const cancelBooking = async (id: string) => {
+const cancelBooking = async (userId: string, id: string) => {
   const booking = await Booking.findById(id).populate(
-    "customer provider service schedule",
+    "customer provider schedule service",
   );
-
   if (!booking) {
     throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
   }
+
+  const user =
+    (await Customer.findOne({ user: userId })) ||
+    (await Provider.findOne({ user: userId }));
+
+  const isUserAuthorized =
+    booking.customer.equals(user?._id) || booking.provider.equals(user?._id);
+
+  if (!isUserAuthorized) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to cancel this booking",
+    );
+  }
+
   const session = await startSession();
   try {
     session.startTransaction();
@@ -184,6 +199,7 @@ const cancelBooking = async (id: string) => {
       { booking: id },
       { session },
     );
+
     if (!schedule) {
       throw new AppError(httpStatus.BAD_REQUEST, "Booking cancelation failed");
     }
@@ -193,6 +209,7 @@ const cancelBooking = async (id: string) => {
       booking?.schedule as any,
       booking?.service as any,
     );
+
     await session.commitTransaction();
     await session.endSession();
     return deletedBooking;
