@@ -19,6 +19,8 @@ const addService = async (payload: TService, files: any) => {
     throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
   }
 
+  payload.location = isProviderExist.location;
+
   const images: string[] = [];
 
   if (files && files.length) {

@@ -11,6 +11,10 @@ const serviceSchema = new Schema<TService>(
       type: String,
       required: true,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     provider: {
       type: Schema.Types.ObjectId,
       ref: "Provider",
