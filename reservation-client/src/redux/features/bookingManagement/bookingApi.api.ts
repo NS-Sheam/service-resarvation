@@ -38,6 +38,30 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response: TReduxResponse<TBooking>) => response.data,
     }),
+    getCustomerBookings: builder.query({
+      query: () => ({
+        url: "/booking/customer",
+        method: "GET",
+      }),
+      transformResponse: (response: TReduxResponse<TBooking[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
+    getProviderBookings: builder.query({
+      query: () => ({
+        url: "/booking/provider",
+        method: "GET",
+      }),
+      transformResponse: (response: TReduxResponse<TBooking[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
   }),
 });
 
