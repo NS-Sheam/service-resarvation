@@ -1,13 +1,24 @@
-import { TReduxResponse, TService } from "../../../types";
+import { TQueryParams, TReduxResponse, TService } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const serviceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getServices: builder.query({
-      query: () => ({
-        url: "/services",
-        method: "GET",
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: TQueryParams) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: "/services",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["service"],
       transformResponse: (response: TReduxResponse<TService[]>) => {
         return {
           data: response.data,
@@ -21,6 +32,7 @@ const serviceApi = baseApi.injectEndpoints({
         method: "POST",
         body: body,
       }),
+      invalidatesTags: ["service"],
       transformResponse: (response: TReduxResponse<TService>) => response.data,
     }),
 
@@ -29,6 +41,7 @@ const serviceApi = baseApi.injectEndpoints({
         url: `/services/${id}`,
         method: "GET",
       }),
+      providesTags: ["service"],
       transformResponse: (response: TReduxResponse<TService>) => response.data,
     }),
 
@@ -38,6 +51,7 @@ const serviceApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: body,
       }),
+      invalidatesTags: ["service"],
       transformResponse: (response: TReduxResponse<TService>) => response.data,
     }),
   }),
