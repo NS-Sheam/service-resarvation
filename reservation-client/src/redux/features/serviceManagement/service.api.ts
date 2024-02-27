@@ -1,19 +1,32 @@
-import { TCustomer, TProvider, TReduxResponse } from "../../../types";
+import { TCustomer, TProvider, TReduxResponse, TService } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const serviceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCustomers: builder.query({
+    getServices: builder.query({
       query: () => ({
-        url: "/customers",
+        url: "/services",
         method: "GET",
       }),
-      transformResponse: (response: TReduxResponse<TCustomer[]>) => response.data,
+      transformResponse: (response: TReduxResponse<TService[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
+    addService: builder.mutation({
+      query: (body: Partial<TService>) => ({
+        url: "/services",
+        method: "POST",
+        body: body,
+      }),
+      transformResponse: (response: TReduxResponse<TService>) => response.data,
     }),
 
-    getSingleCustomer: builder.query({
+    getSingleService: builder.query({
       query: (id: string) => ({
-        url: `/customers/${id}`,
+        url: `/services/${id}`,
         method: "GET",
       }),
       transformResponse: (response: TReduxResponse<TCustomer>) => response.data,

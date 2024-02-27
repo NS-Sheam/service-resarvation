@@ -1,4 +1,4 @@
-import { TCustomer, TProvider, TReduxResponse } from "../../../types";
+import { TReduxResponse, TCustomer, TProvider } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const userManagementApi = baseApi.injectEndpoints({
@@ -8,7 +8,12 @@ const userManagementApi = baseApi.injectEndpoints({
         url: "/customers",
         method: "GET",
       }),
-      transformResponse: (response: TReduxResponse<TCustomer[]>) => response.data,
+      transformResponse: (response: TReduxResponse<TCustomer[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
 
     getSingleCustomer: builder.query({
@@ -33,7 +38,12 @@ const userManagementApi = baseApi.injectEndpoints({
         url: "/providers",
         method: "GET",
       }),
-      transformResponse: (response: TReduxResponse<TProvider[]>) => response.data,
+      transformResponse: (response: TReduxResponse<TProvider[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
     getSingleProvider: builder.query({
       query: (id: string) => ({

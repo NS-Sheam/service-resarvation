@@ -3,6 +3,7 @@ import { RootState } from "../store";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { logOut, setUser } from "../auth/auth.Slice";
 import { TReduxResponse } from "../../types";
+import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:4000/api/v1",
@@ -41,6 +42,11 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, FetchBaseQ
     } else {
       api.dispatch(logOut());
     }
+  }
+  if (result.error) {
+    toast.error(result?.error?.data?.errorSources[0].message || result?.error?.data?.message, {
+      duration: 2000,
+    });
   }
 
   return result;
