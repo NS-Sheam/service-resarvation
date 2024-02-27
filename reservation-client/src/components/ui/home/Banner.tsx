@@ -1,8 +1,6 @@
-import Search from "antd/es/input/Search";
 import "../../../styles/Banner.css";
 import { Col, Flex, Row } from "antd";
 import HamburgerToggler from "../HamburgerToggler";
-import { FaSearchPlus } from "react-icons/fa";
 import { ChangeEvent } from "react";
 import CommonSearchBar from "../../CommonSearchBar";
 
