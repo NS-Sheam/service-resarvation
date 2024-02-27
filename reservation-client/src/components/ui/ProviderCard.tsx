@@ -26,8 +26,7 @@ const ProviderCard = ({ provider }: TProviderCardProps) => {
       </Col>
 
       <Col
-        span={126}
-        md={{ span: 16 }}
+        span={16}
         className="text-left"
       >
         <h3 className="text-lg font-semibold text-darkPrimary">{provider.name}</h3>
