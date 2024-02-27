@@ -1,4 +1,4 @@
-export const providerSearchableFields = ["name", "email", "location"];
+export const providerSearchableFields = ["name", "location"];
 export const weekDays = [
   "Sunday",
   "Monday",

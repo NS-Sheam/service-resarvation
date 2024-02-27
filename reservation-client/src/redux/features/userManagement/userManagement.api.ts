@@ -1,4 +1,4 @@
-import { TReduxResponse, TCustomer, TProvider } from "../../../types";
+import { TReduxResponse, TCustomer, TProvider, TQueryParams } from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const userManagementApi = baseApi.injectEndpoints({
@@ -8,6 +8,7 @@ const userManagementApi = baseApi.injectEndpoints({
         url: "/customers",
         method: "GET",
       }),
+      providesTags: ["customer"],
       transformResponse: (response: TReduxResponse<TCustomer[]>) => {
         return {
           data: response.data,
@@ -21,6 +22,7 @@ const userManagementApi = baseApi.injectEndpoints({
         url: `/customers/${id}`,
         method: "GET",
       }),
+      providesTags: ["customer"],
       transformResponse: (response: TReduxResponse<TCustomer>) => response.data,
     }),
 
@@ -30,14 +32,27 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: body,
       }),
+      invalidatesTags: ["customer"],
       transformResponse: (response: TReduxResponse<TCustomer>) => response.data,
     }),
 
     getProviders: builder.query({
-      query: () => ({
-        url: "/providers",
-        method: "GET",
-      }),
+      query: (args: TQueryParams[]) => {
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: TQueryParams) => {
+            params.append(item.name, item.value);
+          });
+        }
+
+        return {
+          url: "/providers",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["provider"],
       transformResponse: (response: TReduxResponse<TProvider[]>) => {
         return {
           data: response.data,
@@ -50,6 +65,7 @@ const userManagementApi = baseApi.injectEndpoints({
         url: `/providers/${id}`,
         method: "GET",
       }),
+      providesTags: ["provider"],
       transformResponse: (response: TReduxResponse<TProvider>) => response.data,
     }),
     updateProvider: builder.mutation({
@@ -58,6 +74,7 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: body,
       }),
+      invalidatesTags: ["provider"],
       transformResponse: (response: TReduxResponse<TProvider>) => response.data,
     }),
   }),

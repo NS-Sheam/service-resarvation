@@ -1,10 +1,11 @@
 import { Col, Row } from "antd";
 import HamburgerToggler from "../components/ui/HamburgerToggler";
-import CommonSearchBar from "../components/CommonSearchBar";
+import CommonSearchBar from "../components/ui/CommonSearchBar";
 import "../styles/Services.css";
 import { useGetServicesQuery } from "../redux/features/serviceManagement/service.api";
 import ServiceCard from "../components/ui/ServiceCard";
 import { FormEvent, useState } from "react";
+import NoItemCard from "../components/ui/NoItemCard";
 /**
  * TODO:
  * 1. Fix the layout of the services page
@@ -41,18 +42,29 @@ const Services = () => {
             <CommonSearchBar onChange={onChange} />
           </Col>
 
-          {serviceData?.map((service, index) => (
+          {serviceData?.length ? (
+            serviceData?.map((service, index) => (
+              <Col
+                className=" shadow-lg"
+                key={index}
+                span={24}
+                md={{ span: 16 }}
+              >
+                <ServiceCard
+                  key={index}
+                  service={service}
+                />
+              </Col>
+            ))
+          ) : (
             <Col
-              key={index}
+              className=" shadow-lg"
               span={24}
               md={{ span: 16 }}
             >
-              <ServiceCard
-                key={index}
-                service={service}
-              />
+              <NoItemCard title="Service" />
             </Col>
-          ))}
+          )}
         </Row>
       </div>
     </div>

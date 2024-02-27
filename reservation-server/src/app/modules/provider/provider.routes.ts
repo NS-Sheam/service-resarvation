@@ -10,12 +10,8 @@ import { ProviderControllers } from "./provider.controller";
 import { ProviderValidations } from "./provider.validation";
 
 const router = Router();
-router.get(
-  "/:id",
-  auth(USER_ROLE.admin, USER_ROLE.provider),
-  ProviderControllers.getSingleProvider,
-);
-router.get("/", auth(USER_ROLE.admin), ProviderControllers.getAllProviders);
+router.get("/:id", ProviderControllers.getSingleProvider);
+router.get("/", ProviderControllers.getAllProviders);
 router.patch(
   "/:id",
   upload.single("file"),

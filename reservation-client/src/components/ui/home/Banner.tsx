@@ -2,7 +2,7 @@ import "../../../styles/Banner.css";
 import { Col, Flex, Row } from "antd";
 import HamburgerToggler from "../HamburgerToggler";
 import { ChangeEvent } from "react";
-import CommonSearchBar from "../../CommonSearchBar";
+import CommonSearchBar from "../CommonSearchBar";
 
 const Banner = () => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

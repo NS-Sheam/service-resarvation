@@ -4,18 +4,18 @@ import { baseApi } from "../../api/baseApi";
 const serviceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getServices: builder.query({
-      query: (args) => {
+      query: (args: TQueryParams[]) => {
         const params = new URLSearchParams();
         if (args) {
           args.forEach((item: TQueryParams) => {
-            params.append(item.name, item.value as string);
+            params.append(item.name, item.value);
           });
         }
 
         return {
           url: "/services",
           method: "GET",
-          params: params,
+          params,
         };
       },
       providesTags: ["service"],

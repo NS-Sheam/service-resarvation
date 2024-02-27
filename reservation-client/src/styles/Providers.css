@@ -1,0 +1,10 @@
+.providers-container {
+  background: url("../assets/images/banner.jpg") no-repeat center;
+  background-size: cover;
+  /* background-color: rgb(255, 213, 0, 0.2);
+      background-color: rgb(255, 200, 0, 0.2); */
+  /* background-blend-mode: overlay; */
+}
+.scrollable-content::-webkit-scrollbar {
+  display: none;
+}
