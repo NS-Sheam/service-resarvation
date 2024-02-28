@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import HamburgerToggler from "../components/ui/HamburgerToggler";
 import CommonSearchBar from "../components/ui/CommonSearchBar";
 import "../styles/Services.css";
@@ -6,7 +6,6 @@ import { useGetServicesQuery } from "../redux/features/serviceManagement/service
 import ServiceCard from "../components/ui/ServiceCard";
 import { FormEvent, useState } from "react";
 import NoItemCard from "../components/ui/NoItemCard";
-import CardLoader from "../components/ui/CardLoader";
 /**
  * TODO:
  * 1. Fix the layout of the services page
@@ -44,11 +43,11 @@ const Services = () => {
 
         {isServiceFetching ? (
           <Col
-            className=" shadow-lg bg-white"
+            className=" shadow-lg bg-white rounded-md p-4"
             span={24}
             md={{ span: 16 }}
           >
-            <CardLoader />
+            <Skeleton active />
           </Col>
         ) : serviceData?.length ? (
           serviceData?.map((service, index) => (

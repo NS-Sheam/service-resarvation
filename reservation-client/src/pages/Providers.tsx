@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import HamburgerToggler from "../components/ui/HamburgerToggler";
 import CommonSearchBar from "../components/ui/CommonSearchBar";
 import "../styles/Providers.css";
@@ -6,7 +6,6 @@ import ProviderCard from "../components/ui/ProviderCard";
 import { FormEvent, useState } from "react";
 import NoItemCard from "../components/ui/NoItemCard";
 import { useGetProvidersQuery } from "../redux/features/userManagement/userManagement.api";
-import CardLoader from "../components/ui/CardLoader";
 /**
  * TODO:
  * 1. Fix the layout of the providers page
@@ -43,11 +42,11 @@ const Providers = () => {
         </Col>
         {isProviderFetching ? (
           <Col
-            className=" shadow-lg bg-white"
+            className=" shadow-lg bg-white rounded-md p-4"
             span={24}
             md={{ span: 16 }}
           >
-            <CardLoader />
+            <Skeleton active />
           </Col>
         ) : providerData?.length ? (
           providerData?.map((provider, index) => (
