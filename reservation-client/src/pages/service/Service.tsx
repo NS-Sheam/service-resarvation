@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetSingleServiceQuery } from "../../redux/features/serviceManagement/service.api";
-import { Col, Row } from "antd";
+import { Col, Row, Spin } from "antd";
 import { useState } from "react";
 import BookingToogler from "../../components/ui/Service/BookingToogler";
 import { MdAddCall, MdEmail, MdLocationPin } from "react-icons/md";
@@ -9,7 +9,7 @@ import ServiceDetails from "../../components/ui/Service/ServiceDetails";
 import PhotoAlbum from "react-photo-album";
 const Service = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: service, isLoading, isFetching } = useGetSingleServiceQuery(id || "");
+  const { data: service, isLoading } = useGetSingleServiceQuery(id || "");
   const [tabItem, setTabItem] = useState("Details");
   const providerContactInfos = [
     {
@@ -27,8 +27,12 @@ const Service = () => {
   ];
   console.log(service);
 
-  if (isLoading || isFetching) {
-    return <p>loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="min-h-[calc(100vh-20vh)] flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   const photos = service?.images.map((image) => ({
