@@ -42,7 +42,7 @@ const Service = () => {
           <div>
             <p className="font-semibold pb-2">Available Days:</p>
             {service?.provider?.availableSchedule?.map((schedule, index) => (
-              <p className="mb-2">
+              <p className="mb-2 font-bold">
                 <Tag
                   key={index}
                   color="blue"
@@ -69,7 +69,8 @@ const Service = () => {
         span={24}
         md={{ span: 8 }}
       >
-        <h1>{service?.provider.name}</h1>
+        <h3 className="font-bold text-darkPrimary">Service Provider</h3>
+        <h2 className="text-xl md:text-2xl font-semibold text-nevyBlue">{service?.provider.name}</h2>
         <p>{service?.provider.location}</p>
       </Col>
     </Row>
