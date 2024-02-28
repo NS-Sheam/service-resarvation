@@ -69,6 +69,14 @@ const Service = () => {
             className="space-y-1"
           >
             <ServiceDetails service={service} />
+            <Col span={6}>
+              <CommonButton
+                size="large"
+                onClick={() => setTabItem("Book")}
+              >
+                Book Now
+              </CommonButton>
+            </Col>
           </Col>
         )}
         {tabItem === "Gallery" && (
@@ -94,6 +102,7 @@ const Service = () => {
           gutter={[8, 8]}
           align="middle"
           justify="space-around"
+          className="bg-grayWhite p-4 rounded-md shadow-md "
         >
           <Col span={16}>
             <h2 className="text-xl md:text-2xl font-semibold text-nevyBlue">{service?.provider.name}</h2>
