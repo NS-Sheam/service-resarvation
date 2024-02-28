@@ -5,8 +5,10 @@ import Auth from "../pages/auth/Auth";
 import ChangePassword from "../pages/auth/ChangePassword";
 import ForgetPassword from "../pages/auth/ForgetPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
-import Services from "../pages/Services";
-import Providers from "../pages/Providers";
+import Services from "../pages/service/Services";
+import Providers from "../pages/provider/Providers";
+import Service from "../pages/service/Service";
+import Provider from "../pages/provider/Provider";
 
 const router = createBrowserRouter([
   {
@@ -38,8 +40,16 @@ const router = createBrowserRouter([
         element: <Services />,
       },
       {
+        path: "/services/:id",
+        element: <Service />,
+      },
+      {
         path: "/providers",
         element: <Providers />,
+      },
+      {
+        path: "/providers/:id",
+        element: <Provider />,
       },
     ],
   },

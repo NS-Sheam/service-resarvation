@@ -1,5 +1,6 @@
 import { Col, Flex, Row } from "antd";
 import { TService } from "../../types";
+import { Link } from "react-router-dom";
 
 type TServiceCardProps = {
   service: TService;
@@ -29,9 +30,11 @@ const ServiceCard = ({ service }: TServiceCardProps) => {
         md={{ span: 4 }}
       >
         <Flex justify="end">
-          <button className="bg-darkPrimary text-white font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-primary transform duration-300">
-            Details
-          </button>
+          <Link to={`/services/${service._id}`}>
+            <button className="bg-darkPrimary text-white font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-primary transform duration-300">
+              Details
+            </button>
+          </Link>
         </Flex>
       </Col>
     </Row>

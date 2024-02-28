@@ -1,31 +1,31 @@
 import { Col, Row, Skeleton } from "antd";
-import HamburgerToggler from "../components/ui/HamburgerToggler";
-import CommonSearchBar from "../components/ui/CommonSearchBar";
-import "../styles/Services.css";
-import { useGetServicesQuery } from "../redux/features/serviceManagement/service.api";
-import ServiceCard from "../components/ui/ServiceCard";
+import HamburgerToggler from "../../components/ui/HamburgerToggler";
+import CommonSearchBar from "../../components/ui/CommonSearchBar";
+import "../../styles/Providers.css";
+import ProviderCard from "../../components/ui/ProviderCard";
 import { FormEvent, useState } from "react";
-import NoItemCard from "../components/ui/NoItemCard";
+import NoItemCard from "../../components/ui/NoItemCard";
+import { useGetProvidersQuery } from "../../redux/features/userManagement/userManagement.api";
 /**
  * TODO:
- * 1. Fix the layout of the services page
+ * 1. Fix the layout of the providers page
  */
-const Services = () => {
+const Providers = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isFetching: isServiceFetching } = useGetServicesQuery([
+  const { data, isFetching: isProviderFetching } = useGetProvidersQuery([
     {
       name: "searchTerm",
       value: searchTerm,
     },
   ]);
-  const serviceData = data?.data;
+  const providerData = data?.data;
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
     setSearchTerm(e.currentTarget.value);
   };
 
   return (
-    <div className="services-container min-h-[80vh]">
+    <div className="providers-container min-h-[80vh]">
       <HamburgerToggler className="text-white" />
       <Row
         justify="center"
@@ -40,8 +40,7 @@ const Services = () => {
         >
           <CommonSearchBar onChange={onChange} />
         </Col>
-
-        {isServiceFetching ? (
+        {isProviderFetching ? (
           <Col
             className=" shadow-lg bg-white rounded-md p-4"
             span={24}
@@ -49,17 +48,17 @@ const Services = () => {
           >
             <Skeleton active />
           </Col>
-        ) : serviceData?.length ? (
-          serviceData?.map((service, index) => (
+        ) : providerData?.length ? (
+          providerData?.map((provider, index) => (
             <Col
               className=" shadow-lg"
               key={index}
               span={24}
               md={{ span: 16 }}
             >
-              <ServiceCard
+              <ProviderCard
                 key={index}
-                service={service}
+                provider={provider}
               />
             </Col>
           ))
@@ -69,7 +68,7 @@ const Services = () => {
             span={24}
             md={{ span: 16 }}
           >
-            <NoItemCard title="Service" />
+            <NoItemCard title="Provider" />
           </Col>
         )}
       </Row>
@@ -77,4 +76,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Providers;
