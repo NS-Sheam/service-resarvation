@@ -1,7 +1,5 @@
 import { Tag } from "antd";
 import { TService } from "../../../types";
-import CommonButton from "../CommonButton";
-
 type TServiceDetailsProps = {
   service: TService | undefined;
 };
