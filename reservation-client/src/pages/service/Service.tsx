@@ -7,6 +7,7 @@ import { MdAddCall, MdEmail, MdLocationPin } from "react-icons/md";
 import CommonButton from "../../components/ui/CommonButton";
 import ServiceDetails from "../../components/ui/Service/ServiceDetails";
 import PhotoAlbum from "react-photo-album";
+import Booking from "../../components/ui/Service/Booking";
 const Service = () => {
   const { id } = useParams<{ id: string }>();
   const { data: service, isLoading } = useGetSingleServiceQuery(id || "");
@@ -92,6 +93,14 @@ const Service = () => {
               layout="rows"
               photos={photos!}
             />
+          </Col>
+        )}
+        {tabItem === "Book" && (
+          <Col
+            span={24}
+            md={{ span: 22 }}
+          >
+            <Booking />
           </Col>
         )}
       </Col>

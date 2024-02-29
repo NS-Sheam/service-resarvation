@@ -10,3 +10,11 @@ export type TCustomer = {
   updatedAt: Date;
   __v: number;
 };
+
+export type TEventData = {
+  Id: number;
+  Subject: string;
+  StartTime: Date;
+  EndTime: Date;
+  isReadonly?: boolean;
+};
