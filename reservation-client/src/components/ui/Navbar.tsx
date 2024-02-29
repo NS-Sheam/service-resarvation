@@ -1,7 +1,6 @@
 import { Col, Row } from "antd";
 import "../../styles/Navbar.css";
 import ActiveNavLink from "../ActiveNavLink";
-import { RxCross1 } from "react-icons/rx";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toggleMenu } from "../../redux/features/header/header.slice";
 

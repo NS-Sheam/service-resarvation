@@ -70,6 +70,7 @@ const Login = () => {
                   <Button
                     style={{
                       marginBottom: "1rem",
+                      backgroundColor: "transparent",
                     }}
                     type="link"
                   >

@@ -7,12 +7,17 @@ type TActiveNavLinkProps = {
 };
 
 const ActiveNavLink = ({ to, children, ...remaining }: TActiveNavLinkProps) => {
-  const commonStyles = "text-xl md:text-2xl font-semibold block h-full flex justify-center items-center py-1 md:py-0";
+  const commonStyles =
+    "text-xl md:text-2xl font-semibold block h-full flex justify-center items-center py-1 md:py-0 mx-1";
   return (
     <NavLink
       to={to}
       {...remaining}
-      className={({ isActive }) => (isActive ? `bg-gray text-orange ${commonStyles}` : `text-white ${commonStyles} `)}
+      className={({ isActive }) =>
+        isActive
+          ? `bg-gray text-orange hover:text-orange ${commonStyles}`
+          : `text-white ${commonStyles} hover:bg-gray hover:text-white`
+      }
     >
       {children}
     </NavLink>
