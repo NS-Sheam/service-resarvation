@@ -17,22 +17,49 @@ import { Button, Input } from "antd";
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
 
 function Booking() {
+  let titleObj = useRef(null);
+  let startTimeObj = useRef(null);
+  let endTimeObj = useRef(null);
+
   const contentTemplate = (props) => {
     const isCell = props.elementType === "cell";
 
     return (
       <div className="quick-info-content">
-        <div className="e-cell-content">
-          <div className="content-area">
-            <Input
-              id="title"
-              ref={titleObj}
-              placeholder="Title"
-            />
+        {!isCell && (
+          <div className="e-cell-content">
+            <div className="content-area">
+              <Input
+                id="title"
+                ref={titleObj}
+                placeholder="Title"
+              />
+            </div>
+            <div className="content-area">
+              <Input
+                id="startTime"
+                ref={startTimeObj}
+                placeholder="Start Time"
+              />
+            </div>
+            <div className="content-area">
+              <Input
+                id="endTime"
+                ref={endTimeObj}
+                placeholder="End Time"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
+  };
+
+  const buttonClickActions = (e) => {
+    console.log("Clicked Event Data: ");
+    console.log("Title:", titleObj.current.value);
+    console.log("Start Time:", startTimeObj.current.value);
+    console.log("End Time:", endTimeObj.current.value);
   };
 
   const footerTemplate = (props) => {
@@ -42,7 +69,7 @@ function Booking() {
       <div className="quick-info-footer">
         {isCell && (
           <div className="cell-footer">
-            <Button className="e-event-details">Details</Button>
+            <Button onClick={buttonClickActions}>Save</Button>
           </div>
         )}
       </div>
@@ -52,8 +79,6 @@ function Booking() {
   const handleBooking = (e) => {
     console.log(e.data);
   };
-
-  let titleObj = useRef(null);
 
   const alreadyBooked = [
     {
