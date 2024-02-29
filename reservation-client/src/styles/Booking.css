@@ -1,11 +1,6 @@
-.e-delete-icon {
-  display: none;
+.e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-edit {
+  display: none !important;
 }
-
-.e-delete-icon::before {
-  display: none;
-}
-
-.e-edit-icon::before {
-  display: none;
+.e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-delete {
+  display: none !important;
 }
