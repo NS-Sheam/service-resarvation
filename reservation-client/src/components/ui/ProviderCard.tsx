@@ -30,10 +30,10 @@ const ProviderCard = ({ provider }: TProviderCardProps) => {
         className="text-left"
       >
         <h3 className="text-lg font-semibold text-darkPrimary">{provider.name}</h3>
-        <p className="text-gray">
+        <div className="text-gray">
           <p className="font-bold text-grayBlack">Provider:</p> {provider.name}{" "}
           <p className="font-bold text-grayBlack">Location:</p> {provider.location}
-        </p>
+        </div>
       </Col>
       <Col
         span={24}

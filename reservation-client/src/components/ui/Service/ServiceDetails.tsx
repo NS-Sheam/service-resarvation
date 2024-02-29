@@ -15,7 +15,10 @@ const ServiceDetails = ({ service }: TServiceDetailsProps) => {
       <div>
         <p className="font-semibold pb-2">Available Days:</p>
         {service?.provider?.availableSchedule?.map((schedule, index) => (
-          <p className="mb-2 font-bold">
+          <p
+            key={index}
+            className="mb-2 font-bold"
+          >
             <Tag
               key={index}
               color="blue"

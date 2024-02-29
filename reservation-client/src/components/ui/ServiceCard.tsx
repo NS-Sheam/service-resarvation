@@ -20,10 +20,10 @@ const ServiceCard = ({ service }: TServiceCardProps) => {
         className="text-left"
       >
         <h3 className="text-lg font-semibold text-darkPrimary">{service.name}</h3>
-        <p className="text-gray">
+        <div className="text-gray">
           <p className="font-bold text-grayBlack">Provider:</p> {service.provider.name}{" "}
           <p className="font-bold text-grayBlack">Location:</p> {service.provider.location}
-        </p>
+        </div>
       </Col>
       <Col
         span={24}
