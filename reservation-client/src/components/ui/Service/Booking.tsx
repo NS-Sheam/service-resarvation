@@ -16,42 +16,8 @@ registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
 
 function Booking() {
   const handleBooking = (e: any) => {
-    console.log(e);
+    console.log(e.data);
   };
-  //   {
-  //     "Id": 1,
-  //     "Subject": "New Year",
-  //     "StartTime": "2024-01-01T00:00:00Z",
-  //     "EndTime": "2024-01-01T00:00:00Z",
-  //     "IsAllDay": true,
-  //     "IsBlock": false,
-  //     "IsReadonly": false,
-  //     "RoomId": 1,
-  //     "ResourceId": 1
-  //     },
-  //     {
-  //     "Id": 2,
-  //     "Subject": "May Day",
-  //     "StartTime": "2024-02-29T00:00:00Z",
-  //     "EndTime": "2024-05-01T00:00:00Z",
-  //     "IsAllDay": true,
-  //     "IsBlock": false,
-  //     "IsReadonly": false,
-  //     "RoomId": 1,
-  //     "ResourceId": 1
-  //     },
-  //     {
-  //     "Id": 3,
-  //     "Subject": "Bering Sea Gold",
-  //     "StartTime": "2024-05-02T09:00:00Z",
-  //     "EndTime": "2024-05-02T10:30:00Z",
-  //     "IsAllDay": false,
-  //     "IsBlock": false,
-  //     "IsReadonly": false,
-  //     "RecurrenceRule": "FREQ=DAILY;INTERVAL=2;COUNT=10",
-  //     "RoomId": 1,
-  //     "ResourceId": 1
-  //     },
   const alreadyBooked = [
     {
       Id: 1,
@@ -118,6 +84,8 @@ function Booking() {
           endTime: { name: "EndTime" },
         },
       }}
+      //   editorTemplate={eventTemplate}
+      actionComplete={handleBooking}
       popupClose={handlePopupClose}
     >
       <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
