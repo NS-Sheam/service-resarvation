@@ -1,4 +1,5 @@
-import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject } from "@syncfusion/ej2-react-schedule";
+import { useRef } from "react";
+import { ScheduleComponent, Day, Week, Month, Inject } from "@syncfusion/ej2-react-schedule";
 import * as React from "react";
 import "../../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 import "../../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
@@ -10,14 +11,50 @@ import "../../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
 import "../../../../node_modules/@syncfusion/ej2-react-schedule/styles/material.css";
 import { registerLicense } from "@syncfusion/ej2-base";
 import "../../../styles/Booking.css";
+import { Button, Input } from "antd";
 
 // Set your provided Syncfusion license key here
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
 
 function Booking() {
-  const handleBooking = (e: any) => {
+  const contentTemplate = (props) => {
+    const isCell = props.elementType === "cell";
+
+    return (
+      <div className="quick-info-content">
+        <div className="e-cell-content">
+          <div className="content-area">
+            <Input
+              id="title"
+              ref={titleObj}
+              placeholder="Title"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const footerTemplate = (props) => {
+    const isCell = props.elementType === "cell";
+
+    return (
+      <div className="quick-info-footer">
+        {isCell && (
+          <div className="cell-footer">
+            <Button className="e-event-details">Details</Button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const handleBooking = (e) => {
     console.log(e.data);
   };
+
+  let titleObj = useRef(null);
+
   const alreadyBooked = [
     {
       Id: 1,
@@ -49,30 +86,6 @@ function Booking() {
     },
   ];
 
-  const data = [
-    {
-      Id: 5,
-      Subject: "Your Meeting", // Custom Event for Client
-      StartTime: new Date(2023, 1, 15, 10, 0),
-      EndTime: new Date(2023, 1, 15, 12, 30),
-    },
-  ];
-
-  const eventTemplate = (props) => {
-    if (props.isReadonly) {
-      return <div style={{ backgroundColor: "lightgray" }}>{props.Subject}</div>;
-    }
-    return <div>{props.Subject}</div>;
-  };
-
-  const handlePopupClose = (e: any) => {
-    console.log(e);
-  };
-
-  const buttonClickActions = (e: any) => {
-    console.log("Clicked Event Data: ");
-  };
-
   return (
     <ScheduleComponent
       selectedDate={new Date(2023, 1, 15)}
@@ -84,11 +97,15 @@ function Booking() {
           endTime: { name: "EndTime" },
         },
       }}
-      //   editorTemplate={eventTemplate}
+      editorTemplate={contentTemplate}
       actionComplete={handleBooking}
-      popupClose={handlePopupClose}
+      eventClick={contentTemplate}
+      quickInfoTemplates={{
+        content: contentTemplate,
+        footer: footerTemplate,
+      }}
     >
-      <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
+      <Inject services={[Day, Week, Month]} />
     </ScheduleComponent>
   );
 }
