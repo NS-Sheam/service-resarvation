@@ -1,6 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { toggleMenu } from "../../redux/features/header/header.slice";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { RxCross1 } from "react-icons/rx";
 
 type THamburgerTogglerProps = {
   className?: string;
@@ -8,12 +9,20 @@ type THamburgerTogglerProps = {
 
 const HamburgerToggler = ({ className }: THamburgerTogglerProps) => {
   const dispatch = useAppDispatch();
+  const { isMenuOpen } = useAppSelector((state) => state.header);
   return (
     <div className={`md:hidden py-4 text-3xl top-2 right-2 ${className}`}>
-      <GiHamburgerMenu
-        className="absolute top-2 right-2"
-        onClick={() => dispatch(toggleMenu())}
-      />
+      {isMenuOpen ? (
+        <RxCross1
+          onClick={() => dispatch(toggleMenu())}
+          className="text-3xl absolute top-2 right-2"
+        />
+      ) : (
+        <GiHamburgerMenu
+          className="absolute top-2 right-2"
+          onClick={() => dispatch(toggleMenu())}
+        />
+      )}
     </div>
   );
 };

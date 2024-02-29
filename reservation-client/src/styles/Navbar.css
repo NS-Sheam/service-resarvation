@@ -1,9 +1,12 @@
 .navbar .menu-link,
 .navbar .active-menu-link {
-  color: #00296b;
+  color: #ffffff;
   transition: all 0.3s ease;
 }
-.menu-link:before,
+.active-menu-link {
+  color: #f8b400;
+}
+/* .menu-link:before,
 active-menu-link::before {
   content: "";
   width: 100%;
@@ -27,4 +30,4 @@ active-menu-link::before {
 }
 .menu-link:hover:before {
   transform: scaleX(1);
-}
+} */

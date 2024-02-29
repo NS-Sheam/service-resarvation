@@ -21,6 +21,10 @@ const Navbar = () => {
       title: "Providers",
       path: "/providers",
     },
+    {
+      title: "Login",
+      path: "/auth",
+    },
   ];
 
   return (
@@ -28,34 +32,34 @@ const Navbar = () => {
       <Row
         align="middle"
         justify="space-between"
-        className="navbar text-center py-6 bg-primary hidden md:flex"
+        className="navbar text-center h-16 bg-grayBlack hidden md:flex"
       >
         <Col span={6}>
-          <h1 className="text-nevyBlue">Logo</h1>
+          <h1 className="text-white">Logo</h1>
         </Col>
-        <Col span={12}>
-          <Row justify="center">
+        <Col
+          span={12}
+          className="h-full"
+        >
+          <Row
+            justify="center"
+            className="h-full"
+          >
             {mainMenuItems.map((item, index) => (
               <Col
                 key={index}
-                span={8}
+                span={6}
+                className=""
               >
-                <span className="relative">
-                  <ActiveNavLink
-                    to={item.path}
-                    className="menu-link"
-                  >
-                    {item.title}
-                  </ActiveNavLink>
-                </span>
+                <ActiveNavLink
+                  to={item.path}
+                  className="menu-link"
+                >
+                  {item.title}
+                </ActiveNavLink>
               </Col>
             ))}
           </Row>
-        </Col>
-        <Col span={6}>
-          <span className="relative">
-            <ActiveNavLink to="/auth">Login</ActiveNavLink>
-          </span>
         </Col>
       </Row>
 
@@ -67,7 +71,7 @@ const Navbar = () => {
       >
         <Col
           span={20}
-          className={`absolute top-2 right-2 transform ${
+          className={`absolute top-12 right-6 transform ${
             isMenuOpen ? "flex" : "hidden"
           } transition-all duration-300 z-50`}
         >
@@ -78,7 +82,7 @@ const Navbar = () => {
               border: "2px solid #ffd500",
               borderRadius: "0.5rem",
             }}
-            className="py-6 px-4 bg-primary md:hidden shadow-sm shadow-white"
+            className=" py-6 px-4 bg-grayBlack md:hidden shadow-sm shadow-white"
             gutter={[0, 16]}
           >
             {mainMenuItems.map((item, index) => (
@@ -86,36 +90,14 @@ const Navbar = () => {
                 key={index}
                 span={24}
               >
-                <span
-                  className="relative "
+                <ActiveNavLink
+                  to={item.path}
                   onClick={() => dispatch(toggleMenu())}
                 >
-                  <ActiveNavLink
-                    to={item.path}
-                    className=""
-                  >
-                    {item.title}
-                  </ActiveNavLink>
-                </span>
+                  {item.title}
+                </ActiveNavLink>
               </Col>
             ))}
-            <Col span={24}>
-              <span
-                className="relative"
-                onClick={() => dispatch(toggleMenu())}
-              >
-                <ActiveNavLink
-                  to="/auth"
-                  className="text-xl font-semibold text-nevyBlue"
-                >
-                  Login
-                </ActiveNavLink>
-              </span>
-            </Col>
-            <RxCross1
-              onClick={() => dispatch(toggleMenu())}
-              className="text-nevyBlue text-3xl absolute top-2 right-2"
-            />
           </Row>
         </Col>
       </Row>
