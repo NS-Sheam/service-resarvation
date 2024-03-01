@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ScheduleComponent, Day, Week, Month, Inject } from "@syncfusion/ej2-react-schedule";
 import * as React from "react";
 import "../../../../node_modules/@syncfusion/ej2-base/styles/material.css";
@@ -11,7 +11,10 @@ import "../../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
 import "../../../../node_modules/@syncfusion/ej2-react-schedule/styles/material.css";
 import { registerLicense } from "@syncfusion/ej2-base";
 import "../../../styles/Booking.css";
-import { Button, Input } from "antd";
+import { Button, Input, TimePicker, DatePicker } from "antd";
+import moment from "moment";
+import { DatePickerComponent, TimePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { toast } from "sonner";
 
 // Set your provided Syncfusion license key here
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
@@ -22,62 +25,35 @@ function Booking() {
   let endTimeObj = useRef(null);
 
   const contentTemplate = (props) => {
-    const isCell = props.elementType === "cell";
-
     return (
       <div className="quick-info-content">
-        {!isCell && (
-          <div className="e-cell-content">
-            <div className="content-area">
-              <Input
-                id="title"
-                ref={titleObj}
-                placeholder="Title"
-              />
-            </div>
-            <div className="content-area">
-              <Input
-                id="startTime"
-                ref={startTimeObj}
-                placeholder="Start Time"
-              />
-            </div>
-            <div className="content-area">
-              <Input
-                id="endTime"
-                ref={endTimeObj}
-                placeholder="End Time"
-              />
-            </div>
+        <div className="e-cell-content">
+          <div className="content-area">
+            <DatePickerComponent
+              value={props.StartTime}
+              placeholder="Date"
+              format="yyyy-MMMM-dd hh:mm a"
+              disabled
+            />
           </div>
-        )}
+          <div className="content-area">
+            <TimePickerComponent
+              placeholder="End Time"
+              format="hh:mm a"
+              cssClass="time-picker"
+            />
+          </div>
+        </div>
       </div>
     );
   };
 
   const buttonClickActions = (e) => {
     console.log("Clicked Event Data: ");
-    console.log("Title:", titleObj.current.value);
-    console.log("Start Time:", startTimeObj.current.value);
-    console.log("End Time:", endTimeObj.current.value);
-  };
-
-  const footerTemplate = (props) => {
-    const isCell = props.elementType === "cell";
-
-    return (
-      <div className="quick-info-footer">
-        {isCell && (
-          <div className="cell-footer">
-            <Button onClick={buttonClickActions}>Save</Button>
-          </div>
-        )}
-      </div>
-    );
   };
 
   const handleBooking = (e) => {
-    console.log(e.data);
+    console.log("Event Data: ");
   };
 
   const alreadyBooked = [
@@ -127,8 +103,8 @@ function Booking() {
       eventClick={contentTemplate}
       quickInfoTemplates={{
         content: contentTemplate,
-        footer: footerTemplate,
       }}
+      editorHeaderTemplate={null}
     >
       <Inject services={[Day, Week, Month]} />
     </ScheduleComponent>
