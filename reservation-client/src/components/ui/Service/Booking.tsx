@@ -1,6 +1,14 @@
-import { useRef, useState } from "react";
-import { ScheduleComponent, Day, Week, Month, Inject } from "@syncfusion/ej2-react-schedule";
-import * as React from "react";
+import { useRef } from "react";
+import {
+  ScheduleComponent,
+  Day,
+  Week,
+  Month,
+  Inject,
+  ViewDirective,
+  ViewsDirective,
+  EventFieldsMapping,
+} from "@syncfusion/ej2-react-schedule";
 import "../../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 import "../../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 import "../../../../node_modules/@syncfusion/ej2-calendars/styles/material.css";
@@ -11,21 +19,27 @@ import "../../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
 import "../../../../node_modules/@syncfusion/ej2-react-schedule/styles/material.css";
 import { registerLicense } from "@syncfusion/ej2-base";
 import "../../../styles/Booking.css";
-import { Button, Input, TimePicker, DatePicker } from "antd";
-import moment from "moment";
 import { DatePickerComponent, TimePickerComponent } from "@syncfusion/ej2-react-calendars";
-import { toast } from "sonner";
 
 // Set your provided Syncfusion license key here
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
 
-function Booking() {
-  let titleObj = useRef(null);
-  let startTimeObj = useRef(null);
-  let endTimeObj = useRef(null);
+interface BookingData {
+  Id: number;
+  Subject: string;
+  StartTime: Date;
+  EndTime: Date;
+  IsReadonly: boolean;
+}
 
-  const contentTemplate = (props) => {
-    return (
+function Booking() {
+  let startTimeObj = useRef<TimePickerComponent>(null);
+  let endTimeObj = useRef<TimePickerComponent>(null);
+
+  const contentTemplate = (props: { StartTime: Date; IsReadonly: boolean }) => {
+    return props.IsReadonly ? (
+      <div className="text-center">Already Booked</div>
+    ) : (
       <div className="quick-info-content">
         <div className="e-cell-content">
           <div className="content-area">
@@ -48,39 +62,39 @@ function Booking() {
     );
   };
 
-  const buttonClickActions = (e) => {
+  const buttonClickActions = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log("Clicked Event Data: ");
   };
 
-  const handleBooking = (e) => {
-    console.log("Event Data: ");
+  const handleBooking = (e: { data: BookingData }) => {
+    console.log("Event Data: ", e.data);
   };
 
-  const alreadyBooked = [
+  const alreadyBooked: BookingData[] = [
     {
       Id: 1,
-      Subject: "Meeting",
+      Subject: "Booked",
       StartTime: new Date(2023, 1, 15, 10, 0),
       EndTime: new Date(2023, 1, 15, 12, 30),
-      isBlock: true,
+      IsReadonly: true,
     },
     {
       Id: 2,
-      Subject: "Meeting",
+      Subject: "Booked",
       StartTime: new Date(2023, 1, 15, 13, 0),
       EndTime: new Date(2023, 1, 15, 14, 30),
       IsReadonly: true,
     },
     {
       Id: 3,
-      Subject: "Meeting",
+      Subject: "Booked",
       StartTime: new Date(2023, 1, 15, 15, 0),
       EndTime: new Date(2023, 1, 15, 16, 30),
       IsReadonly: true,
     },
     {
       Id: 4,
-      Subject: "Meeting",
+      Subject: "Booked",
       StartTime: new Date(2023, 1, 15, 17, 0),
       EndTime: new Date(2023, 1, 15, 18, 30),
       IsReadonly: true,
@@ -93,10 +107,10 @@ function Booking() {
       eventSettings={{
         dataSource: alreadyBooked,
         fields: {
-          subject: { name: "Subject" },
-          startTime: { name: "StartTime" },
-          endTime: { name: "EndTime" },
-        },
+          subject: "Subject",
+          startTime: "StartTime",
+          endTime: "EndTime",
+        } as EventFieldsMapping,
       }}
       editorTemplate={contentTemplate}
       actionComplete={handleBooking}
@@ -106,6 +120,11 @@ function Booking() {
       }}
       editorHeaderTemplate={null}
     >
+      <ViewsDirective>
+        <ViewDirective option="Day" />
+        <ViewDirective option="Week" />
+        <ViewDirective option="Month" />
+      </ViewsDirective>
       <Inject services={[Day, Week, Month]} />
     </ScheduleComponent>
   );
