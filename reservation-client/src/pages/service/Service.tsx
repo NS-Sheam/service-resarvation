@@ -8,9 +8,12 @@ import CommonButton from "../../components/ui/CommonButton";
 import ServiceDetails from "../../components/ui/Service/ServiceDetails";
 import PhotoAlbum from "react-photo-album";
 import Booking from "../../components/ui/Service/Booking";
+import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 const Service = () => {
   const { id } = useParams<{ id: string }>();
   const { data: service, isLoading } = useGetSingleServiceQuery(id || "");
+  const { data: user, isFetching: isUserFetching, isLoading: isUserLoading } = useGetMyInfoQuery(undefined);
+
   const [tabItem, setTabItem] = useState("Details");
   const providerContactInfos = [
     {
@@ -74,13 +77,29 @@ const Service = () => {
             className="space-y-1"
           >
             <ServiceDetails service={service} />
-            <Col span={6}>
-              <CommonButton
-                size="large"
-                onClick={() => setTabItem("Book")}
-              >
-                Book Now
-              </CommonButton>
+            <Col
+              span={12}
+              md={{ span: 8 }}
+              className="space-y-2"
+            >
+              {user?.data?._id === service?.provider._id ? (
+                <>
+                  <CommonButton size="large">Edit Service</CommonButton>
+                  <CommonButton
+                    size="large"
+                    backgroundColor="#ff4d4f"
+                  >
+                    Delete Service
+                  </CommonButton>
+                </>
+              ) : (
+                <CommonButton
+                  size="large"
+                  onClick={() => setTabItem("Book")}
+                >
+                  Book Now
+                </CommonButton>
+              )}
             </Col>
           </Col>
         )}

@@ -2,14 +2,12 @@ import { Col, Row, Skeleton } from "antd";
 import HamburgerToggler from "../../components/ui/HamburgerToggler";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 import { useGetServicesQuery } from "../../redux/features/serviceManagement/service.api";
-import { useAppSelector } from "../../redux/hooks";
 import CommonButton from "../../components/ui/CommonButton";
 import ServiceCard from "../../components/ui/ServiceCard";
 import NoItemCard from "../../components/ui/NoItemCard";
 
 const MyServices = () => {
   const { data: user, isFetching: isUserFetching, isLoading } = useGetMyInfoQuery(undefined);
-  console.log(user?.data?._id);
 
   const { data, isFetching: isServiceFetching } = useGetServicesQuery(
     [
