@@ -11,8 +11,6 @@ type TRInputProps = {
 };
 
 const RInput = ({ type, name, label, disabled, defaultValue, ...remainingProps }: TRInputProps) => {
-  console.log(defaultValue);
-
   return (
     <div>
       <Controller
