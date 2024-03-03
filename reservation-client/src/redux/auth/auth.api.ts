@@ -1,4 +1,4 @@
-import { TReduxResponse, TUser } from "../../types";
+import { TCustomer, TProvider, TReduxResponse } from "../../types";
 import { baseApi } from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -55,7 +55,7 @@ const authApi = baseApi.injectEndpoints({
         url: "/users/me",
         method: "GET",
       }),
-      transformResponse: (response: TReduxResponse<TUser>) => {
+      transformResponse: (response: TReduxResponse<TProvider>) => {
         return {
           data: response.data,
         };

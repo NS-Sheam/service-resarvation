@@ -10,6 +10,7 @@ import Providers from "../pages/provider/Providers";
 import Service from "../pages/service/Service";
 import Provider from "../pages/provider/Provider";
 import MyServices from "../pages/provider/MyServices";
+import AddService from "../pages/provider/AddService";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/my-services",
         element: <MyServices />,
+      },
+      {
+        path: "/provider/add-service",
+        element: <AddService />,
       },
     ],
   },

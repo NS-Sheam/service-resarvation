@@ -2,18 +2,20 @@ import { Form } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Controller } from "react-hook-form";
 
-type TEcomTextAreaInputProps = {
+type TRTextAreaInputProps = {
   name: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
+  [key: string]: any;
 };
-const EComTextAreaInput = ({ label, name, placeholder }: TEcomTextAreaInputProps) => {
+const RTextAreaInput = ({ label, name, placeholder, ...remaining }: TRTextAreaInputProps) => {
   return (
     <Controller
       name={name}
       render={({ field, fieldState: { error } }) => (
         <Form.Item label={label}>
           <TextArea
+            {...remaining}
             {...field}
             name={name}
             // value={value}
@@ -28,4 +30,4 @@ const EComTextAreaInput = ({ label, name, placeholder }: TEcomTextAreaInputProps
   );
 };
 
-export default EComTextAreaInput;
+export default RTextAreaInput;

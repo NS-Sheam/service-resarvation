@@ -5,6 +5,7 @@ import { useGetServicesQuery } from "../../redux/features/serviceManagement/serv
 import CommonButton from "../../components/ui/CommonButton";
 import ServiceCard from "../../components/ui/ServiceCard";
 import NoItemCard from "../../components/ui/NoItemCard";
+import { Link } from "react-router-dom";
 
 const MyServices = () => {
   const { data: user, isFetching: isUserFetching, isLoading } = useGetMyInfoQuery(undefined);
@@ -37,12 +38,9 @@ const MyServices = () => {
         >
           <Row justify="start">
             <Col>
-              <CommonButton
-                type="primary"
-                to="/services/add"
-              >
-                Add Service
-              </CommonButton>
+              <Link to="/provider/add-service">
+                <CommonButton>Add Service</CommonButton>
+              </Link>
             </Col>
           </Row>
         </Col>

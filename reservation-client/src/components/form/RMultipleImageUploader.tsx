@@ -14,12 +14,12 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-type TEComMultipleImageUploaderProps = {
+type TRMultipleImageUploaderProps = {
   name: string;
   label: string;
 };
 
-const EComMultipleImageUploader = ({ name, label }: TEComMultipleImageUploaderProps) => {
+const RMultipleImageUploader = ({ name, label }: TRMultipleImageUploaderProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -86,4 +86,4 @@ const EComMultipleImageUploader = ({ name, label }: TEComMultipleImageUploaderPr
   );
 };
 
-export default EComMultipleImageUploader;
+export default RMultipleImageUploader;
