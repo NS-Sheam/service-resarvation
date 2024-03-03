@@ -157,7 +157,17 @@ const AddService = () => {
                   />
                 </Col>
               </Row>
-              <CommonButton htmlType="submit">Register</CommonButton>
+              <Row
+                justify="end"
+                align="middle"
+              >
+                <Col
+                  span={8}
+                  className="text-center"
+                >
+                  <CommonButton htmlType="submit">Add Service</CommonButton>
+                </Col>
+              </Row>
             </RForm>
           </Col>
         </Row>
