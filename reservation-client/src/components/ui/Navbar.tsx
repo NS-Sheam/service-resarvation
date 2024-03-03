@@ -21,6 +21,10 @@ const Navbar = () => {
       path: "/providers",
     },
     {
+      title: "My Services",
+      path: "/my-services",
+    },
+    {
       title: "Login",
       path: "/auth",
     },
@@ -37,7 +41,7 @@ const Navbar = () => {
           <h1 className="text-white">Logo</h1>
         </Col>
         <Col
-          span={12}
+          span={16}
           className="h-full"
         >
           <Row
@@ -47,7 +51,7 @@ const Navbar = () => {
             {mainMenuItems.map((item, index) => (
               <Col
                 key={index}
-                span={6}
+                span={4}
                 className=""
               >
                 <ActiveNavLink
