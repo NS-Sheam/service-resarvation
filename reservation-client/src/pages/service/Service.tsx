@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetSingleServiceQuery } from "../../redux/features/serviceManagement/service.api";
 import { Col, Modal, Row, Spin } from "antd";
 import { useState } from "react";
@@ -36,7 +36,6 @@ const Service = () => {
       info: service?.provider.phone,
     },
   ];
-  console.log(service);
 
   if (isLoading) {
     return (
@@ -81,7 +80,14 @@ const Service = () => {
             >
               {user?.data?._id === service?.provider._id ? (
                 <>
-                  <CommonButton size="large">Edit Service</CommonButton>
+                  <Link to={`/provider/edit-service/${service?._id}`}>
+                    <CommonButton
+                      size="large"
+                      backgroundColor="#0096c7"
+                    >
+                      Edit Service
+                    </CommonButton>
+                  </Link>
                   <CommonButton
                     size="large"
                     backgroundColor="#ff4d4f"

@@ -6,16 +6,26 @@ import RMultipleImageUploader from "../../components/form/RMultipleImageUploader
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 import RTextAreaInput from "../../components/form/RTextAreaInput";
 import { TReduxResponse, TService } from "../../types";
-import { useAddServiceMutation } from "../../redux/features/serviceManagement/service.api";
+import { useAddServiceMutation, useGetSingleServiceQuery } from "../../redux/features/serviceManagement/service.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import { useParams } from "react-router-dom";
 
 const AddService = () => {
+  const { id } = useParams<{ id: string }>();
+  const {
+    data: service,
+    isLoading: isServiceLoading,
+    isFetching: isServiceFetching,
+  } = useGetSingleServiceQuery(id || "");
+
   const { data: user, isLoading: isUserLoading, isFetching: isUserFetching } = useGetMyInfoQuery(undefined);
   const [addService] = useAddServiceMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Adding Service...");
+    console.log(data);
+
     const serviceInfo = {
       ...data,
       pricePerHour: Number(data.pricePerHour),
@@ -50,7 +60,7 @@ const AddService = () => {
     borderRadius: "5px",
   };
 
-  if (isUserLoading || isUserFetching) {
+  if (isUserLoading || isUserFetching || isServiceLoading || isServiceFetching) {
     return (
       <div className="min-h-[calc(100vh-20vh)] flex justify-center items-center">
         <Spin size="large" />
@@ -90,7 +100,10 @@ const AddService = () => {
           style={{ minHeight: "100vh" }}
         >
           <Col span={24}>
-            <RForm onSubmit={onSubmit}>
+            <RForm
+              onSubmit={onSubmit}
+              defaultValues={service}
+            >
               <Row gutter={8}>
                 <Col
                   span={24}
@@ -154,6 +167,7 @@ const AddService = () => {
                   <RMultipleImageUploader
                     name="images"
                     label="Image"
+                    defaultImages={service?.images || []}
                   />
                 </Col>
               </Row>
