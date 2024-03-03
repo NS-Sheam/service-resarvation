@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Form, Modal, Upload } from "antd";
 import type { GetProp, UploadFile, UploadProps } from "antd";
@@ -17,13 +17,27 @@ const getBase64 = (file: FileType): Promise<string> =>
 type TRMultipleImageUploaderProps = {
   name: string;
   label: string;
+  defaultImages?: string[]; // Add defaultImages prop as an array of strings
 };
 
-const RMultipleImageUploader = ({ name, label }: TRMultipleImageUploaderProps) => {
+const RMultipleImageUploader = ({ name, label, defaultImages }: TRMultipleImageUploaderProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  // Set default images when the component mounts
+  useEffect(() => {
+    if (defaultImages && defaultImages.length > 0) {
+      const defaultFiles = defaultImages.map((src, index) => ({
+        uid: `-${index}`,
+        name: `default-image-${index}`,
+        status: "done",
+        url: src,
+      }));
+      setFileList(defaultFiles as UploadFile[]);
+    }
+  }, [defaultImages]);
 
   const handleCancel = () => setPreviewOpen(false);
 
