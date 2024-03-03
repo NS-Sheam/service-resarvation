@@ -61,6 +61,10 @@ const router = createBrowserRouter([
         path: "/provider/add-service",
         element: <AddService />,
       },
+      {
+        path: "/provider/edit-service/:id",
+        element: <AddService />,
+      },
     ],
   },
 ]);

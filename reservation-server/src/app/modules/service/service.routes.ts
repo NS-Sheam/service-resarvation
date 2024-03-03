@@ -17,7 +17,6 @@ router.post(
   upload.array("files", 10),
   textToJsonParser,
   auth(USER_ROLE.admin, USER_ROLE.provider),
-
   validateRequest(ServiceValidations.createServiceValidationSchema),
   ServiceControllers.addService,
 );

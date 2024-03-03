@@ -5,7 +5,11 @@ import catchAsync from "../../utils/catchAsync";
 import { ServiceServices } from "./service.service";
 
 const addService = catchAsync(async (req: Request, res: Response) => {
-  const result = await ServiceServices.addService(req.body, req.files);
+  const result = await ServiceServices.addService(
+    req.user.userId,
+    req.body,
+    req.files,
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

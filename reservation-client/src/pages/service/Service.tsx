@@ -1,19 +1,26 @@
 import { useParams } from "react-router-dom";
 import { useGetSingleServiceQuery } from "../../redux/features/serviceManagement/service.api";
-import { Col, Row, Spin } from "antd";
+import { Col, Modal, Row, Spin } from "antd";
 import { useState } from "react";
 import BookingToogler from "../../components/ui/Service/BookingToogler";
 import { MdAddCall, MdEmail, MdLocationPin } from "react-icons/md";
 import CommonButton from "../../components/ui/CommonButton";
 import ServiceDetails from "../../components/ui/Service/ServiceDetails";
-import PhotoAlbum from "react-photo-album";
 import Booking from "../../components/ui/Service/Booking";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 const Service = () => {
   const { id } = useParams<{ id: string }>();
   const { data: service, isLoading } = useGetSingleServiceQuery(id || "");
   const { data: user, isFetching: isUserFetching, isLoading: isUserLoading } = useGetMyInfoQuery(undefined);
-
+  const [viewerVisible, setViewerVisible] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
+  const showViewer = (src) => {
+    setCurrentImage(src);
+    setViewerVisible(true);
+  };
+  const closeViewer = () => {
+    setViewerVisible(false);
+  };
   const [tabItem, setTabItem] = useState("Details");
   const providerContactInfos = [
     {
@@ -38,16 +45,6 @@ const Service = () => {
       </div>
     );
   }
-
-  const photos = service?.images.map((image) => ({
-    src: image,
-    width: 1000,
-    height: 800,
-    srcSet: [
-      { src: image, width: 400, height: 300 },
-      { src: image, width: 200, height: 150 },
-    ],
-  }));
 
   return (
     <Row
@@ -104,14 +101,25 @@ const Service = () => {
           </Col>
         )}
         {tabItem === "Gallery" && (
-          <Col
-            span={24}
-            md={{ span: 16 }}
-          >
-            <PhotoAlbum
-              layout="rows"
-              photos={photos!}
-            />
+          <Col span={24}>
+            <Row gutter={[16, 16]}>
+              {service?.images &&
+                service?.images.map((src, index) => (
+                  <Col
+                    key={index}
+                    span={24}
+                    md={{ span: 8 }}
+                  >
+                    <div onClick={() => showViewer(src)}>
+                      <img
+                        src={src}
+                        alt={`Photo ${index}`}
+                        style={{ width: "100%", height: "10rem", cursor: "pointer" }}
+                      />
+                    </div>
+                  </Col>
+                ))}
+            </Row>
           </Col>
         )}
         {tabItem === "Book" && (
@@ -164,6 +172,19 @@ const Service = () => {
           </Col>
         </Row>
       </Col>
+      <Modal
+        open={viewerVisible}
+        onCancel={closeViewer}
+        footer={null}
+        centered
+        style={{ top: 20 }}
+      >
+        <img
+          src={currentImage}
+          alt="Current"
+          style={{ width: "100%", height: "100%" }}
+        />
+      </Modal>
     </Row>
   );
 };

@@ -8,30 +8,35 @@ import RTextAreaInput from "../../components/form/RTextAreaInput";
 import { TReduxResponse, TService } from "../../types";
 import { useAddServiceMutation } from "../../redux/features/serviceManagement/service.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 const AddService = () => {
   const { data: user, isLoading: isUserLoading, isFetching: isUserFetching } = useGetMyInfoQuery(undefined);
   const [addService] = useAddServiceMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading("Adding Product...");
+    const toastId = toast.loading("Adding Service...");
     const serviceInfo = {
       ...data,
+      pricePerHour: Number(data.pricePerHour),
     };
 
     const formData = new FormData() as any;
     formData.append("data", JSON.stringify(serviceInfo));
 
     await data?.images?.forEach((image: any) => {
-      formData.append("file", image);
+      formData.append("files", image);
     });
     try {
       const res = (await addService(formData)) as TReduxResponse<TService>;
+      console.log(res);
 
       if (!res.error) {
-        toast.success(res.message || "Product added successfully", { id: toastId, duration: 2000 });
+        toast.success(res.message || "Service added successfully", { id: toastId, duration: 2000 });
       } else {
-        toast.error(res.error.message || "Product adding failed", { id: toastId, duration: 2000 });
+        toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
+          id: toastId,
+        });
       }
     } catch (error: any) {
       toast.error(error.message || "Product adding failed", { id: toastId, duration: 2000 });
@@ -121,6 +126,7 @@ const AddService = () => {
                     type="text"
                     name="phone"
                     label="Mobile No"
+                    defaultValue={user?.data?.phone}
                     required
                   />
                 </Col>

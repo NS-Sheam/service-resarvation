@@ -10,15 +10,12 @@ import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { JwtPayload } from "jsonwebtoken";
 import { Provider } from "../provider/provider.model";
 import mongoose from "mongoose";
-/*TODO:
-- Query service based on provider location
-*/
-const addService = async (payload: TService, files: any) => {
-  const isProviderExist = await Provider.findById(payload.provider);
+const addService = async (userId: string, payload: TService, files: any) => {
+  const isProviderExist = await Provider.findOne({ user: userId });
   if (!isProviderExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
   }
-
+  payload.provider = isProviderExist._id;
   payload.location = isProviderExist.location;
 
   const images: string[] = [];
