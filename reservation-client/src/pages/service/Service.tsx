@@ -11,10 +11,10 @@ import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 const Service = () => {
   const { id } = useParams<{ id: string }>();
   const { data: service, isLoading } = useGetSingleServiceQuery(id || "");
-  const { data: user, isFetching: isUserFetching, isLoading: isUserLoading } = useGetMyInfoQuery(undefined);
+  const { data: user } = useGetMyInfoQuery(undefined);
   const [viewerVisible, setViewerVisible] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
-  const showViewer = (src) => {
+  const showViewer = (src: string) => {
     setCurrentImage(src);
     setViewerVisible(true);
   };

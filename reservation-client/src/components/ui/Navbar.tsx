@@ -21,10 +21,6 @@ const Navbar = () => {
       path: "/providers",
     },
     {
-      title: "My Services",
-      path: "/my-services",
-    },
-    {
       title: "Login",
       path: "/auth",
     },

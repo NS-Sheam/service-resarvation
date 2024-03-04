@@ -6,11 +6,16 @@ import { useGetServicesQuery } from "../../redux/features/serviceManagement/serv
 import ServiceCard from "../../components/ui/ServiceCard";
 import { FormEvent, useState } from "react";
 import NoItemCard from "../../components/ui/NoItemCard";
+import { Link } from "react-router-dom";
+import CommonButton from "../../components/ui/CommonButton";
+import { useAppSelector } from "../../redux/hooks";
 /**
  * TODO:
  * 1. Fix the layout of the services page
  */
 const Services = () => {
+  const { user } = useAppSelector((state) => state.auth);
+
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isFetching: isServiceFetching } = useGetServicesQuery([
     {
@@ -40,6 +45,30 @@ const Services = () => {
         >
           <CommonSearchBar onChange={onChange} />
         </Col>
+        {user?.role === "provider" && (
+          <Col
+            span={24}
+            md={{ span: 16 }}
+            className="shadow-lg"
+          >
+            <Row
+              justify="space-between"
+              align="middle"
+              gutter={[8, 0]}
+            >
+              <Col span={8}>
+                <Link to="/provider/add-service">
+                  <CommonButton>Add Service</CommonButton>
+                </Link>
+              </Col>
+              <Col span={8}>
+                <Link to="/provider/my-services">
+                  <CommonButton>My Service</CommonButton>
+                </Link>
+              </Col>
+            </Row>
+          </Col>
+        )}
 
         {isServiceFetching ? (
           <Col
