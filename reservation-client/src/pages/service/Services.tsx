@@ -9,20 +9,33 @@ import NoItemCard from "../../components/ui/NoItemCard";
 import { Link } from "react-router-dom";
 import CommonButton from "../../components/ui/CommonButton";
 import { useAppSelector } from "../../redux/hooks";
+import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 /**
  * TODO:
  * 1. Fix the layout of the services page
  */
 const Services = () => {
   const { user } = useAppSelector((state) => state.auth);
-
+  const { data: pData, isFetching: isUserFetching, isLoading } = useGetMyInfoQuery(undefined);
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isFetching: isServiceFetching } = useGetServicesQuery([
+  const [providerId, setProviderId] = useState("");
+
+  const searchQuery = [
     {
       name: "searchTerm",
       value: searchTerm,
     },
-  ]);
+  ];
+
+  if (providerId) {
+    searchQuery.push({
+      name: "provider",
+      value: providerId,
+    });
+  }
+  const { data, isFetching: isServiceFetching } = useGetServicesQuery(searchQuery, {
+    skip: !pData?.data?._id || isUserFetching || isLoading,
+  });
   const serviceData = data?.data;
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
@@ -61,10 +74,11 @@ const Services = () => {
                   <CommonButton>Add Service</CommonButton>
                 </Link>
               </Col>
-              <Col span={8}>
-                <Link to="/provider/my-services">
-                  <CommonButton>My Service</CommonButton>
-                </Link>
+              <Col
+                span={8}
+                onClick={() => setProviderId(pData?.data?._id as string)}
+              >
+                <CommonButton>My Service</CommonButton>
               </Col>
             </Row>
           </Col>
