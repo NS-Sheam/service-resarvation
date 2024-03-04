@@ -1,14 +1,19 @@
 import { Link, useParams } from "react-router-dom";
 import { useGetSingleBookingQuery } from "../../redux/features/bookingManagement/bookingApi.api";
-import { Col, Row, Tag } from "antd";
+import { Col, Row, Spin } from "antd";
 import CommonButton from "../../components/ui/CommonButton";
-import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { MdAddCall, MdEmail, MdLocationPin } from "react-icons/md";
+import BookingDetails from "../../components/ui/booking/BookingDetails";
+import UserContactCard from "../../components/ui/UserContactCard";
 
 const SingleMyBooking = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: bookingData } = useGetSingleBookingQuery(id || "");
+  const {
+    data: bookingData,
+    isLoading: isBookingLoading,
+    isFetching: isBookingFetching,
+  } = useGetSingleBookingQuery(id || "");
   const { user } = useAppSelector((state) => state.auth);
   const contactInfo = [
     {
@@ -25,6 +30,13 @@ const SingleMyBooking = () => {
       icon: <MdLocationPin />,
       info: bookingData?.provider?.location,
     });
+  }
+  if (isBookingLoading || isBookingFetching) {
+    return (
+      <div className="min-h-[calc(100vh-20vh)] flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
   }
   return (
     <Row
@@ -47,19 +59,7 @@ const SingleMyBooking = () => {
             span={24}
             className="space-y-1"
           >
-            <h2>Booking Details</h2>
-            <h1 className="text-3xl lg:text-4xl font-semibold text-nevyBlue ">{bookingData?.service?.name}</h1>
-            <p className="font-bold text-2xl text-darkPrimary">
-              ${bookingData?.service?.pricePerHour} <span className="text-gray font-semibold">per hour</span>
-            </p>
-            <p className="text-gray text-xl">{bookingData?.service?.description}</p>
-            <p className="font-bold">Date: {moment(bookingData?.schedule.date).format("LL")}</p>
-            <p className="font-bold">
-              Start Time: <Tag color="blue">{moment(bookingData?.schedule.startTime, "HH:mm").format("hh:mm A")}</Tag>
-            </p>
-            <p className="font-bold">
-              End Time: <Tag color="blue">{moment(bookingData?.schedule.endTime, "HH:mm").format("hh:mm A")}</Tag>
-            </p>
+            <BookingDetails booking={bookingData} />
           </Col>
           <Col
             span={12}
@@ -97,19 +97,10 @@ const SingleMyBooking = () => {
           className="bg-grayWhite p-4 rounded-md shadow-md "
         >
           <Col span={16}>
-            <h2 className="text-xl md:text-2xl font-semibold text-nevyBlue">
-              {user?.role === "provider" ? bookingData?.customer?.name : bookingData?.service?.provider.name}
-            </h2>
-            {contactInfo.map((contactInfo, index) => (
-              <p
-                key={index}
-                className="flex items-center gap-2"
-              >
-                <span className="text-darkPrimary text-xl">{contactInfo.icon}</span>
-                <span className="text-gray">{contactInfo.info}</span>
-              </p>
-            ))}
-            <CommonButton>More Details</CommonButton>
+            <UserContactCard
+              name={`${user?.role === "provider" ? bookingData?.customer?.name : bookingData?.service?.provider.name}`}
+              contactInfo={contactInfo}
+            />
           </Col>
           <Col
             span={8}
