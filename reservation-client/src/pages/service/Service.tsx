@@ -161,7 +161,9 @@ const Service = () => {
                 <span className="text-gray">{contactInfo.info}</span>
               </p>
             ))}
-            <CommonButton>More Details</CommonButton>
+            <Link to={`/providers/${service?.provider._id}`}>
+              <CommonButton>More Details</CommonButton>
+            </Link>
           </Col>
           <Col
             span={8}
