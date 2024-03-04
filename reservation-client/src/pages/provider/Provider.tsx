@@ -4,6 +4,7 @@ import { Col, Row } from "antd";
 import { useGetServicesQuery } from "../../redux/features/serviceManagement/service.api";
 import ServiceCard from "../../components/ui/ServiceCard";
 import { MdAddCall, MdEmail, MdLocationPin } from "react-icons/md";
+import NoItemCard from "../../components/ui/NoItemCard";
 
 const Provider = () => {
   const { id } = useParams<{ id: string }>();
@@ -82,12 +83,16 @@ const Provider = () => {
         <h3 className="font-bold text-darkPrimary">Provider Services</h3>
 
         <div className="scrollable-content w-full mt-1 space-y-1 max-h-96 overflow-x-scroll">
-          {services?.data?.map((service: any) => (
-            <ServiceCard
-              key={service._id}
-              service={service}
-            />
-          ))}
+          {services.length > 0 ? (
+            services?.data?.map((service: any) => (
+              <ServiceCard
+                key={service._id}
+                service={service}
+              />
+            ))
+          ) : (
+            <NoItemCard title="Service" />
+          )}
         </div>
       </Col>
     </Row>

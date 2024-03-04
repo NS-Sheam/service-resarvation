@@ -1,5 +1,6 @@
 import { Col, Flex, Row } from "antd";
 import { TProvider } from "../../types";
+import { Link } from "react-router-dom";
 
 type TProviderCardProps = {
   provider: TProvider;
@@ -40,9 +41,11 @@ const ProviderCard = ({ provider }: TProviderCardProps) => {
         md={{ span: 4 }}
       >
         <Flex justify="end">
-          <button className="bg-darkPrimary text-white font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-primary transform duration-300">
-            Details
-          </button>
+          <Link to={`/providers/${provider._id}`}>
+            <button className="bg-darkPrimary text-white font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-primary transform duration-300">
+              Details
+            </button>
+          </Link>
         </Flex>
       </Col>
     </Row>
