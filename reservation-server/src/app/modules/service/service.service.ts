@@ -10,6 +10,7 @@ import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { JwtPayload } from "jsonwebtoken";
 import { Provider } from "../provider/provider.model";
 import mongoose from "mongoose";
+import { deleteImageFromCloudinary } from "../../utils/deleteImageFromCloudinary";
 const addService = async (userId: string, payload: TService, files: any) => {
   const isProviderExist = await Provider.findOne({ user: userId });
   if (!isProviderExist) {
@@ -100,30 +101,51 @@ const updateService = async (
     throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
   }
 
-  let modifiedImages: string[] = [...service.images];
-
-  // Process files to delete and add images
-  if (files && files.length) {
-    // Add new images
-    for (const image of files) {
-      const imageName = `${service.name}-"image"-${modifiedImages.length}`;
-      const path = image.path;
-
-      // send image to cloudinary
-      const { secure_url } = await sendImageToCloudinary(imageName, path);
-
-      modifiedImages.push(secure_url as string);
-    }
-
-    // Remove deleted images
-    if (payload.deletedImages && payload.deletedImages.length) {
-      modifiedImages = modifiedImages.filter((image) => {
-        return !payload.deletedImages.includes(image);
-      });
+  if (service.images.length > 0) {
+    for (const imageUrl of service.images) {
+      await deleteImageFromCloudinary(imageUrl);
     }
   }
 
-  payload.images = modifiedImages;
+  const images: string[] = [];
+
+  if (files && files.length) {
+    let imageNo = 0;
+    for (const file of files) {
+      const imageName = `${payload.name}-"image"-${imageNo}`;
+      const path = file?.path;
+
+      // send image to cloudinary
+      const { secure_url } = await sendImageToCloudinary(imageName, path);
+      images.push(secure_url as string);
+      imageNo++;
+    }
+  }
+  payload.images = images;
+  // let modifiedImages: string[] = [...service.images];
+
+  // // Process files to delete and add images
+  // if (files && files.length) {
+  //   // Add new images
+  //   for (const image of files) {
+  //     const imageName = `${service.name}-"image"-${modifiedImages.length}`;
+  //     const path = image.path;
+
+  //     // send image to cloudinary
+  //     const { secure_url } = await sendImageToCloudinary(imageName, path);
+
+  //     modifiedImages.push(secure_url as string);
+  //   }
+
+  //   // Remove deleted images
+  //   if (payload.deletedImages && payload.deletedImages.length) {
+  //     modifiedImages = modifiedImages.filter((image) => {
+  //       return !payload.deletedImages.includes(image);
+  //     });
+  //   }
+  // }
+
+  // payload.images = modifiedImages;
 
   const result = Service.findByIdAndUpdate(serviceId, payload, {
     new: true,
