@@ -22,7 +22,7 @@ const Navbar = () => {
     },
     {
       title: "booking",
-      path: "/my-booking",
+      path: "/my-bookings",
     },
     {
       title: "Login",

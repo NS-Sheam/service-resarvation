@@ -11,7 +11,8 @@ import Service from "../pages/service/Service";
 import Provider from "../pages/provider/Provider";
 import MyServices from "../pages/provider/MyServices";
 import AddService from "../pages/provider/AddService";
-import MyBooking from "../pages/booking/MyBooking";
+import MyBookings from "../pages/booking/MyBookings";
+import SingleMyBooking from "../pages/booking/SingleMyBooking";
 
 const router = createBrowserRouter([
   {
@@ -67,8 +68,12 @@ const router = createBrowserRouter([
         element: <AddService />,
       },
       {
-        path: "/my-booking",
-        element: <MyBooking />,
+        path: "/my-bookings",
+        element: <MyBookings />,
+      },
+      {
+        path: "/my-bookings/:id",
+        element: <SingleMyBooking />,
       },
     ],
   },

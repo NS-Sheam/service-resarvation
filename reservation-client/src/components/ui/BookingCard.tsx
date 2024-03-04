@@ -1,6 +1,7 @@
 import { Col, Flex, Row } from "antd";
 import { TBooking } from "../../types";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 type TBookingCardProps = {
   booking: TBooking;
@@ -34,8 +35,8 @@ const BookingCard = ({ booking }: TBookingCardProps) => {
         <p className="text-sm">{booking.service?.description}</p>
         <p className="text-sm">Date: {moment(booking.schedule.date).format("LL")}</p>
         <p className="text-sm">
-          From {moment(booking.schedule.startTime).format("LT")}
-          to {moment(booking.schedule.endTime).format("LT")}
+          From {moment(booking.schedule.startTime, "HH:mm").format("hh:mm A")} &nbsp; to{" "}
+          {moment(booking.schedule.endTime, "HH:mm").format("hh:mm A")}
         </p>
       </Col>
       <Col
@@ -43,9 +44,11 @@ const BookingCard = ({ booking }: TBookingCardProps) => {
         md={{ span: 4 }}
       >
         <Flex justify="end">
-          <button className="bg-darkPrimary text-white font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-primary transform duration-300">
-            Details
-          </button>
+          <Link to={`/my-bookings/${booking._id}`}>
+            <button className="bg-darkPrimary text-white font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-primary transform duration-300">
+              Details
+            </button>
+          </Link>
         </Flex>
       </Col>
     </Row>
