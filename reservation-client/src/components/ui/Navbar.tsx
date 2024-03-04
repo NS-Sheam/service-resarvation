@@ -21,6 +21,10 @@ const Navbar = () => {
       path: "/providers",
     },
     {
+      title: "booking",
+      path: "/my-booking",
+    },
+    {
       title: "Login",
       path: "/auth",
     },

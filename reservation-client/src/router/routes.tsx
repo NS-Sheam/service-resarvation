@@ -11,6 +11,7 @@ import Service from "../pages/service/Service";
 import Provider from "../pages/provider/Provider";
 import MyServices from "../pages/provider/MyServices";
 import AddService from "../pages/provider/AddService";
+import MyBooking from "../pages/booking/MyBooking";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: "/provider/edit-service/:id",
         element: <AddService />,
+      },
+      {
+        path: "/my-booking",
+        element: <MyBooking />,
       },
     ],
   },
