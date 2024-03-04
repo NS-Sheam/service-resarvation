@@ -106,9 +106,6 @@ const updateService = async (
   const publicIds = service?.images?.map((image) => {
     return getPublicId(image);
   });
-  console.log(publicIds, "publicIds");
-
-  console.log(Array.isArray(publicIds), "publicIds");
 
   if (publicIds && publicIds.length) {
     await deleteImageFromCloudinary(publicIds);
@@ -129,30 +126,6 @@ const updateService = async (
     }
   }
   payload.images = images;
-  // let modifiedImages: string[] = [...service.images];
-
-  // // Process files to delete and add images
-  // if (files && files.length) {
-  //   // Add new images
-  //   for (const image of files) {
-  //     const imageName = `${service.name}-"image"-${modifiedImages.length}`;
-  //     const path = image.path;
-
-  //     // send image to cloudinary
-  //     const { secure_url } = await sendImageToCloudinary(imageName, path);
-
-  //     modifiedImages.push(secure_url as string);
-  //   }
-
-  //   // Remove deleted images
-  //   if (payload.deletedImages && payload.deletedImages.length) {
-  //     modifiedImages = modifiedImages.filter((image) => {
-  //       return !payload.deletedImages.includes(image);
-  //     });
-  //   }
-  // }
-
-  // payload.images = modifiedImages;
 
   const result = Service.findByIdAndUpdate(serviceId, payload, {
     new: true,

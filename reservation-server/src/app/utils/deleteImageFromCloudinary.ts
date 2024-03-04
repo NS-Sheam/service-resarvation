@@ -16,7 +16,6 @@ export const deleteImageFromCloudinary = async (
       if (error) {
         reject(error);
       }
-      console.log(result, "result");
 
       resolve(result);
     });
@@ -32,11 +31,15 @@ export const getPublicId = (imageUrl: string) => {
   const versionParts = parts[1].split("/");
   const publicIdWithVersion = versionParts.slice(1).join("/"); // Exclude the "upload" part
   const publicId = publicIdWithVersion.split(".")[0]; // Remove the file extension
-  const regex = /(%\d{2})/g;
+  const regex = /(%[0-9a-fA-F]{2})+/g;
 
   // Function to replace URL-encoded characters with their decoded equivalents
   const decodedString = publicId.replace(regex, (match) => {
-    return String.fromCharCode(parseInt(match.substring(1), 16));
+    const bytes = match
+      .split("%")
+      .slice(1)
+      .map((hex) => parseInt(hex, 16));
+    return String.fromCharCode(...bytes);
   });
 
   return decodedString;

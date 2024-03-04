@@ -14,7 +14,9 @@ import {
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
-
+/**
+ * TODO: Fix update service for image upload
+ */
 const AddService = () => {
   const { id } = useParams<{ id: string }>();
   const {
@@ -28,8 +30,7 @@ const AddService = () => {
   const [updateService] = useUpdateServiceMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading("Adding Service...");
-    console.log(data);
+    const toastId = toast.loading(`${service ? "Updating" : "Adding"} service...`);
 
     const serviceInfo = {
       ...data,
@@ -39,23 +40,65 @@ const AddService = () => {
     const formData = new FormData() as any;
     formData.append("data", JSON.stringify(serviceInfo));
 
-    await data?.images?.forEach((image: any) => {
-      formData.append("files", image);
-    });
+    // Array to hold all image fetching promises
+    const imagePromises: Promise<any>[] = [];
+
+    // service?.images?.forEach(async (image: any) => {
+    //   const imagePromise = fetch(image)
+    //     .then((res) => res.blob())
+    //     .then((blob) => {
+    //       const file = new File([blob], image.substring(image.lastIndexOf("/") + 1), { type: blob.type });
+    //       console.log(file);
+    //       return file;
+    //     });
+
+    //   imagePromises.push(imagePromise);
+    // });
+
+    // Wait for all image promises to resolve
+    const resolvedImages = await Promise.all(imagePromises);
+
+    // Update data.images with resolved images
+
+    console.log(data.images);
+
+    // Append all images to formData
+    for (const image of data.images) {
+      // await data.images.forEach((image: any) => {
+      console.log(typeof image);
+
+      if (typeof image === "string" || typeof image === "undefined") {
+        console.log("String or undefined");
+
+        const res = await fetch(image);
+        const blob = await res.blob();
+        const file = new File([blob], image.substring(image.lastIndexOf("/") + 1), { type: blob.type });
+        formData.append("files", file);
+      } else formData.append("files", image);
+      //   });
+    }
+    console.log("after append");
+
     try {
       const res = service
         ? ((await updateService({ id: service?._id, data: formData })) as TReduxResponse<TService>)
         : ((await addService(formData)) as TReduxResponse<TService>);
       console.log(res);
       if (!res.error) {
-        toast.success(res.message || "Service added successfully", { id: toastId, duration: 2000 });
+        toast.success(res.message || `Service ${service ? "updated" : "added"} successfully`, {
+          id: toastId,
+          duration: 2000,
+        });
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
           id: toastId,
         });
       }
     } catch (error: any) {
-      toast.error(error.message || "Product adding failed", { id: toastId, duration: 2000 });
+      toast.error(error.message || `Service ${service ? "updating" : "adding"} failed`, {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 
