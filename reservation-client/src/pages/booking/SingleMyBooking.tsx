@@ -18,14 +18,14 @@ const SingleMyBooking = () => {
   const contactInfo = [
     {
       icon: <MdEmail />,
-      info: user?.role === "provider" ? bookingData?.customer?.email : bookingData?.service?.provider.email,
+      info: user?.role === "provider" ? bookingData?.customer?.email : bookingData?.provider.email,
     },
     {
       icon: <MdAddCall />,
-      info: user?.role === "provider" ? bookingData?.customer?.phone : bookingData?.service?.provider.phone,
+      info: user?.role === "provider" ? bookingData?.customer?.phone : bookingData?.provider.phone,
     },
   ];
-  if (user?.role === "provider") {
+  if (user?.role === "customer") {
     contactInfo.unshift({
       icon: <MdLocationPin />,
       info: bookingData?.provider?.location,
@@ -38,6 +38,7 @@ const SingleMyBooking = () => {
       </div>
     );
   }
+
   return (
     <Row
       justify="center"
@@ -94,11 +95,11 @@ const SingleMyBooking = () => {
           gutter={[8, 8]}
           align="middle"
           justify="space-around"
-          className="bg-grayWhite p-4 rounded-md shadow-md "
+          className="bg-grayWhite p-2 rounded-md shadow-md "
         >
           <Col span={16}>
             <UserContactCard
-              name={`${user?.role === "provider" ? bookingData?.customer?.name : bookingData?.service?.provider.name}`}
+              name={`${user?.role === "provider" ? bookingData?.customer?.name : bookingData?.provider.name}`}
               contactInfo={contactInfo}
             />
           </Col>
@@ -110,8 +111,8 @@ const SingleMyBooking = () => {
             className="rounded-md p-2 shadow-sm shadow-darkPrimary w-32 h-32"
           >
             <img
-              src={user?.role === "provider" ? bookingData?.customer?.image : bookingData?.service?.provider.image}
-              alt={user?.role === "provider" ? bookingData?.customer?.name : bookingData?.service?.provider.name}
+              src={user?.role === "provider" ? bookingData?.customer?.image : bookingData?.provider.image}
+              alt={user?.role === "provider" ? bookingData?.customer?.name : bookingData?.provider.name}
               className="w-full h-full object-cover rounded-md"
             />
           </Col>

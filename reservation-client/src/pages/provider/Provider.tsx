@@ -16,7 +16,6 @@ const Provider = () => {
   const { data: services } = useGetServicesQuery([{ name: "provider", value: id || "" }], {
     skip: isProviderLoading || isProviderFetching,
   });
-  console.log(provider);
   const contactInfo = [
     {
       icon: <MdEmail />,
@@ -83,7 +82,7 @@ const Provider = () => {
         <h3 className="font-bold text-darkPrimary">Provider Services</h3>
 
         <div className="scrollable-content w-full mt-1 space-y-1 max-h-96 overflow-x-scroll">
-          {services.length > 0 ? (
+          {services?.data && services?.data?.length > 0 ? (
             services?.data?.map((service: any) => (
               <ServiceCard
                 key={service._id}

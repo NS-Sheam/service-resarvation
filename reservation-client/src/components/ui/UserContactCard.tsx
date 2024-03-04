@@ -1,3 +1,4 @@
+import { useAppSelector } from "../../redux/hooks";
 import CommonButton from "./CommonButton";
 
 type TUserContactCardProps = {
@@ -9,6 +10,8 @@ type TUserContactCardProps = {
 };
 
 const UserContactCard = ({ name, contactInfo }: TUserContactCardProps) => {
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
     <>
       <h2 className="text-xl md:text-2xl font-semibold text-nevyBlue">{name}</h2>
@@ -21,7 +24,7 @@ const UserContactCard = ({ name, contactInfo }: TUserContactCardProps) => {
           <span className="text-gray">{contactInfo.info}</span>
         </p>
       ))}
-      {name === "Customer" && <CommonButton>More Details</CommonButton>}
+      {user?.role === "customer" && <CommonButton>More Details</CommonButton>}
     </>
   );
 };
