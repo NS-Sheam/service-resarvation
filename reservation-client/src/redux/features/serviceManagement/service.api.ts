@@ -46,10 +46,10 @@ const serviceApi = baseApi.injectEndpoints({
     }),
 
     updateService: builder.mutation({
-      query: ({ id, body }: { id: string; body: Partial<TService> }) => ({
+      query: ({ id, data }: { id: string; data: Partial<TService> }) => ({
         url: `/services/${id}`,
         method: "PATCH",
-        body: body,
+        body: data,
       }),
       invalidatesTags: ["service"],
       transformResponse: (response: TReduxResponse<TService>) => response.data,

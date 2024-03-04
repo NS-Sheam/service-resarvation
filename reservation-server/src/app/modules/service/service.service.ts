@@ -10,7 +10,10 @@ import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { JwtPayload } from "jsonwebtoken";
 import { Provider } from "../provider/provider.model";
 import mongoose from "mongoose";
-import { deleteImageFromCloudinary } from "../../utils/deleteImageFromCloudinary";
+import {
+  deleteImageFromCloudinary,
+  getPublicId,
+} from "../../utils/deleteImageFromCloudinary";
 const addService = async (userId: string, payload: TService, files: any) => {
   const isProviderExist = await Provider.findOne({ user: userId });
   if (!isProviderExist) {
@@ -100,11 +103,15 @@ const updateService = async (
   if (!isUserOwnerOfTheService) {
     throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
   }
+  const publicIds = service?.images?.map((image) => {
+    return getPublicId(image);
+  });
+  console.log(publicIds, "publicIds");
 
-  if (service.images.length > 0) {
-    for (const imageUrl of service.images) {
-      await deleteImageFromCloudinary(imageUrl);
-    }
+  console.log(Array.isArray(publicIds), "publicIds");
+
+  if (publicIds && publicIds.length) {
+    await deleteImageFromCloudinary(publicIds);
   }
 
   const images: string[] = [];
