@@ -133,7 +133,7 @@ const Service = () => {
             span={24}
             md={{ span: 22 }}
           >
-            <Booking />
+            <Booking service={service!} />
           </Col>
         )}
       </Col>

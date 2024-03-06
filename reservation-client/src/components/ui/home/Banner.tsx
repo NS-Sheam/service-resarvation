@@ -1,12 +1,33 @@
 import "../../../styles/Banner.css";
-import { Col, Flex, Row } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import HamburgerToggler from "../HamburgerToggler";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import CommonSearchBar from "../CommonSearchBar";
+import { useGetServicesQuery } from "../../../redux/features/serviceManagement/service.api";
+import ServiceCard from "../ServiceCard";
+import NoItemCard from "../NoItemCard";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const searchQuery = [
+    {
+      name: "searchTerm",
+      value: searchTerm,
+    },
+  ];
+  const { data, isFetching: isServiceFetching } = useGetServicesQuery(searchQuery);
+  const serviceData = data?.data;
+
+  const handleSetSerchQuery = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.currentTarget.value);
+  };
+  const handleSearch = () => {
+    console.log("searchTerm");
+
+    navigate(`/services?searchTerm=${searchTerm}`);
   };
 
   return (
@@ -19,47 +40,47 @@ const Banner = () => {
       >
         <Col
           span={24}
-          md={{ span: 12 }}
+          md={{ span: 16 }}
           style={{ height: "100%", position: "relative" }}
         >
           <CommonSearchBar
             size="large"
-            onChange={onChange}
+            navigation={true}
+            onChange={handleSetSerchQuery}
           />
 
-          <div className="scrollable-content absolute w-full mt-1 space-y-1 max-h-44 overflow-x-scroll">
-            {Array.from({ length: 10 }).map((_, index) => (
-              <Row
-                key={index}
-                align="middle"
-                justify="center"
-                className="bg-white p-4 rounded-md shadow-md"
-                gutter={[0, 4]}
-              >
+          {searchTerm.length > 0 && (
+            <div className="scrollable-content absolute w-full mt-1 space-y-1 max-h-44 overflow-x-scroll">
+              {isServiceFetching ? (
                 <Col
+                  className=" shadow-lg bg-white rounded-md p-4"
                   span={24}
-                  md={{ span: 20 }}
-                  className="text-left"
                 >
-                  <h3 className="text-lg font-semibold text-darkPrimary">This is a service</h3>
-                  <p className="text-gray">
-                    <span className="font-bold text-grayBlack">Provider:</span> Provider Name{" "}
-                    <span className="font-bold text-grayBlack">Location:</span> New York
-                  </p>
+                  <Skeleton active />
                 </Col>
+              ) : serviceData?.length ? (
+                serviceData?.map((service, index) => (
+                  <Col
+                    className=" shadow-lg"
+                    key={index}
+                    span={24}
+                  >
+                    <ServiceCard
+                      key={index}
+                      service={service}
+                    />
+                  </Col>
+                ))
+              ) : (
                 <Col
+                  className=" shadow-lg"
                   span={24}
-                  md={{ span: 4 }}
                 >
-                  <Flex justify="end">
-                    <button className="bg-warning text-black font-semibold px-6 py-2 rounded-md outline-none border-none shadow-lg hover:bg-orange transform duration-300">
-                      Details
-                    </button>
-                  </Flex>
+                  <NoItemCard title="Service" />
                 </Col>
-              </Row>
-            ))}
-          </div>
+              )}
+            </div>
+          )}
         </Col>
       </Row>
     </div>

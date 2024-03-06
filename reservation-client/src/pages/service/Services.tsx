@@ -10,14 +10,12 @@ import { Link } from "react-router-dom";
 import CommonButton from "../../components/ui/CommonButton";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
-/**
- * TODO:
- * 1. Fix the layout of the services page
- */
 const Services = () => {
+  const searchParams = new URLSearchParams(location.search);
+
   const { user } = useAppSelector((state) => state.auth);
   const { data: pData, isFetching: isUserFetching, isLoading } = useGetMyInfoQuery(undefined);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("searchTerm") || "");
   const [providerId, setProviderId] = useState("");
 
   const searchQuery = [

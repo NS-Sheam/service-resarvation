@@ -1,6 +1,16 @@
-.e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-edit {
+.e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-edit .e-delete .e-save-icon {
   display: none !important;
 }
-.e-quick-popup-wrapper .e-event-popup .e-popup-header .e-header-icon-wrapper .e-delete {
+.e-save-icon::before {
   display: none !important;
+}
+/* .e-dlg-overlay {
+  z-index: 100 !important;
+} */
+/* .e-popup.e-popup-open.e-dialog {
+  z-index: 150 !important;
+} */
+
+.swal2-popup {
+  z-index: 2147483649 !important;
 }
