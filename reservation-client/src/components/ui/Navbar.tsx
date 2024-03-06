@@ -3,8 +3,14 @@ import "../../styles/Navbar.css";
 import ActiveNavLink from "../ActiveNavLink";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toggleMenu } from "../../redux/features/header/header.slice";
+import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
+  const { data } = useGetMyInfoQuery(undefined);
+  const user = data?.data;
+  console.log(user);
+
   const { isMenuOpen } = useAppSelector((state) => state.header);
   const dispatch = useAppDispatch();
   const mainMenuItems = [
@@ -62,6 +68,38 @@ const Navbar = () => {
                 </ActiveNavLink>
               </Col>
             ))}
+            {user && (
+              <>
+                <Col
+                  span={4}
+                  className=""
+                >
+                  {!user.image ? (
+                    <img
+                      src={user?.image}
+                      alt=""
+                      className="w-8 h-8 rounded-full"
+                    />
+                  ) : (
+                    <FaUser
+                      style={{
+                        border: "2px solid #ffffff",
+                        padding: "0.25rem",
+                      }}
+                      className="text-white text-3xl rounded-full"
+                    />
+                  )}
+                </Col>
+                <Col
+                  span={4}
+                  className=""
+                >
+                  <span className="text-white text-xl md:text-2xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1">
+                    Logout
+                  </span>
+                </Col>
+              </>
+            )}
           </Row>
         </Col>
       </Row>
