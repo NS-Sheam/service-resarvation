@@ -41,7 +41,6 @@ const Services = () => {
   const onChange = (e: FormEvent<HTMLInputElement>) => {
     setSearchTerm(e.currentTarget.value);
   };
-  console.log("serviceData", serviceData);
 
   return (
     <div className="services-container min-h-[80vh]">
