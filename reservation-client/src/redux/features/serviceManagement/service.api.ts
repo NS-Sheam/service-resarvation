@@ -11,7 +11,6 @@ const serviceApi = baseApi.injectEndpoints({
             params.append(item.name, item.value);
           });
         }
-
         return {
           url: "/services",
           method: "GET",

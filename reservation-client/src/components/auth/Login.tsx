@@ -8,19 +8,18 @@ import { useLoginMutation } from "../../redux/auth/auth.api";
 import { TUser } from "../../types";
 import { verifyToken } from "../../utils/verifyToken";
 import { setUser } from "../../redux/auth/auth.Slice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommonButton from "../ui/CommonButton";
 
 const Login = () => {
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Logging in...");
     try {
       const res: any = await login(data);
-      console.log(res);
-
       const user = verifyToken(res.data.data.accessToken) as TUser;
       const userData = await fetch("http://localhost:4000/api/v1/users/me", {
         method: "GET",
@@ -32,6 +31,7 @@ const Login = () => {
       const userInfo = await userData.json();
       dispatch(setUser({ user: { ...user, image: userInfo?.data?.image }, token: res.data.data.accessToken }));
       toast.success("Logged in successfully", { id: toastId, duration: 2000 });
+      navigate("/");
     } catch (error: any) {
       toast.error(error.message, { id: toastId, duration: 2000 });
     }

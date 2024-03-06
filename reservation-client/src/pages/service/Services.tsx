@@ -34,13 +34,14 @@ const Services = () => {
     });
   }
   const { data, isFetching: isServiceFetching } = useGetServicesQuery(searchQuery, {
-    skip: !pData?.data?._id || isUserFetching || isLoading,
+    skip: isUserFetching || isLoading,
   });
   const serviceData = data?.data;
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
     setSearchTerm(e.currentTarget.value);
   };
+  console.log("serviceData", serviceData);
 
   return (
     <div className="services-container min-h-[80vh]">

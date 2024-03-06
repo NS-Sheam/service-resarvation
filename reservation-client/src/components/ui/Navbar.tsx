@@ -6,13 +6,17 @@ import { toggleMenu } from "../../redux/features/header/header.slice";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 import { FaUser } from "react-icons/fa";
 import { logOut } from "../../redux/auth/auth.Slice";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.auth);
-  const { data } = useGetMyInfoQuery(undefined);
-  const dispatch = useAppDispatch();
 
-  const userData = data?.data;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logOut());
+    navigate("/auth");
+  };
 
   const { isMenuOpen } = useAppSelector((state) => state.header);
   const mainMenuItems = [
@@ -52,7 +56,7 @@ const Navbar = () => {
           <h1 className="text-white">Logo</h1>
         </Col>
         <Col
-          span={16}
+          span={14}
           className="h-full"
         >
           <Row
@@ -64,7 +68,7 @@ const Navbar = () => {
               <Col
                 key={index}
                 span={4}
-                className=""
+                className="h-full"
               >
                 <ActiveNavLink
                   to={item.path}
@@ -78,11 +82,11 @@ const Navbar = () => {
               <>
                 <Col
                   span={4}
-                  className=""
+                  className="h-full"
                 >
                   <span
-                    onClick={() => dispatch(logOut())}
-                    className="text-white text-xl md:text-2xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1"
+                    onClick={() => handleLogout()}
+                    className="text-white text-xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1 cursor-pointer hover:bg-gray"
                   >
                     Logout
                   </span>
@@ -91,12 +95,12 @@ const Navbar = () => {
                   span={4}
                   className=""
                 >
-                  {userData?.image ? (
+                  {user?.image ? (
                     <img
                       style={{ border: "2px solid #ffffff" }}
-                      src={userData?.image}
+                      src={user?.image}
                       alt="user"
-                      className="w-10 h-10 rounded-full border-2 border-white"
+                      className="w-10 h-10 rounded-full border-2 border-white cursor-pointer"
                     />
                   ) : (
                     <FaUser
@@ -104,7 +108,7 @@ const Navbar = () => {
                         border: "2px solid #ffffff",
                         padding: "0.25rem",
                       }}
-                      className="text-white w-10 h-10 rounded-full"
+                      className="text-white w-10 h-10 rounded-full cursor-pointer"
                     />
                   )}
                 </Col>
@@ -141,10 +145,10 @@ const Navbar = () => {
                 span={24}
                 className="text-center"
               >
-                {userData?.image ? (
+                {user?.image ? (
                   <img
                     style={{ border: "2px solid #ffffff" }}
-                    src={userData?.image}
+                    src={user?.image}
                     alt="user"
                     className="w-10 h-10 rounded-full border-2 border-white"
                   />
@@ -179,7 +183,7 @@ const Navbar = () => {
                   className=""
                 >
                   <span
-                    onClick={() => dispatch(logOut())}
+                    onClick={() => handleLogout()}
                     className="text-white text-xl md:text-2xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1"
                   >
                     Logout
