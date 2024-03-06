@@ -68,10 +68,11 @@ const Register = () => {
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
           id: toastId,
+          duration: 2000,
         });
       }
     } catch (error: any) {
-      toast.error(error.message || "Something went wrong", { id: toastId });
+      toast.error(error.message || "Something went wrong", { id: toastId, duration: 2000 });
     }
   };
 

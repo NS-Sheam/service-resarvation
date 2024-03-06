@@ -24,6 +24,7 @@ import { TService } from "../../../types";
 import moment from "moment";
 import Swal from "sweetalert2";
 import CommonButton from "../CommonButton";
+import { toast } from "sonner";
 
 // Set your provided Syncfusion license key here
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
@@ -42,6 +43,7 @@ type TBookingProps = {
 function Booking({ service }: TBookingProps) {
   const startTimeObj = useRef<DatePickerComponent>(null); // Ref for DatePickerComponent
   const endTimeObj = useRef<TimePickerComponent>(null); // Ref for TimePickerComponent
+  const;
   const contentTemplate = (props: { StartTime: Date; IsReadonly: boolean }) => {
     return props.IsReadonly ? (
       <div className="text-center">Already Booked</div>
@@ -103,8 +105,12 @@ function Booking({ service }: TBookingProps) {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, book it!",
+      customClass: {
+        container: "booking-sweetalert-container",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
+        const toastId = toast.loading("Booking...");
         Swal.fire({
           title: "Booked!",
           text: `You have successfully booked ${service?.name} on ${moment(booking.schedule.date).format(
