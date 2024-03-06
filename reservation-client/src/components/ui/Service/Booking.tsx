@@ -20,11 +20,15 @@ import "../../../../node_modules/@syncfusion/ej2-react-schedule/styles/material.
 import { registerLicense } from "@syncfusion/ej2-base";
 import "../../../styles/Booking.css";
 import { DatePickerComponent, TimePickerComponent } from "@syncfusion/ej2-react-calendars";
-import { TService } from "../../../types";
+import { TBooking, TReduxResponse, TService } from "../../../types";
 import moment from "moment";
 import Swal from "sweetalert2";
 import CommonButton from "../CommonButton";
 import { toast } from "sonner";
+import { useAddBookingMutation, useGetBookingsQuery } from "../../../redux/features/bookingManagement/bookingApi.api";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
+import { weekDayNumbers } from "../../../utils/booking.utils";
 
 // Set your provided Syncfusion license key here
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
@@ -41,51 +45,15 @@ type TBookingProps = {
 };
 
 function Booking({ service }: TBookingProps) {
+  console.log(service.provider.availableSchedule);
+
   const startTimeObj = useRef<DatePickerComponent>(null); // Ref for DatePickerComponent
   const endTimeObj = useRef<TimePickerComponent>(null); // Ref for TimePickerComponent
-  const;
-  const contentTemplate = (props: { StartTime: Date; IsReadonly: boolean }) => {
-    return props.IsReadonly ? (
-      <div className="text-center">Already Booked</div>
-    ) : (
-      <div className="quick-info-content">
-        <div className="e-cell-content">
-          <div className="content-area">
-            <DatePickerComponent
-              value={props.StartTime}
-              placeholder="Date"
-              format="yyyy-MMMM-dd hh:mm a"
-              ref={startTimeObj}
-              disabled
-            />
-          </div>
-          <div className="content-area">
-            <TimePickerComponent
-              placeholder="End Time"
-              format="hh:mm a"
-              cssClass="time-picker"
-              ref={endTimeObj}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const footerTemplate = () => {
-    return (
-      <div className="quick-info-footer">
-        <CommonButton
-          width="30%"
-          onClick={handleBooking}
-        >
-          Book Now
-        </CommonButton>
-      </div>
-    );
-  };
-
-  const handleBooking = () => {
+  const [addbooking] = useAddBookingMutation();
+  const { user } = useAppSelector((state) => state.auth);
+  const { data: bookingData } = useGetBookingsQuery(service?._id);
+  const navigate = useNavigate();
+  const handleBooking = async () => {
     const booking = {
       service: service?._id,
       schedule: {
@@ -108,21 +76,71 @@ function Booking({ service }: TBookingProps) {
       customClass: {
         container: "booking-sweetalert-container",
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
+        if (!user) {
+          toast.error("You need to login to book a service");
+          navigate("/auth");
+          return;
+        }
+
         const toastId = toast.loading("Booking...");
-        Swal.fire({
-          title: "Booked!",
-          text: `You have successfully booked ${service?.name} on ${moment(booking.schedule.date).format(
-            "LL"
-          )} from ${moment(booking.schedule.startTime, "HH:mm").format("hh:mm A")} to ${moment(
-            booking.schedule.endTime,
-            "HH:mm"
-          ).format("hh:mm A")}`,
-          icon: "success",
-        });
+        const res = (await addbooking(booking as any)) as TReduxResponse<TBooking>;
+
+        if (!res.error) {
+          toast.success(res?.message || "Booking successful", {
+            id: toastId,
+            duration: 2000,
+          });
+        } else {
+          toast.error(
+            res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong",
+            {
+              id: toastId,
+            }
+          );
+        }
       }
     });
+  };
+  const contentTemplate = (props: { StartTime: Date; IsReadonly: boolean }) => {
+    return (
+      <div className="quick-info-content">
+        <div className="e-cell-content">
+          <div className="content-area">
+            <DatePickerComponent
+              value={props.StartTime}
+              placeholder="Date"
+              format="yyyy-MMMM-dd hh:mm a"
+              ref={startTimeObj}
+              disabled={props.IsReadonly}
+            />
+          </div>
+          <div className="content-area">
+            <TimePickerComponent
+              placeholder="End Time"
+              format="hh:mm a"
+              cssClass="time-picker"
+              ref={endTimeObj}
+              enabled={!props.IsReadonly}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const footerTemplate = () => {
+    return (
+      <div className="quick-info-footer">
+        <CommonButton
+          width="30%"
+          onClick={handleBooking}
+        >
+          Book Now
+        </CommonButton>
+      </div>
+    );
   };
 
   const alreadyBooked: BookingData[] = [
@@ -158,13 +176,15 @@ function Booking({ service }: TBookingProps) {
 
   return (
     <ScheduleComponent
-      selectedDate={new Date(2023, 1, 15)}
+      selectedDate={new Date()}
       eventSettings={{
         dataSource: alreadyBooked,
         fields: {
           subject: "Subject",
           startTime: "StartTime",
           endTime: "EndTime",
+          isReadonly: "IsReadonly",
+          cssClass: "CustomCssClass",
         } as EventFieldsMapping,
       }}
       editorTemplate={contentTemplate}
@@ -174,6 +194,10 @@ function Booking({ service }: TBookingProps) {
         footer: footerTemplate,
       }}
       editorFooterTemplate={footerTemplate}
+      workDays={weekDayNumbers(service)}
+      showWeekend={false}
+      startHour={service.provider.availableSchedule[0].startTime}
+      endHour={service.provider.availableSchedule[0].endTime}
     >
       <ViewsDirective>
         <ViewDirective option="Day" />

@@ -31,6 +31,7 @@ router.get(
   auth(USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.provider),
   BookingControllers.getSingleBooking,
 );
+router.get("/service/:id", BookingControllers.serviceBooking);
 
 router.delete(
   "/:id",

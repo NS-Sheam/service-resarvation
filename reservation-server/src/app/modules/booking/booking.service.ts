@@ -162,6 +162,28 @@ const providerBooking = async (
 
   return { result, meta };
 };
+
+const serviceBooking = async (
+  serviceId: string,
+  query: Record<string, unknown>,
+) => {
+  const serviceBookingQuery = new QueryBuilder(
+    Booking.find({ service: serviceId }).populate(
+      "customer service provider schedule",
+    ),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await serviceBookingQuery.modelQuery;
+  const meta = await serviceBookingQuery.countTotal();
+
+  return { result, meta };
+};
+
 const cancelBooking = async (userId: string, id: string) => {
   const booking = await Booking.findById(id).populate(
     "customer provider schedule service",
@@ -226,4 +248,5 @@ export const BookingServices = {
   customerBooking,
   providerBooking,
   cancelBooking,
+  serviceBooking,
 };

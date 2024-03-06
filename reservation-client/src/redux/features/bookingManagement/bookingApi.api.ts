@@ -16,11 +16,15 @@ const bookingApi = baseApi.injectEndpoints({
       },
     }),
     addBooking: builder.mutation({
-      query: (body: Partial<TBooking>) => ({
-        url: "/booking",
-        method: "POST",
-        body: body,
-      }),
+      query: (body: Partial<TBooking>) => {
+        console.log(body);
+
+        return {
+          url: "/booking",
+          method: "POST",
+          body,
+        };
+      },
       transformResponse: (response: TReduxResponse<TBooking>) => response.data,
     }),
 

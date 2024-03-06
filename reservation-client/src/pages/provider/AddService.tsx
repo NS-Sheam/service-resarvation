@@ -83,7 +83,6 @@ const AddService = () => {
       const res = service
         ? ((await updateService({ id: service?._id, data: formData })) as TReduxResponse<TService>)
         : ((await addService(formData)) as TReduxResponse<TService>);
-      console.log(res);
       if (!res.error) {
         toast.success(res.message || `Service ${service ? "updated" : "added"} successfully`, {
           id: toastId,
@@ -92,6 +91,7 @@ const AddService = () => {
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
           id: toastId,
+          duration: 2000,
         });
       }
     } catch (error: any) {

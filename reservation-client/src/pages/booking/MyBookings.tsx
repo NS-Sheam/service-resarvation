@@ -40,7 +40,7 @@ const MyBookings = () => {
         <Row
           justify="center"
           align="top"
-          style={{ minHeight: "100vh" }}
+          gutter={[8, 8]}
         >
           {isBookingFetching ? (
             <Col
