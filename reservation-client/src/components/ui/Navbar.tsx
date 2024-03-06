@@ -5,14 +5,16 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toggleMenu } from "../../redux/features/header/header.slice";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 import { FaUser } from "react-icons/fa";
+import { logOut } from "../../redux/auth/auth.Slice";
 
 const Navbar = () => {
+  const { user } = useAppSelector((state) => state.auth);
   const { data } = useGetMyInfoQuery(undefined);
-  const user = data?.data;
-  console.log(user);
+  const dispatch = useAppDispatch();
+
+  const userData = data?.data;
 
   const { isMenuOpen } = useAppSelector((state) => state.header);
-  const dispatch = useAppDispatch();
   const mainMenuItems = [
     {
       title: "Home",
@@ -26,15 +28,18 @@ const Navbar = () => {
       title: "Providers",
       path: "/providers",
     },
-    {
-      title: "booking",
-      path: "/my-bookings",
-    },
-    {
+  ];
+  if (!user) {
+    mainMenuItems.push({
       title: "Login",
       path: "/auth",
-    },
-  ];
+    });
+  } else {
+    mainMenuItems.push({
+      title: "booking",
+      path: "/my-bookings",
+    });
+  }
 
   return (
     <>
@@ -53,6 +58,7 @@ const Navbar = () => {
           <Row
             justify="center"
             className="h-full"
+            align="middle"
           >
             {mainMenuItems.map((item, index) => (
               <Col
@@ -74,11 +80,23 @@ const Navbar = () => {
                   span={4}
                   className=""
                 >
-                  {!user.image ? (
+                  <span
+                    onClick={() => dispatch(logOut())}
+                    className="text-white text-xl md:text-2xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1"
+                  >
+                    Logout
+                  </span>
+                </Col>
+                <Col
+                  span={4}
+                  className=""
+                >
+                  {userData?.image ? (
                     <img
-                      src={user?.image}
-                      alt=""
-                      className="w-8 h-8 rounded-full"
+                      style={{ border: "2px solid #ffffff" }}
+                      src={userData?.image}
+                      alt="user"
+                      className="w-10 h-10 rounded-full border-2 border-white"
                     />
                   ) : (
                     <FaUser
@@ -86,17 +104,9 @@ const Navbar = () => {
                         border: "2px solid #ffffff",
                         padding: "0.25rem",
                       }}
-                      className="text-white text-3xl rounded-full"
+                      className="text-white w-10 h-10 rounded-full"
                     />
                   )}
-                </Col>
-                <Col
-                  span={4}
-                  className=""
-                >
-                  <span className="text-white text-xl md:text-2xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1">
-                    Logout
-                  </span>
                 </Col>
               </>
             )}
@@ -126,6 +136,29 @@ const Navbar = () => {
             className=" py-6 px-4 bg-grayBlack md:hidden shadow-sm shadow-white"
             gutter={[0, 16]}
           >
+            {user && (
+              <Col
+                span={24}
+                className="text-center"
+              >
+                {userData?.image ? (
+                  <img
+                    style={{ border: "2px solid #ffffff" }}
+                    src={userData?.image}
+                    alt="user"
+                    className="w-10 h-10 rounded-full border-2 border-white"
+                  />
+                ) : (
+                  <FaUser
+                    style={{
+                      border: "2px solid #ffffff",
+                      padding: "0.25rem",
+                    }}
+                    className="text-white w-10 h-10 rounded-full"
+                  />
+                )}
+              </Col>
+            )}
             {mainMenuItems.map((item, index) => (
               <Col
                 key={index}
@@ -139,6 +172,21 @@ const Navbar = () => {
                 </ActiveNavLink>
               </Col>
             ))}
+            {user && (
+              <>
+                <Col
+                  span={24}
+                  className=""
+                >
+                  <span
+                    onClick={() => dispatch(logOut())}
+                    className="text-white text-xl md:text-2xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1"
+                  >
+                    Logout
+                  </span>
+                </Col>
+              </>
+            )}
           </Row>
         </Col>
       </Row>

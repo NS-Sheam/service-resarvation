@@ -40,8 +40,10 @@ const createProvider = catchAsync(async (req: Request, res: Response) => {
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
   const token = req.headers.authorization;
-
-  const result = await UserServices.getMe(token as string);
+  let result;
+  if (!token) {
+    result = null;
+  } else result = await UserServices.getMe(token as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

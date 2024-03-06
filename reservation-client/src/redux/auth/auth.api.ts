@@ -55,11 +55,12 @@ const authApi = baseApi.injectEndpoints({
         url: "/users/me",
         method: "GET",
       }),
-      transformResponse: (response: TReduxResponse<TProvider>) => {
+      transformResponse: (response: TReduxResponse<TProvider | TCustomer>) => {
         return {
           data: response.data,
         };
       },
+      providesTags: ["user"],
     }),
   }),
 });
