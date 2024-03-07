@@ -8,6 +8,7 @@ const bookingApi = baseApi.injectEndpoints({
         url: "/booking",
         method: "GET",
       }),
+      providesTags: ["booking"],
       transformResponse: (response: TReduxResponse<TBooking[]>) => {
         return {
           data: response.data,
@@ -17,14 +18,13 @@ const bookingApi = baseApi.injectEndpoints({
     }),
     addBooking: builder.mutation({
       query: (body: Partial<TBooking>) => {
-        console.log(body);
-
         return {
           url: "/booking",
           method: "POST",
           body,
         };
       },
+      invalidatesTags: ["booking"],
       transformResponse: (response: TReduxResponse<TBooking>) => response.data,
     }),
 
@@ -33,6 +33,7 @@ const bookingApi = baseApi.injectEndpoints({
         url: `/booking/${id}`,
         method: "GET",
       }),
+      providesTags: ["booking"],
       transformResponse: (response: TReduxResponse<TBooking>) => response.data,
     }),
     cancelBooking: builder.mutation({
@@ -40,6 +41,7 @@ const bookingApi = baseApi.injectEndpoints({
         url: `/booking/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["booking"],
       transformResponse: (response: TReduxResponse<TBooking>) => response.data,
     }),
     getMyBookings: builder.query({
@@ -49,6 +51,20 @@ const bookingApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["booking"],
+      transformResponse: (response: TReduxResponse<TBooking[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
+    getServiceBookings: builder.query({
+      query: (serviceId: string) => ({
+        url: `/booking/service/${serviceId}`,
+        method: "GET",
+      }),
+      providesTags: ["booking"],
       transformResponse: (response: TReduxResponse<TBooking[]>) => {
         return {
           data: response.data,
@@ -61,6 +77,7 @@ const bookingApi = baseApi.injectEndpoints({
         url: "/booking/provider",
         method: "GET",
       }),
+      providesTags: ["booking"],
       transformResponse: (response: TReduxResponse<TBooking[]>) => {
         return {
           data: response.data,
@@ -68,8 +85,22 @@ const bookingApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getProviderBookingByProviderId: builder.query({
+      query: (id: string) => ({
+        url: `/booking/provider/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["booking"],
+      transformResponse: (response: TReduxResponse<TBooking>) => response.data,
+    }),
   }),
 });
 
-export const { useGetBookingsQuery, useAddBookingMutation, useGetSingleBookingQuery, useGetMyBookingsQuery } =
-  bookingApi;
+export const {
+  useGetBookingsQuery,
+  useAddBookingMutation,
+  useGetSingleBookingQuery,
+  useGetMyBookingsQuery,
+  useGetServiceBookingsQuery,
+  useGetProviderBookingByProviderIdQuery,
+} = bookingApi;

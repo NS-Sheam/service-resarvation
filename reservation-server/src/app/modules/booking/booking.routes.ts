@@ -32,6 +32,7 @@ router.get(
   BookingControllers.getSingleBooking,
 );
 router.get("/service/:id", BookingControllers.serviceBooking);
+router.get("/provider/:id", BookingControllers.providerBookingByProviderId);
 
 router.delete(
   "/:id",

@@ -78,6 +78,18 @@ const serviceBooking = catchAsync(async (req, res) => {
     data: result.result,
   });
 });
+const providerBookingByProviderId = catchAsync(async (req, res) => {
+  const result = await BookingServices.providerBookingByProviderId(
+    req.params.id,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bookings fetched successfully",
+    data: result,
+  });
+});
 
 const cancelBooking = catchAsync(async (req, res) => {
   const result = await BookingServices.cancelBooking(
@@ -101,4 +113,5 @@ export const BookingControllers = {
   providerBooking,
   cancelBooking,
   serviceBooking,
+  providerBookingByProviderId,
 };

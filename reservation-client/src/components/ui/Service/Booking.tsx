@@ -25,10 +25,15 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import CommonButton from "../CommonButton";
 import { toast } from "sonner";
-import { useAddBookingMutation, useGetBookingsQuery } from "../../../redux/features/bookingManagement/bookingApi.api";
+import {
+  useAddBookingMutation,
+  useGetProviderBookingByProviderIdQuery,
+  useGetServiceBookingsQuery,
+} from "../../../redux/features/bookingManagement/bookingApi.api";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { weekDayNumbers } from "../../../utils/booking.utils";
+import { Spin } from "antd";
 
 // Set your provided Syncfusion license key here
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
@@ -45,14 +50,18 @@ type TBookingProps = {
 };
 
 function Booking({ service }: TBookingProps) {
-  console.log(service.provider.availableSchedule);
-
   const startTimeObj = useRef<DatePickerComponent>(null); // Ref for DatePickerComponent
   const endTimeObj = useRef<TimePickerComponent>(null); // Ref for TimePickerComponent
   const [addbooking] = useAddBookingMutation();
   const { user } = useAppSelector((state) => state.auth);
-  const { data: bookingData } = useGetBookingsQuery(service?._id);
+  const {
+    data: bookings,
+    isLoading: isBooking,
+    isFetching: isBookingFetching,
+  } = useGetProviderBookingByProviderIdQuery(service?.provider._id);
+
   const navigate = useNavigate();
+
   const handleBooking = async () => {
     const booking = {
       service: service?._id,
@@ -143,36 +152,41 @@ function Booking({ service }: TBookingProps) {
     );
   };
 
-  const alreadyBooked: BookingData[] = [
-    {
-      Id: 1,
+  const alreadyBooked: BookingData[] | undefined = bookings?.map((booking, index) => {
+    const { schedule } = booking;
+    const startTimeParts = schedule.startTime.split(":").map((part) => parseInt(part, 10));
+    const endTimeParts = schedule.endTime.split(":").map((part) => parseInt(part, 10));
+
+    return {
+      Id: index + 1,
       Subject: "Booked",
-      StartTime: new Date(2023, 1, 15, 10, 0),
-      EndTime: new Date(2023, 1, 15, 12, 30),
+      StartTime: new Date(
+        new Date(schedule.date).getFullYear(),
+        new Date(schedule.date).getMonth(),
+        new Date(schedule.date).getDate(),
+        startTimeParts[0],
+        startTimeParts[1]
+      ),
+      EndTime: new Date(
+        new Date(schedule.date).getFullYear(),
+        new Date(schedule.date).getMonth(),
+        new Date(schedule.date).getDate(),
+        endTimeParts[0],
+        endTimeParts[1]
+      ),
       IsReadonly: true,
-    },
-    {
-      Id: 2,
-      Subject: "Booked",
-      StartTime: new Date(2023, 1, 15, 13, 0),
-      EndTime: new Date(2023, 1, 15, 14, 30),
-      IsReadonly: true,
-    },
-    {
-      Id: 3,
-      Subject: "Booked",
-      StartTime: new Date(2023, 1, 15, 15, 0),
-      EndTime: new Date(2023, 1, 15, 16, 30),
-      IsReadonly: true,
-    },
-    {
-      Id: 4,
-      Subject: "Booked",
-      StartTime: new Date(2023, 1, 15, 17, 0),
-      EndTime: new Date(2023, 1, 15, 18, 30),
-      IsReadonly: true,
-    },
-  ];
+    };
+  });
+
+  console.log(alreadyBooked);
+
+  if (isBooking || isBookingFetching) {
+    return (
+      <div className="min-h-[calc(100vh-20vh)] flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <ScheduleComponent

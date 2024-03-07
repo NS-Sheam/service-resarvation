@@ -183,6 +183,12 @@ const serviceBooking = async (
 
   return { result, meta };
 };
+const providerBookingByProviderId = async (providerId: string) => {
+  const result = await Booking.find({ provider: providerId }).populate(
+    "customer service provider schedule",
+  );
+  return result;
+};
 
 const cancelBooking = async (userId: string, id: string) => {
   const booking = await Booking.findById(id).populate(
@@ -249,4 +255,5 @@ export const BookingServices = {
   providerBooking,
   cancelBooking,
   serviceBooking,
+  providerBookingByProviderId,
 };
