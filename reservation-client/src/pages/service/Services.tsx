@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import CommonButton from "../../components/ui/CommonButton";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
+import BannerImage from "../../components/BannerImage";
 const Services = () => {
   const searchParams = new URLSearchParams(location.search);
 
@@ -41,79 +42,82 @@ const Services = () => {
   };
 
   return (
-    <div className="services-container min-h-[80vh]">
-      <HamburgerToggler className="text-white" />
-      <Row
-        justify="center"
-        align="middle"
-        gutter={[0, 8]}
-        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
-      >
-        <Col
-          span={24}
-          md={{ span: 16 }}
-          className="sticky top-0 z-10 shadow-lg"
+    <div className="services-container">
+      <div className="relative h-screen">
+        <BannerImage />
+        <HamburgerToggler className="text-white" />
+        <Row
+          justify="center"
+          align="middle"
+          gutter={[0, 8]}
+          className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-5 h-full overflow-y-auto"
         >
-          <CommonSearchBar onChange={onChange} />
-        </Col>
-        {user?.role === "provider" && (
           <Col
             span={24}
             md={{ span: 16 }}
-            className="shadow-lg"
+            className=" top-0 z-10 shadow-lg"
           >
-            <Row
-              justify="space-between"
-              align="middle"
-              gutter={[8, 0]}
-            >
-              <Col span={8}>
-                <Link to="/provider/add-service">
-                  <CommonButton>Add Service</CommonButton>
-                </Link>
-              </Col>
-              <Col
-                span={8}
-                onClick={() => setProviderId(pData?.data?._id as string)}
-              >
-                <CommonButton>My Service</CommonButton>
-              </Col>
-            </Row>
+            <CommonSearchBar onChange={onChange} />
           </Col>
-        )}
-
-        {isServiceFetching ? (
-          <Col
-            className=" shadow-lg bg-white rounded-md p-4"
-            span={24}
-            md={{ span: 16 }}
-          >
-            <Skeleton active />
-          </Col>
-        ) : serviceData?.length ? (
-          serviceData?.map((service, index) => (
+          {user?.role === "provider" && (
             <Col
-              className=" shadow-lg"
-              key={index}
+              span={24}
+              md={{ span: 16 }}
+              className="shadow-lg"
+            >
+              <Row
+                justify="space-between"
+                align="middle"
+                gutter={[8, 0]}
+              >
+                <Col span={8}>
+                  <Link to="/provider/add-service">
+                    <CommonButton>Add Service</CommonButton>
+                  </Link>
+                </Col>
+                <Col
+                  span={8}
+                  onClick={() => setProviderId(pData?.data?._id as string)}
+                >
+                  <CommonButton>My Service</CommonButton>
+                </Col>
+              </Row>
+            </Col>
+          )}
+
+          {isServiceFetching ? (
+            <Col
+              className=" shadow-lg bg-white rounded-md p-4"
               span={24}
               md={{ span: 16 }}
             >
-              <ServiceCard
-                key={index}
-                service={service}
-              />
+              <Skeleton active />
             </Col>
-          ))
-        ) : (
-          <Col
-            className=" shadow-lg"
-            span={24}
-            md={{ span: 16 }}
-          >
-            <NoItemCard title="Service" />
-          </Col>
-        )}
-      </Row>
+          ) : serviceData?.length ? (
+            serviceData?.map((service, index) => (
+              <Col
+                className=" shadow-lg"
+                key={index}
+                span={24}
+                md={{ span: 16 }}
+              >
+                <ServiceCard
+                  key={index}
+                  service={service}
+                />
+              </Col>
+            ))
+          ) : (
+            <Col
+              className=" shadow-lg"
+              span={24}
+              md={{ span: 16 }}
+            >
+              <NoItemCard title="Service" />
+            </Col>
+          )}
+        </Row>
+      </div>
     </div>
   );
 };

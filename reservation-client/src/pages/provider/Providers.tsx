@@ -31,7 +31,7 @@ const Providers = () => {
         justify="center"
         align="middle"
         gutter={[0, 8]}
-        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-3"
+        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-5"
       >
         <Col
           span={24}

@@ -1,3 +1,14 @@
-.ant-btn {
+.ant-input-wrapper .ant-btn {
   background-color: #0096c7;
+  height: 100%;
+  padding: 1rem 1rem !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ant-input-wrapper .ant-input {
+  height: 100%;
+}
+.ant-input-wrapper {
+  height: 100% !important;
 }

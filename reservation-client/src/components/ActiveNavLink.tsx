@@ -14,7 +14,7 @@ const ActiveNavLink = ({ to, children, ...remaining }: TActiveNavLinkProps) => {
       {...remaining}
       className={({ isActive }) =>
         isActive
-          ? `bg-gray h-full text-orange hover:text-orange ${commonStyles}`
+          ? `bg-gray h-full text-primary hover:text-primary ${commonStyles}`
           : `text-white ${commonStyles} hover:bg-gray hover:text-white`
       }
     >

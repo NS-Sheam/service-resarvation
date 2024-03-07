@@ -3,7 +3,6 @@ import "../../styles/Navbar.css";
 import ActiveNavLink from "../ActiveNavLink";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toggleMenu } from "../../redux/features/header/header.slice";
-import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
 import { FaUser } from "react-icons/fa";
 import { logOut } from "../../redux/auth/auth.Slice";
 import { useNavigate } from "react-router-dom";
@@ -47,76 +46,80 @@ const Navbar = () => {
 
   return (
     <>
-      <Row
-        align="middle"
-        justify="space-between"
-        className="navbar text-center h-16 bg-grayBlack hidden md:flex"
-      >
-        <Col span={6}>
-          <h1 className="text-white">Logo</h1>
-        </Col>
-        <Col
-          span={14}
-          className="h-full"
+      <div className="bg-grayBlack">
+        <Row
+          align="middle"
+          justify="space-between"
+          className="inner-container navbar text-center h-16 hidden md:flex"
         >
-          <Row
-            justify="center"
+          <Col span={6}>
+            <h1 className="text-white text-4xl">
+              Lo<span className=" text-primary">G</span>o
+            </h1>
+          </Col>
+          <Col
+            span={14}
             className="h-full"
-            align="middle"
           >
-            {mainMenuItems.map((item, index) => (
-              <Col
-                key={index}
-                span={4}
-                className="h-full"
-              >
-                <ActiveNavLink
-                  to={item.path}
-                  className="menu-link"
-                >
-                  {item.title}
-                </ActiveNavLink>
-              </Col>
-            ))}
-            {user && (
-              <>
+            <Row
+              justify="center"
+              className="h-full"
+              align="middle"
+            >
+              {mainMenuItems.map((item, index) => (
                 <Col
+                  key={index}
                   span={4}
                   className="h-full"
                 >
-                  <span
-                    onClick={() => handleLogout()}
-                    className="text-white text-xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1 cursor-pointer hover:bg-gray"
+                  <ActiveNavLink
+                    to={item.path}
+                    className="menu-link"
                   >
-                    Logout
-                  </span>
+                    {item.title}
+                  </ActiveNavLink>
                 </Col>
-                <Col
-                  span={4}
-                  className=""
-                >
-                  {user?.image ? (
-                    <img
-                      style={{ border: "2px solid #ffffff" }}
-                      src={user?.image}
-                      alt="user"
-                      className="w-10 h-10 rounded-full border-2 border-white cursor-pointer"
-                    />
-                  ) : (
-                    <FaUser
-                      style={{
-                        border: "2px solid #ffffff",
-                        padding: "0.25rem",
-                      }}
-                      className="text-white w-10 h-10 rounded-full cursor-pointer"
-                    />
-                  )}
-                </Col>
-              </>
-            )}
-          </Row>
-        </Col>
-      </Row>
+              ))}
+              {user && (
+                <>
+                  <Col
+                    span={4}
+                    className="h-full"
+                  >
+                    <span
+                      onClick={() => handleLogout()}
+                      className="text-white text-xl font-semibold h-full flex justify-center items-center py-1 md:py-0 mx-1 cursor-pointer hover:bg-gray"
+                    >
+                      Logout
+                    </span>
+                  </Col>
+                  <Col
+                    span={4}
+                    className=""
+                  >
+                    {user?.image ? (
+                      <img
+                        style={{ border: "2px solid #ffffff" }}
+                        src={user?.image}
+                        alt="user"
+                        className="w-10 h-10 rounded-full border-2 border-white cursor-pointer"
+                      />
+                    ) : (
+                      <FaUser
+                        style={{
+                          border: "2px solid #ffffff",
+                          padding: "0.25rem",
+                        }}
+                        className="text-white w-10 h-10 rounded-full cursor-pointer"
+                      />
+                    )}
+                  </Col>
+                </>
+              )}
+            </Row>
+          </Col>
+        </Row>
+      </div>
 
       {/* Mobile Menu */}
       <Row
@@ -134,10 +137,10 @@ const Navbar = () => {
             align="middle"
             justify="space-between"
             style={{
-              border: "2px solid #ffd500",
+              border: "2px solid #48cae4",
               borderRadius: "0.5rem",
             }}
-            className=" py-6 px-4 bg-grayBlack md:hidden shadow-sm shadow-white"
+            className=" py-6 px-4 bg-grayBlack md:hidden shadow-lg bg-opacity-80 shadow-white"
             gutter={[0, 16]}
           >
             {user && (
