@@ -28,7 +28,6 @@ import { toast } from "sonner";
 import {
   useAddBookingMutation,
   useGetProviderBookingByProviderIdQuery,
-  useGetServiceBookingsQuery,
 } from "../../../redux/features/bookingManagement/bookingApi.api";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";

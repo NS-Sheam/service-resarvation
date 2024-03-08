@@ -74,7 +74,7 @@ const Navbar = () => {
                 >
                   <ActiveNavLink
                     to={item.path}
-                    className="menu-link"
+                    className="menu-link "
                   >
                     {item.title}
                   </ActiveNavLink>

@@ -91,7 +91,7 @@ const bookingApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["booking"],
-      transformResponse: (response: TReduxResponse<TBooking>) => response.data,
+      transformResponse: (response: TReduxResponse<TBooking[]>) => response.data,
     }),
   }),
 });
