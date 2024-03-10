@@ -62,7 +62,7 @@ const Login = () => {
               <Col span={24}>
                 <RInput
                   style={commonInputStyle}
-                  type="text"
+                  type="password"
                   name="password"
                   label="Password"
                 />

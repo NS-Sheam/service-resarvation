@@ -15,14 +15,17 @@ const HamburgerToggler = ({ className }: THamburgerTogglerProps) => {
       {isMenuOpen ? (
         <RxCross1
           onClick={() => dispatch(toggleMenu())}
-          className="text-3xl absolute top-2 right-2 text-black"
+          style={{
+            border: "1px solid black",
+          }}
+          className="text-4xl absolute top-2 right-2 text-black rounded p-1"
         />
       ) : (
         <GiHamburgerMenu
           style={{
             border: "1px solid black",
           }}
-          className="text-4xl absolute top-2 right-2 text-black rounded-md p-1"
+          className="text-4xl absolute top-2 right-2 text-black rounded-md p-1 "
           onClick={() => dispatch(toggleMenu())}
         />
       )}

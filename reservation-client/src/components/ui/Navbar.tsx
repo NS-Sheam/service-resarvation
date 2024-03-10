@@ -53,7 +53,10 @@ const Navbar = () => {
           className="inner-container navbar text-center h-16 hidden md:flex"
         >
           <Col span={6}>
-            <h1 className="text-white text-4xl">
+            <h1
+              onClick={() => navigate("/")}
+              className="text-white text-4xl cursor-pointer"
+            >
               Lo<span className=" text-primary">G</span>o
             </h1>
           </Col>
@@ -140,9 +143,17 @@ const Navbar = () => {
               border: "2px solid #48cae4",
               borderRadius: "0.5rem",
             }}
-            className=" py-6 px-4 bg-grayBlack md:hidden shadow-lg bg-opacity-80 shadow-white"
+            className="py-6 px-4 bg-grayBlack md:hidden shadow-lg bg-opacity-80 shadow-white"
             gutter={[0, 16]}
           >
+            <Col span={6}>
+              <h1
+                onClick={() => navigate("/")}
+                className="text-white text-4xl cursor-pointer"
+              >
+                Lo<span className=" text-primary">G</span>o
+              </h1>
+            </Col>
             {user && (
               <Col
                 span={24}

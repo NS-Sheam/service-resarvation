@@ -197,7 +197,7 @@ const Register = () => {
               <Col span={24}>
                 <RInput
                   style={commonInputStyle}
-                  type="text"
+                  type="password"
                   name="password"
                   label="Password"
                   required

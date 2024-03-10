@@ -29,7 +29,7 @@ const Auth = () => {
             <Col
               onClick={() => setShowRegister(false)}
               span={12}
-              className="border-b-4 border-darkPrimary"
+              className="border-b-4 border-darkPrimary "
             >
               <p
                 className={`text-center text-xl font-semibold text-grayBlack py-2 cursor-pointer ${

@@ -24,11 +24,11 @@ const Banner = () => {
 
   return (
     <div className="container max-w-7xl mx-auto">
-      <HamburgerToggler className="text-white md:hidden" />
+      <HamburgerToggler className="md:hidden" />
       <Row
         align="middle"
         justify="center"
-        className="text-center min-h-screen "
+        className="text-center min-h-screen px-2"
       >
         <Col
           span={24}
