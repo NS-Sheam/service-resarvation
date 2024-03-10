@@ -6,7 +6,6 @@ import CommonSearchBar from "../CommonSearchBar";
 import { useGetServicesQuery } from "../../../redux/features/serviceManagement/service.api";
 import ServiceCard from "../ServiceCard";
 import NoItemCard from "../NoItemCard";
-import BannerImage from "../../BannerImage";
 const Banner = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -24,61 +23,58 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative min-h-screen">
-      <BannerImage />
-      <div className="container max-w-7xl mx-auto">
-        <HamburgerToggler className="text-white md:hidden" />
-        <Row
-          align="middle"
-          justify="center"
-          className="text-center min-h-screen "
+    <div className="container max-w-7xl mx-auto">
+      <HamburgerToggler className="text-white md:hidden" />
+      <Row
+        align="middle"
+        justify="center"
+        className="text-center min-h-screen "
+      >
+        <Col
+          span={24}
+          md={{ span: 14 }}
+          style={{ height: "100%", position: "relative" }}
         >
-          <Col
-            span={24}
-            md={{ span: 14 }}
-            style={{ height: "100%", position: "relative" }}
-          >
-            <CommonSearchBar
-              size="large"
-              navigation={true}
-              onChange={handleSetSerchQuery}
-            />
+          <CommonSearchBar
+            size="large"
+            navigation={true}
+            onChange={handleSetSerchQuery}
+          />
 
-            {searchTerm.length > 0 && (
-              <div className="scrollable-content absolute w-full mt-1 space-y-1 max-h-44 overflow-x-scroll">
-                {isServiceFetching ? (
-                  <Col
-                    className=" shadow-lg bg-white rounded-md p-4"
-                    span={24}
-                  >
-                    <Skeleton active />
-                  </Col>
-                ) : serviceData?.length ? (
-                  serviceData?.map((service, index) => (
-                    <Col
-                      className=" shadow-lg"
-                      key={index}
-                      span={24}
-                    >
-                      <ServiceCard
-                        key={index}
-                        service={service}
-                      />
-                    </Col>
-                  ))
-                ) : (
+          {searchTerm.length > 0 && (
+            <div className="scrollable-content absolute w-full mt-1 space-y-1 max-h-44 overflow-x-scroll">
+              {isServiceFetching ? (
+                <Col
+                  className=" shadow-lg bg-white rounded-md p-4"
+                  span={24}
+                >
+                  <Skeleton active />
+                </Col>
+              ) : serviceData?.length ? (
+                serviceData?.map((service, index) => (
                   <Col
                     className=" shadow-lg"
+                    key={index}
                     span={24}
                   >
-                    <NoItemCard title="Service" />
+                    <ServiceCard
+                      key={index}
+                      service={service}
+                    />
                   </Col>
-                )}
-              </div>
-            )}
-          </Col>
-        </Row>
-      </div>
+                ))
+              ) : (
+                <Col
+                  className=" shadow-lg"
+                  span={24}
+                >
+                  <NoItemCard title="Service" />
+                </Col>
+              )}
+            </div>
+          )}
+        </Col>
+      </Row>
     </div>
   );
 };
