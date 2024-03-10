@@ -101,12 +101,10 @@ const Navbar = () => {
                       Logout
                     </span>
                   </Col>
-                  <Col
-                    span={4}
-                    className=""
-                  >
+                  <Col span={4}>
                     {user?.image ? (
                       <img
+                        onClick={() => navigate("/profile")}
                         style={{ border: "2px solid #ffffff" }}
                         src={user?.image}
                         alt="user"
@@ -114,6 +112,7 @@ const Navbar = () => {
                       />
                     ) : (
                       <FaUser
+                        onClick={() => navigate("/profile")}
                         style={{
                           border: "2px solid #ffffff",
                           padding: "0.25rem",
@@ -166,6 +165,7 @@ const Navbar = () => {
               >
                 {user?.image ? (
                   <img
+                    onClick={() => navigate("/profile")}
                     style={{ border: "2px solid #ffffff" }}
                     src={user?.image}
                     alt="user"
@@ -173,6 +173,7 @@ const Navbar = () => {
                   />
                 ) : (
                   <FaUser
+                    onClick={() => navigate("/profile")}
                     style={{
                       border: "2px solid #ffffff",
                       padding: "0.25rem",

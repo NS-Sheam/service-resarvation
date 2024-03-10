@@ -42,7 +42,7 @@ const userManagementApi = baseApi.injectEndpoints({
 
         if (args) {
           args.forEach((item: TQueryParams) => {
-            params.append(item.name, item.value);
+            params.append(item.name, item.value as string);
           });
         }
 

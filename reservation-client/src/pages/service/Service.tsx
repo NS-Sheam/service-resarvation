@@ -47,15 +47,16 @@ const Service = () => {
 
   return (
     <Row
-      justify="center"
+      justify="space-between"
       align="top"
       gutter={[0, 8]}
-      className="my-container shadow-lg p-4 rounded-md min-h-screen"
+      className="my-container shadow-lg py-8 rounded-md min-h-screen"
     >
       {/* service information side */}
       <Col
         span={24}
-        md={{ span: 16 }}
+        md={{ span: 15 }}
+        className="bg-white p-4 rounded-md min-h-[calc(100vh-20vh)]"
       >
         <Col
           span={24}
@@ -141,7 +142,7 @@ const Service = () => {
       <Col
         span={24}
         md={{ span: 8 }}
-        className="space-y-4"
+        className="space-y-4 bg-white p-4 rounded-md "
       >
         <h3 className="font-bold text-darkPrimary">Service Provider</h3>
         <Row

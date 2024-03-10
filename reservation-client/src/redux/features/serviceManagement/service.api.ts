@@ -8,7 +8,7 @@ const serviceApi = baseApi.injectEndpoints({
         const params = new URLSearchParams();
         if (args) {
           args.forEach((item: TQueryParams) => {
-            params.append(item.name, item.value);
+            params.append(item.name, item.value as string);
           });
         }
         return {
