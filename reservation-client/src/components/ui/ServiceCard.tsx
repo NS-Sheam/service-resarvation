@@ -12,11 +12,21 @@ const ServiceCard = ({ service }: TServiceCardProps) => {
       align="middle"
       justify="center"
       className="bg-white p-4 rounded-md shadow-md"
-      gutter={[0, 4]}
+      gutter={[8, 8]}
     >
       <Col
-        span={24}
-        md={{ span: 20 }}
+        span={8}
+        md={{ span: 4 }}
+        className="w-24 h-24 rounded-lg overflow-hidden"
+      >
+        <img
+          className="w-full h-full"
+          src={service?.images[0]}
+          alt=""
+        />
+      </Col>
+      <Col
+        span={16}
         className="text-left"
       >
         <h3 className="text-lg font-semibold text-darkPrimary">{service.name}</h3>

@@ -33,15 +33,16 @@ const Provider = () => {
 
   return (
     <Row
-      justify="center"
+      justify="space-between"
       align="top"
       gutter={[0, 8]}
-      className="my-container my-5 shadow-lg p-4 rounded-md min-h-[calc(100vh-20vh)]"
+      className="my-container shadow-lg py-8 rounded-md min-h-screen"
     >
-      {/* service information side */}
+      {/* provider information side */}
       <Col
         span={24}
         md={{ span: 16 }}
+        className="bg-white p-4 rounded-md min-h-[calc(100vh-20vh)]"
       >
         <Row
           justify="start"
@@ -50,7 +51,7 @@ const Provider = () => {
         >
           <Col
             span={24}
-            className="space-y-1"
+            className="space-y-1 "
           >
             <h2>Provider Details</h2>
             <div className="rounded-md p-2 shadow-sm shadow-darkPrimary w-48 h-48">
@@ -76,8 +77,8 @@ const Provider = () => {
       {/* provider or customer information side */}
       <Col
         span={24}
-        md={{ span: 8 }}
-        className="space-y-4 bg-grayWhite p-4 rounded-md"
+        md={{ span: 7 }}
+        className="space-y-4 bg-grayWhite p-4 rounded-md md:min-h-[calc(100vh-20vh)] "
       >
         <h3 className="font-bold text-darkPrimary">Provider Services</h3>
 

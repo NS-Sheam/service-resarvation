@@ -50,7 +50,7 @@ const Service = () => {
       justify="center"
       align="top"
       gutter={[0, 8]}
-      className="my-container my-5 shadow-lg p-4 rounded-md min-h-[calc(100vh-20vh)]"
+      className="my-container shadow-lg p-4 rounded-md min-h-screen"
     >
       {/* service information side */}
       <Col
