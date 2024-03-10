@@ -41,7 +41,6 @@ const AddService = () => {
     formData.append("data", JSON.stringify(serviceInfo));
 
     // Array to hold all image fetching promises
-    const imagePromises: Promise<any>[] = [];
 
     // service?.images?.forEach(async (image: any) => {
     //   const imagePromise = fetch(image)
@@ -56,7 +55,6 @@ const AddService = () => {
     // });
 
     // Wait for all image promises to resolve
-    const resolvedImages = await Promise.all(imagePromises);
 
     // Update data.images with resolved images
 
@@ -70,9 +68,11 @@ const AddService = () => {
       if (typeof image === "string" || typeof image === "undefined") {
         console.log("String or undefined");
 
-        const res = await fetch(image);
+        const res = await fetch(image as string);
         const blob = await res.blob();
-        const file = new File([blob], image.substring(image.lastIndexOf("/") + 1), { type: blob.type });
+        const file = new File([blob], (image as string).substring((image as string).lastIndexOf("/") + 1), {
+          type: blob.type,
+        });
         formData.append("files", file);
       } else formData.append("files", image);
       //   });

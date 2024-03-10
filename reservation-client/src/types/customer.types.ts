@@ -1,6 +1,7 @@
+import { TUser } from "../types";
 export type TCustomer = {
   _id: string;
-  user: string;
+  user: TUser;
   name: string;
   email: string;
   phone: string;

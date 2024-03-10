@@ -5,9 +5,10 @@ export type TAvailableSchedule = {
   endTime: string;
   _id: string;
 };
+import { TUser } from "../types";
 export type TProvider = {
   _id: string;
-  user: string;
+  user: TUser;
   name: string;
   email: string;
   phone: string;

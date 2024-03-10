@@ -1,15 +1,14 @@
 import { Form, Upload, message } from "antd";
 import { Controller } from "react-hook-form";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type TRProfileImageUploaderProps = {
   name: string;
   label: string;
-  defaultImage?: string;
 };
 
-const RProfileImageUploader = ({ name, label, defaultImage }: TRProfileImageUploaderProps) => {
+const RProfileImageUploader = ({ name, label }: TRProfileImageUploaderProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const getBase64 = (img: any, callback: (url: string) => void) => {
@@ -53,11 +52,12 @@ const RProfileImageUploader = ({ name, label, defaultImage }: TRProfileImageUplo
             action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
             beforeUpload={beforeUpload}
             onChange={(e) => {
+              console.log(e.file.status);
+
               if (e.file.status === "uploading") {
                 setLoading(true);
                 return;
-              }
-              if (e.file.status === "done") {
+              } else {
                 getBase64(e.file.originFileObj, (url) => {
                   setLoading(false);
                   setImageUrl(url);
@@ -70,7 +70,7 @@ const RProfileImageUploader = ({ name, label, defaultImage }: TRProfileImageUplo
               <img
                 src={imageUrl}
                 alt="avatar"
-                style={{ width: "100%", height: "100%" }}
+                style={{ width: "100%" }}
               />
             ) : (
               uploadButton

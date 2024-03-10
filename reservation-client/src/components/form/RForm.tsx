@@ -12,6 +12,7 @@ type TRFormProps = {
 } & TFormConfig;
 const RForm = ({ onSubmit, children, defaultValues, resolver }: TRFormProps) => {
   const formConfig: TFormConfig = {};
+
   if (defaultValues) {
     formConfig.defaultValues = defaultValues;
   }

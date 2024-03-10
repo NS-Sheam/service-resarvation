@@ -27,7 +27,7 @@ const userManagementApi = baseApi.injectEndpoints({
     }),
 
     updateCustomer: builder.mutation({
-      query: ({ id, body }: { id: string; body: Partial<TCustomer> }) => ({
+      query: ({ id, body }: { id: string; body: any }) => ({
         url: `/customers/${id}`,
         method: "PATCH",
         body: body,
@@ -69,7 +69,7 @@ const userManagementApi = baseApi.injectEndpoints({
       transformResponse: (response: TReduxResponse<TProvider>) => response.data,
     }),
     updateProvider: builder.mutation({
-      query: ({ id, body }: { id: string; body: Partial<TProvider> }) => ({
+      query: ({ id, body }: { id: string; body: any }) => ({
         url: `/providers/${id}`,
         method: "PATCH",
         body: body,
