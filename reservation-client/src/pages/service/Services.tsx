@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton } from "antd";
+import { Col, Flex, Pagination, Row, Skeleton } from "antd";
 import HamburgerToggler from "../../components/ui/HamburgerToggler";
 import CommonSearchBar from "../../components/ui/CommonSearchBar";
 import "../../styles/Services.css";
@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import CommonButton from "../../components/ui/CommonButton";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
-import BannerImage from "../../components/BannerImage";
 const Services = () => {
   const searchParams = new URLSearchParams(location.search);
 
@@ -18,11 +17,19 @@ const Services = () => {
   const { data: pData, isFetching: isUserFetching, isLoading } = useGetMyInfoQuery(undefined);
   const [searchTerm, setSearchTerm] = useState(searchParams.get("searchTerm") || "");
   const [providerId, setProviderId] = useState("");
-
+  const [page, setPage] = useState<number>(1);
   const searchQuery = [
     {
       name: "searchTerm",
       value: searchTerm,
+    },
+    {
+      name: "page",
+      value: page,
+    },
+    {
+      name: "limit",
+      value: 5,
     },
   ];
 
@@ -36,24 +43,25 @@ const Services = () => {
     skip: isUserFetching || isLoading,
   });
   const serviceData = data?.data;
+  const metaData = data?.meta;
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
     setSearchTerm(e.currentTarget.value);
   };
 
   return (
-    <div className="services-container">
+    <div className="services-container min-h-screen">
       <HamburgerToggler className="text-white" />
       <Row
         justify="center"
         align="middle"
         gutter={[0, 8]}
-        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-5 h-full overflow-y-auto"
+        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-5"
       >
         <Col
           span={24}
           md={{ span: 16 }}
-          className=" top-0 z-10 shadow-lg"
+          className="shadow-lg "
         >
           <CommonSearchBar onChange={onChange} />
         </Col>
@@ -114,6 +122,20 @@ const Services = () => {
             <NoItemCard title="Service" />
           </Col>
         )}
+        <Col
+          span={24}
+          md={{ span: 16 }}
+        >
+          <Flex justify="end">
+            <Pagination
+              className="bg-white shadow-lg rounded-md py-2"
+              current={page}
+              onChange={(value) => setPage(value)}
+              total={metaData?.total}
+              pageSize={metaData?.limit}
+            />
+          </Flex>
+        </Col>
       </Row>
     </div>
   );

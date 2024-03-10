@@ -38,10 +38,15 @@ const Navbar = () => {
       path: "/auth",
     });
   } else {
-    mainMenuItems.push({
-      title: "booking",
-      path: "/my-bookings",
-    });
+    user?.role === "admin"
+      ? mainMenuItems.push({
+          title: "Users",
+          path: "/admin/users",
+        })
+      : mainMenuItems.push({
+          title: "booking",
+          path: "/my-bookings",
+        });
   }
 
   return (

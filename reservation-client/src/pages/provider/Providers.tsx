@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton } from "antd";
+import { Col, Flex, Pagination, Row, Skeleton } from "antd";
 import HamburgerToggler from "../../components/ui/HamburgerToggler";
 import CommonSearchBar from "../../components/ui/CommonSearchBar";
 import "../../styles/Providers.css";
@@ -12,20 +12,31 @@ import { useGetProvidersQuery } from "../../redux/features/userManagement/userMa
  */
 const Providers = () => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [page, setPage] = useState<number>(1);
   const { data, isFetching: isProviderFetching } = useGetProvidersQuery([
     {
       name: "searchTerm",
       value: searchTerm,
     },
+    {
+      name: "page",
+      value: page,
+    },
+    {
+      name: "limit",
+      value: 5,
+    },
   ]);
   const providerData = data?.data;
+  const metaData = data?.meta;
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
     setSearchTerm(e.currentTarget.value);
   };
 
   return (
-    <div className="providers-container">
+    <div className="providers-container min-h-screen">
       <HamburgerToggler />
       <Row
         justify="center"
@@ -36,7 +47,7 @@ const Providers = () => {
         <Col
           span={24}
           md={{ span: 16 }}
-          className="sticky top-0 z-10 shadow-lg"
+          className="shadow-lg"
         >
           <CommonSearchBar onChange={onChange} />
         </Col>
@@ -71,6 +82,20 @@ const Providers = () => {
             <NoItemCard title="Provider" />
           </Col>
         )}
+        <Col
+          span={24}
+          md={{ span: 16 }}
+        >
+          <Flex justify="end">
+            <Pagination
+              className="bg-white shadow-lg rounded-md py-2"
+              current={page}
+              onChange={(value) => setPage(value)}
+              total={metaData?.total}
+              pageSize={metaData?.limit}
+            />
+          </Flex>
+        </Col>
       </Row>
     </div>
   );
