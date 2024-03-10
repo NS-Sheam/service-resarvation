@@ -146,10 +146,10 @@ const Navbar = () => {
             className="py-6 px-4 bg-grayBlack md:hidden shadow-lg bg-opacity-80 shadow-white"
             gutter={[0, 16]}
           >
-            <Col span={6}>
+            <Col span={24}>
               <h1
                 onClick={() => navigate("/")}
-                className="text-white text-4xl cursor-pointer"
+                className="text-white text-4xl cursor-pointer text-center"
               >
                 Lo<span className=" text-primary">G</span>o
               </h1>

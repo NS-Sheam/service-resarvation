@@ -12,7 +12,7 @@ const ProviderCard = ({ provider }: TProviderCardProps) => {
       align="middle"
       justify="center"
       className="bg-white p-4 rounded-md shadow-md"
-      gutter={[8, 8]}
+      gutter={[4, 4]}
     >
       <Col
         span={8}

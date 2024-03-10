@@ -6,7 +6,6 @@ import ProviderCard from "../../components/ui/ProviderCard";
 import { FormEvent, useState } from "react";
 import NoItemCard from "../../components/ui/NoItemCard";
 import { useGetProvidersQuery } from "../../redux/features/userManagement/userManagement.api";
-import BannerImage from "../../components/BannerImage";
 /**
  * TODO:
  * 1. Fix the layout of the providers page
@@ -27,55 +26,52 @@ const Providers = () => {
 
   return (
     <div className="providers-container">
-      <div className="relative h-screen">
-        <HamburgerToggler className="text-white" />
-        <BannerImage />
-        <Row
-          justify="center"
-          align="middle"
-          gutter={[0, 8]}
-          className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-5"
+      <HamburgerToggler />
+      <Row
+        justify="center"
+        align="middle"
+        gutter={[0, 8]}
+        className=" bg-opacity-20 w-full md:w-3/4 mx-auto px-2 py-5"
+      >
+        <Col
+          span={24}
+          md={{ span: 16 }}
+          className="sticky top-0 z-10 shadow-lg"
         >
+          <CommonSearchBar onChange={onChange} />
+        </Col>
+        {isProviderFetching ? (
           <Col
+            className=" shadow-lg bg-white rounded-md p-4"
             span={24}
             md={{ span: 16 }}
-            className="sticky top-0 z-10 shadow-lg"
           >
-            <CommonSearchBar onChange={onChange} />
+            <Skeleton active />
           </Col>
-          {isProviderFetching ? (
-            <Col
-              className=" shadow-lg bg-white rounded-md p-4"
-              span={24}
-              md={{ span: 16 }}
-            >
-              <Skeleton active />
-            </Col>
-          ) : providerData?.length ? (
-            providerData?.map((provider, index) => (
-              <Col
-                className=" shadow-lg"
-                key={index}
-                span={24}
-                md={{ span: 16 }}
-              >
-                <ProviderCard
-                  key={index}
-                  provider={provider}
-                />
-              </Col>
-            ))
-          ) : (
+        ) : providerData?.length ? (
+          providerData?.map((provider, index) => (
             <Col
               className=" shadow-lg"
+              key={index}
               span={24}
               md={{ span: 16 }}
             >
-              <NoItemCard title="Provider" />
+              <ProviderCard
+                key={index}
+                provider={provider}
+              />
             </Col>
-          )}
-        </Row>
-      </div>
+          ))
+        ) : (
+          <Col
+            className=" shadow-lg"
+            span={24}
+            md={{ span: 16 }}
+          >
+            <NoItemCard title="Provider" />
+          </Col>
+        )}
+      </Row>
     </div>
   );
 };

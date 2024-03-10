@@ -24,7 +24,7 @@ const Banner = () => {
 
   return (
     <div className="container max-w-7xl mx-auto">
-      <HamburgerToggler className="md:hidden" />
+      <HamburgerToggler />
       <Row
         align="middle"
         justify="center"
