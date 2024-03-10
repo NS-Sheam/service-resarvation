@@ -9,6 +9,7 @@ import { TUser } from "../user/user.interface";
 import { providerSearchableFields } from "./provider.const";
 import { Provider } from "./provider.model";
 import { TProvider } from "./provider.interface";
+import { Service } from "../service/service.model";
 
 const getAllProviders = async (query: Record<string, unknown>) => {
   const providerQuery = new QueryBuilder(Provider.find(), query)
@@ -48,11 +49,34 @@ const updateProvider = async (
 
     payload.image = secure_url;
   }
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const newProvider = await Provider.findByIdAndUpdate(providerId, payload, {
+      new: true,
+      session,
+    });
+    if (!newProvider) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Provider update failed");
+    }
 
-  const result = Provider.findByIdAndUpdate(providerId, payload, {
-    new: true,
-  });
-  return result;
+    const newServiceWithLocation = await Service.updateMany(
+      { provider: providerId },
+      { location: payload.location || provider?.location },
+      { session },
+    );
+    if (!newServiceWithLocation) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Service update failed");
+    }
+    await session.commitTransaction();
+    await session.endSession();
+
+    return newProvider;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  }
 };
 
 const deleteProvider = async (providerId: string) => {

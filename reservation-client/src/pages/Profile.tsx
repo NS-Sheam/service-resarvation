@@ -1,9 +1,7 @@
 import { Button, Col, Flex, Row, Spin } from "antd";
 import RInput from "../components/form/RInput";
 import RForm from "../components/form/RForm";
-import { useAppSelector } from "../redux/hooks";
-import RSelect from "../components/form/RSelect";
-import RStartAndEndTimePicker from "../components/form/RStartAndEndTimePicker";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import RProfileImageUploader from "../components/form/RProfileImageUploader";
 import { useNavigate } from "react-router-dom";
 import { useGetMyInfoQuery } from "../redux/auth/auth.api";
@@ -15,12 +13,14 @@ import {
   useUpdateCustomerMutation,
   useUpdateProviderMutation,
 } from "../redux/features/userManagement/userManagement.api";
+import { setUser } from "../redux/auth/auth.Slice";
 
 const Profile = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, token } = useAppSelector((state) => state.auth);
+
   const [updateCustomer] = useUpdateCustomerMutation();
   const [updateProvider] = useUpdateProviderMutation();
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { data, isLoading: isProfileLoading, isFetching: isProfileFetching } = useGetMyInfoQuery(undefined);
   const [imageUploader, setImageUploader] = useState<boolean>(false);
@@ -45,7 +45,6 @@ const Profile = () => {
       };
     }),
   };
-  console.log(defaultValues);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Updating...");
@@ -88,6 +87,8 @@ const Profile = () => {
               body: formData,
             })) as TResponse<any>);
       if (!res.error) {
+        console.log(res);
+        dispatch(setUser({ user: { ...user, image: res.data.image }, token }));
         toast.success("Profile Picture updated successfully", { id: toastId, duration: 2000 });
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
