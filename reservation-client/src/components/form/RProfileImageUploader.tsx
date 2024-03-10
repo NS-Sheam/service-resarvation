@@ -1,14 +1,15 @@
 import { Form, Upload, message } from "antd";
 import { Controller } from "react-hook-form";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type TRProfileImageUploaderProps = {
   name: string;
   label: string;
+  defaultImage?: string;
 };
 
-const RProfileImageUploader = ({ name, label }: TRProfileImageUploaderProps) => {
+const RProfileImageUploader = ({ name, label, defaultImage }: TRProfileImageUploaderProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const getBase64 = (img: any, callback: (url: string) => void) => {
@@ -69,7 +70,7 @@ const RProfileImageUploader = ({ name, label }: TRProfileImageUploaderProps) => 
               <img
                 src={imageUrl}
                 alt="avatar"
-                style={{ width: "100%" }}
+                style={{ width: "100%", height: "100%" }}
               />
             ) : (
               uploadButton

@@ -6,10 +6,13 @@ import RSelect from "../components/form/RSelect";
 import RStartAndEndTimePicker from "../components/form/RStartAndEndTimePicker";
 import RProfileImageUploader from "../components/form/RProfileImageUploader";
 import { useNavigate } from "react-router-dom";
+import { useGetMyInfoQuery } from "../redux/auth/auth.api";
 
 const Profile = () => {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+  const { data } = useGetMyInfoQuery(undefined);
+  const profileData = data?.data;
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -33,13 +36,32 @@ const Profile = () => {
           className="bg-white p-4 "
         >
           <RForm onSubmit={onSubmit}>
-            <Row gutter={8}>
-              <Col span={24}>
+            <Row
+              gutter={0}
+              justify="start"
+              align="middle"
+            >
+              <Col
+                span={12}
+                className="flex justify-start items-center"
+              >
                 <RProfileImageUploader
+                  defaultImage={profileData?.image}
                   name="image"
                   label="Image"
                 />
+                <Button
+                  onClick={() => navigate("/auth/change-password")}
+                  htmlType="submit"
+                  style={{ width: "20%", backgroundColor: "#0096c7", color: "white", fontWeight: "bold" }}
+                >
+                  Save
+                </Button>
               </Col>
+            </Row>
+          </RForm>
+          <RForm onSubmit={onSubmit}>
+            <Row gutter={8}>
               <Col
                 span={24}
                 md={{ span: 12 }}
