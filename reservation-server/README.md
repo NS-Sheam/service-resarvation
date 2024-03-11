@@ -1,8 +1,69 @@
-# Reservation Website
+# Reservation Website Backend
+
+This repository contains the backend codebase for the Reservation Website project. The backend provides APIs for user authentication, managing customers, providers, services, bookings, and more.
+
+## Technologies Used
+
+- **Node.js**: JavaScript runtime environment for building server-side applications.
+- **Express.js**: Web application framework for Node.js.
+- **MongoDB**: NoSQL database used for storing application data.
+- **Mongoose**: MongoDB object modeling tool designed to work in an asynchronous environment.
+- **JWT**: JSON Web Token for user authentication and authorization.
+- **Multer**: Middleware for handling file uploads.
+- **Cloudinary**: Cloud-based image and video management service for handling uploaded images.
+- **bcrypt**: Library for hashing passwords.
+- **Nodemailer**: Module for sending emails.
+- **Zod**: TypeScript-first schema declaration and validation library.
+- **Cors**: Middleware for enabling Cross-Origin Resource Sharing (CORS).
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js installed on your local machine
+- MongoDB database (local or cloud-based)
+- SMTP server credentials (for Nodemailer)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/service-reservation.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd reservation-client
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Configuration
+
+Create a `.env` file in the root directory of the project with the **[environment variables](https://github.com/NS-Sheam/service-resarvation/blob/main/reservation-server/.env.example)**
+
+### Usage
+
+Start the development server:
+
+```bash
+npm run start:dev
+```
+
+The server will be running at http://localhost:4000.
+Make sure your MongoDB server is running and accessible.
+
+## Routes
 
 ## `User Routes`
 
-### create Customer
+## create Customer
 
 - **Method:** **`POST`**
 - **Endpoint:** **`/users/create-customer`**
@@ -460,20 +521,18 @@ Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKE
 Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN | CUSTOMER_ACCESS_TOKEN>
 ```
 
-#### Headers
-
 ---
 
-## Upload images in file
+### Cloudinary Image Upload
 
-- First send all data in text format inside 'data'
-- Then send image as file formate and received it with req.file
-- Have to parse the file with multer before going to the controller
-- Make sure that we have parse text **`req.body.data`** to json format and add in **`req.body`** before data going to validateRequest.
+To upload images using Cloudinary, follow these steps:
 
-### **`Example:`**
+- Send all data in text format inside `data`.
+- Send the image as a file format and receive it with `req.file`.
+- Ensure to parse the file with Multer before it goes to the controller.
+- Parse text `req.body.data` to JSON format and add it to `req.body` before the data goes to `validateRequest`
 
-**`Route:`**
+### **`Example Routes:`**
 
 #### For single upload
 
@@ -519,3 +578,17 @@ res.status(statusCode).json({
     stack: config.NODE_ENV === 'development' ? error?.stack : null,
   });
 ```
+
+### Scripts
+
+- **`npm run start:prod`**: Start the server in production mode.
+- **`npm run start:dev`**: Start the server in development mode.
+- **`npm run build`**: Build the server for production.
+- **`npm run lint`**: Run ESLint for code linting.
+- **`npm run lint:fix`**: Run ESLint with auto-fix for code linting.
+- **`npm run prettier`**: Format code using Prettier.
+- **`npm run prettier:fix`**: Format code using Prettier with auto-fix.
+
+### Dependencies
+
+Check the package.json file for the list of dependencies used in this project.

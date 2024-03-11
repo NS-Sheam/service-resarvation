@@ -49,7 +49,7 @@ This repository contains the frontend codebase for the Reservation Website proje
 
 Create a `.env` file in the root directory of the project with the following environment variables:
 
-```json
+```javascript
 VITE_BASE_URL=http://localhost:4000/api/v1
 VITE_SYNCFUSION_LICENSE_KEY=syncfusion-calendar-license-key
 ```
