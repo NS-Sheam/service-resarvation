@@ -27,10 +27,6 @@ const Navbar = () => {
       title: "Services",
       path: "/services",
     },
-    {
-      title: "Providers",
-      path: "/providers",
-    },
   ];
   if (!user) {
     mainMenuItems.push({

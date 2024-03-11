@@ -13,7 +13,6 @@ import MyServices from "../pages/provider/MyServices";
 import AddService from "../pages/provider/AddService";
 import MyBookings from "../pages/booking/MyBookings";
 import SingleMyBooking from "../pages/booking/SingleMyBooking";
-import Users from "../pages/admin/Users";
 import Profile from "../pages/Profile";
 
 const router = createBrowserRouter([
@@ -76,10 +75,6 @@ const router = createBrowserRouter([
       {
         path: "/my-bookings/:id",
         element: <SingleMyBooking />,
-      },
-      {
-        path: "/admin/users",
-        element: <Users />,
       },
       {
         path: "/profile",

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import RProfileImageUploader from "../components/form/RProfileImageUploader";
 import { useNavigate } from "react-router-dom";
 import { useGetMyInfoQuery } from "../redux/auth/auth.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TProvider, TResponse } from "../types";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,9 +22,12 @@ const Profile = () => {
   const [updateProvider] = useUpdateProviderMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data, isLoading: isProfileLoading, isFetching: isProfileFetching } = useGetMyInfoQuery(undefined);
+  const { data, isLoading: isProfileLoading, isFetching: isProfileFetching, refetch } = useGetMyInfoQuery(undefined);
   const [imageUploader, setImageUploader] = useState<boolean>(false);
   const profileData = data?.data;
+  useEffect(() => {
+    refetch();
+  }, [user, refetch]);
   if (isProfileLoading || isProfileFetching) {
     return (
       <div className="min-h-[calc(100vh-20vh)] flex justify-center items-center bg-white">
@@ -32,7 +35,9 @@ const Profile = () => {
       </div>
     );
   }
+
   const defaultValues = {
+    userName: profileData?.user?.userName,
     name: profileData?.name,
     email: profileData?.email,
     phone: profileData?.phone,
@@ -176,6 +181,19 @@ const Profile = () => {
                 <RInput
                   style={commonInputStyle}
                   type="text"
+                  name="userName"
+                  label="User Name"
+                  readOnly
+                  required
+                />
+              </Col>
+              <Col
+                span={24}
+                md={{ span: 12 }}
+              >
+                <RInput
+                  style={commonInputStyle}
+                  type="text"
                   name="name"
                   label="Name"
                   required
@@ -190,6 +208,7 @@ const Profile = () => {
                   type="text"
                   name="email"
                   label="Email"
+                  readOnly
                   required
                 />
               </Col>

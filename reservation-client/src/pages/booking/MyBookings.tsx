@@ -9,7 +9,6 @@ const MyBookings = () => {
   const { data: bookings, isFetching: isBookingFetching } = useGetMyBookingsQuery(user?.role);
 
   const bookingData = bookings?.data;
-  console.log(bookingData);
 
   return (
     <Row
