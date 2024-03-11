@@ -31,7 +31,7 @@ export const cancelBookingEmail = async (
     to: customer.email,
     subject: "Booking Cancel Comfirmation", // Subject line for Customer
     html: `
-            <p>Hello Customer,</p>
+            <p>Hello ${customer.name}</p>
             <p>Your booking has been canceled.</p>
             <p>Please find the details below:</p>
             <p>Booking Details:</p>

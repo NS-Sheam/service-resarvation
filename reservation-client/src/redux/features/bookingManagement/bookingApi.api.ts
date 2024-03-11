@@ -103,4 +103,5 @@ export const {
   useGetMyBookingsQuery,
   useGetServiceBookingsQuery,
   useGetProviderBookingByProviderIdQuery,
+  useCancelBookingMutation,
 } = bookingApi;
