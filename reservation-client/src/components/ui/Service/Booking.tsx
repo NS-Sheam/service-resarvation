@@ -122,6 +122,7 @@ function Booking({ service }: TBookingProps) {
               format="yyyy-MMMM-dd hh:mm a"
               ref={startTimeObj}
               disabled={props.IsReadonly}
+              readOnly
             />
           </div>
           <div className="content-area">
@@ -176,8 +177,6 @@ function Booking({ service }: TBookingProps) {
       IsReadonly: true,
     };
   });
-
-  console.log(alreadyBooked);
 
   if (isBooking || isBookingFetching) {
     return (

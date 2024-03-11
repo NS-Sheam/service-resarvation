@@ -57,6 +57,13 @@ const createBooking = async (userId: string, payload: TBooking) => {
       );
     }
   }
+  const isBookingTimeIsPast = new Date(payload.schedule.date) < new Date();
+  if (isBookingTimeIsPast) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "You can not book a service in the past",
+    );
+  }
 
   const session = await startSession();
 

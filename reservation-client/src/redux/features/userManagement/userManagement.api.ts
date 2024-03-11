@@ -82,7 +82,7 @@ const userManagementApi = baseApi.injectEndpoints({
         url: `/providers/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["provider"],
+      invalidatesTags: ["provider", "service", "booking"],
     }),
   }),
 });
