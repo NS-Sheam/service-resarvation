@@ -62,7 +62,7 @@ const updateService = catchAsync(async (req: Request, res: Response) => {
 const deleteService = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const result = await ServiceServices.deleteService(id, req.body);
+  const result = await ServiceServices.deleteService(id, req.user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

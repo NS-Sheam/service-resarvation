@@ -42,7 +42,6 @@ const AddService = () => {
     // Append all images to formData
     for (const image of data.images) {
       // await data.images.forEach((image: any) => {
-      console.log(typeof image);
 
       if (typeof image === "string" || typeof image === "undefined") {
         console.log("String or undefined");
@@ -54,9 +53,7 @@ const AddService = () => {
         });
         formData.append("files", file);
       } else formData.append("files", image);
-      //   });
     }
-    console.log("after append");
 
     try {
       const res = id

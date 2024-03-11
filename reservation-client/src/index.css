@@ -30,22 +30,22 @@ body {
 .triangle {
   position: absolute;
   top: 0;
-  right: 50%;
+  left: 50%;
   width: 0;
   height: 0;
-  opacity: 0.1;
+  opacity: 0.2;
 }
 .triangle1 {
   border-left: 200px solid transparent;
   border-right: 200px solid transparent;
-  border-bottom: 400px solid #2d3748;
+  border-bottom: 400px solid #fdc500;
 }
 .triangle2 {
   border-left: 300px solid transparent;
   border-right: 300px solid transparent;
-  border-bottom: 500px solid #2d3748;
+  border-bottom: 500px solid #fdc500;
 }
 .item-card:hover .triangle,
 .item-card:hover .triangle2 {
-  opacity: 0.2;
+  opacity: 0.4;
 }

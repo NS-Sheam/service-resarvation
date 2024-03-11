@@ -14,6 +14,7 @@ import {
   deleteImageFromCloudinary,
   getPublicId,
 } from "../../utils/deleteImageFromCloudinary";
+import { Booking } from "../booking/booking.model";
 const addService = async (userId: string, payload: TService, files: any) => {
   const isProviderExist = await Provider.findOne({ user: userId });
   if (!isProviderExist) {
@@ -139,24 +140,51 @@ const deleteService = async (serviceId: string, user: JwtPayload) => {
   if (!service) {
     throw new AppError(httpStatus.NOT_FOUND, "Service not found");
   }
+  const provider = await Provider.findOne({ user: user.userId });
+
+  if (!provider) {
+    throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
+  }
 
   const isUserOwnerOfTheService = await Service.findOne({
     _id: serviceId,
-    provider: user.email,
+    provider: provider?._id,
   });
 
   if (!isUserOwnerOfTheService) {
     throw new AppError(httpStatus.UNAUTHORIZED, "You are not the owner");
   }
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const deletedService = await Service.findByIdAndUpdate(
+      serviceId,
+      { isDeleted: true },
+      {
+        new: true,
+        session,
+      },
+    );
 
-  const result = Service.findByIdAndUpdate(
-    serviceId,
-    { isDeleted: true },
-    {
-      new: true,
-    },
-  );
-  return result;
+    if (!deletedService) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Service deleting failed");
+    }
+    const deletedBookingsOfThisService = await Booking.deleteMany(
+      { service: service?.id },
+      { session },
+    );
+    if (!deletedBookingsOfThisService) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Service deleting failed");
+    }
+    await session.commitTransaction();
+    await session.endSession();
+    return deleteService;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+
+    throw error;
+  }
 };
 
 export const ServiceServices = {

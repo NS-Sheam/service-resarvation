@@ -1,5 +1,5 @@
-import { Link, useParams } from "react-router-dom";
-import { useGetSingleServiceQuery } from "../../redux/features/serviceManagement/service.api";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDeleteServiceMutation, useGetSingleServiceQuery } from "../../redux/features/serviceManagement/service.api";
 import { Col, Modal, Row, Spin } from "antd";
 import { useState } from "react";
 import BookingToogler from "../../components/ui/Service/BookingToogler";
@@ -8,12 +8,17 @@ import CommonButton from "../../components/ui/CommonButton";
 import ServiceDetails from "../../components/ui/Service/ServiceDetails";
 import Booking from "../../components/ui/Service/Booking";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
+import { TResponse } from "../../types";
 const Service = () => {
   const { id } = useParams<{ id: string }>();
   const { data: service, isLoading } = useGetSingleServiceQuery(id || "");
   const { data: user } = useGetMyInfoQuery(undefined);
+  const [deleteService] = useDeleteServiceMutation();
   const [viewerVisible, setViewerVisible] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
+  const navigate = useNavigate();
   const showViewer = (src: string) => {
     setCurrentImage(src);
     setViewerVisible(true);
@@ -21,6 +26,43 @@ const Service = () => {
   const closeViewer = () => {
     setViewerVisible(false);
   };
+
+  const handleDeleteService = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to delete ${service?.name}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        container: "booking-sweetalert-container",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const toastId = toast.loading("Deleting...");
+        const res = (await deleteService(id as string)) as TResponse<any>;
+        console.log(res);
+
+        if (!res.error) {
+          toast.success(res?.message || "Service Deleted successfully", {
+            id: toastId,
+            duration: 2000,
+          });
+          navigate("/services");
+        } else {
+          toast.error(
+            res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong",
+            {
+              id: toastId,
+            }
+          );
+        }
+      }
+    });
+  };
+
   const [tabItem, setTabItem] = useState("Details");
   const providerContactInfos = [
     {
@@ -92,6 +134,7 @@ const Service = () => {
                   <CommonButton
                     size="large"
                     backgroundColor="#ff4d4f"
+                    onClick={handleDeleteService}
                   >
                     Delete Service
                   </CommonButton>
