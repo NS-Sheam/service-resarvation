@@ -9,9 +9,10 @@ import httpStatus from "http-status";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { TProvider } from "../provider/provider.interface";
 import { Provider } from "../provider/provider.model";
-import { verifyToken } from "../Auth/auth.utils";
+import { createToken, verifyToken } from "../Auth/auth.utils";
 import config from "../../config";
 import { JwtPayload } from "jsonwebtoken";
+import { sendEmail } from "../../utils/sendEmail";
 
 const createCustomer = async (
   file: any,
@@ -52,6 +53,22 @@ const createCustomer = async (
     if (!newCustomer) {
       throw new AppError(httpStatus.BAD_REQUEST, "Customer creation failed");
     }
+    const jwtPayload = {
+      email: newUser[0].email,
+      role: "customer",
+    };
+    const verifyEmailToken = createToken(
+      jwtPayload,
+      config.jwt_access_secret as string,
+      "10d",
+    );
+    const verifyUrl = `${config.client_url}/auth/verify-email?token=${verifyEmailToken}`;
+    // send email verification link
+    sendEmail(
+      verifyUrl,
+      newUser[0].email,
+      "Verify your email by clicking the link below:",
+    );
     await session.commitTransaction();
     await session.endSession();
     return newCustomer[0];
@@ -102,6 +119,23 @@ const createProvider = async (
     if (!newProvider) {
       throw new AppError(httpStatus.BAD_REQUEST, "Provider creation failed");
     }
+    const jwtPayload = {
+      email: newUser[0].email,
+      role: "provider",
+    };
+    const verifyEmailToken = createToken(
+      jwtPayload,
+      config.jwt_access_secret as string,
+      "10d",
+    );
+    const verifyUrl = `${config.client_url}/verify-email?token=${verifyEmailToken}`;
+    // send email verification link
+    sendEmail(
+      verifyUrl,
+      newUser[0].email,
+      "Verify your email by clicking the link below:",
+    );
+
     await session.commitTransaction();
     await session.endSession();
     return newProvider[0];
@@ -114,7 +148,7 @@ const createProvider = async (
 };
 
 const getMe = async (token: string) => {
-  const decoded = verifyToken(token, config.jwt_access_secret as string);
+  const decoded = await verifyToken(token, config.jwt_access_secret as string);
 
   const { userId, role } = decoded as JwtPayload;
   // check if user exists

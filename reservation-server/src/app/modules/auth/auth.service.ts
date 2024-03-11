@@ -56,6 +56,33 @@ const loginUser = async (payload: TLoginUser) => {
   };
 };
 
+const verifyEmail = async (token: string) => {
+  // verify the token
+  const decoded = await verifyToken(token, config.jwt_access_secret as string);
+
+  const { email, role } = decoded as JwtPayload;
+  // check if the user exists
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  // check if the user is deleted
+  if (user?.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is deleted");
+  }
+
+  // check if the user is already verified
+  if (user.isEmailVerified) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is already verified");
+  }
+
+  // update the user
+  await User.findOneAndUpdate({ email, role }, { isEmailVerified: true });
+  return null;
+};
+
 const changePassword = async (
   userData: JwtPayload,
   payload: { oldPassword: string; newPassword: string },
@@ -161,13 +188,15 @@ const forgetPassword = async (email: string) => {
   const resetToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "2d",
+    "10m",
   );
 
-  // FIXME: descrease the time of the token
-
-  const resetUrlLink = `${config.reset_password_url_link}/auth/reset-password?email=${user?.email}&token=${resetToken}`;
-  sendEmail(resetUrlLink, user.email);
+  const resetUrlLink = `${config.client_url}/auth/reset-password?email=${user?.email}&token=${resetToken}`;
+  sendEmail(
+    resetUrlLink,
+    user.email,
+    "Reset your password within 10 minutes! Click the link below to reset your password:",
+  );
 };
 
 const resetPassword = async (
@@ -188,10 +217,10 @@ const resetPassword = async (
   }
 
   // verify the token
-  const decoded = verifyToken(
+  const decoded = (await verifyToken(
     token,
     config.jwt_access_secret as string,
-  ) as JwtPayload;
+  )) as JwtPayload;
   if (decoded.email !== email) {
     throw new AppError(httpStatus.BAD_REQUEST, "Invalid token");
   }
@@ -216,4 +245,5 @@ export const AuthServices = {
   refreshToken,
   forgetPassword,
   resetPassword,
+  verifyEmail,
 };

@@ -25,6 +25,15 @@ const authApi = baseApi.injectEndpoints({
         body: userInfo,
       }),
     }),
+    verifyEmail: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/auth/verify-email",
+          method: "POST",
+          body: payload,
+        };
+      },
+    }),
     changePassword: builder.mutation({
       query: (payload) => ({
         url: "/auth/change-password",
@@ -69,6 +78,7 @@ export const {
   useLoginMutation,
   useCustomerRegistrationMutation,
   useProviderRegistrationMutation,
+  useVerifyEmailMutation,
   useChangePasswordMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,

@@ -12,8 +12,16 @@ import { sendBookingEmail } from "../../utils/sendBookingEmail";
 import { getDayFromDate } from "../../utils/date.utils.";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { cancelBookingEmail } from "../../utils/sendCancelBookingEmail";
+import { User } from "../user/user.model";
 
 const createBooking = async (userId: string, payload: TBooking) => {
+  const isUserVerified = await User.findOne({
+    _id: userId,
+    isEmailVerified: true,
+  });
+  if (!isUserVerified) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is not verified");
+  }
   const customer = await Customer.findOne({ user: userId });
   if (!customer) {
     throw new AppError(httpStatus.NOT_FOUND, "Customer not found");

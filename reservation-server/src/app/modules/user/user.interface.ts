@@ -10,6 +10,7 @@ export type TUser = {
   phone: string;
   role: "admin" | "provider" | "customer";
   isDeleted: boolean;
+  isEmailVerified: boolean;
 };
 
 export interface UserModel extends Model<TUser> {

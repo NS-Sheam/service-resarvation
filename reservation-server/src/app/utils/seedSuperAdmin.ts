@@ -8,6 +8,7 @@ const admin = {
   phone: "01700000000",
   role: "admin",
   isDeleted: false,
+  isEmailVerified: true,
 };
 
 const seedSuperAdmin = async () => {

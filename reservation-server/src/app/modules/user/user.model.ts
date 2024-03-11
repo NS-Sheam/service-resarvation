@@ -36,7 +36,12 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   {
     timestamps: true,
   },

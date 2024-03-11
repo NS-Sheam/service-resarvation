@@ -16,6 +16,14 @@ import {
 } from "../../utils/deleteImageFromCloudinary";
 import { Booking } from "../booking/booking.model";
 const addService = async (userId: string, payload: TService, files: any) => {
+  const isUserVerified = await User.findOne({
+    _id: userId,
+    isEmailVerified: true,
+  });
+  if (!isUserVerified) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is not verified");
+  }
+
   const isProviderExist = await Provider.findOne({ user: userId });
   if (!isProviderExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
@@ -71,6 +79,13 @@ const updateService = async (
   user: JwtPayload,
   files: any,
 ) => {
+  const isUserVerified = await User.findOne({
+    _id: user.userId,
+    isEmailVerified: true,
+  });
+  if (!isUserVerified) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is not verified");
+  }
   const service = await Service.findById(serviceId);
 
   if (!service) {
@@ -135,6 +150,14 @@ const updateService = async (
 };
 
 const deleteService = async (serviceId: string, user: JwtPayload) => {
+  const isUserVerified = await User.findOne({
+    _id: user.userId,
+    isEmailVerified: true,
+  });
+  if (!isUserVerified) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is not verified");
+  }
+
   const service = await Service.findById(serviceId);
 
   if (!service) {

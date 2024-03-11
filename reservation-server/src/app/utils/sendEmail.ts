@@ -1,7 +1,11 @@
 import nodemailer from "nodemailer";
 import config from "../config";
 
-export const sendEmail = async (resetUrlLink: string, email: string) => {
+export const sendEmail = async (
+  resetUrlLink: string,
+  email: string,
+  message: string,
+) => {
   const transporter = nodemailer.createTransport({
     host: config.email_host,
     port: Number(config.email_port),
@@ -18,6 +22,6 @@ export const sendEmail = async (resetUrlLink: string, email: string) => {
     to: email, // list of receivers
     subject: "Change your password within 10 minutes!", // Subject line
     text: "", // plain text body
-    html: `<p>Change your password within 10 minutes! Click the link below to reset your password:</p><a href="${resetUrlLink}">Reset Password</a>`, // html body
+    html: `<p>${message}</p><a href="${resetUrlLink}">Reset Password</a>`, // html body
   });
 };

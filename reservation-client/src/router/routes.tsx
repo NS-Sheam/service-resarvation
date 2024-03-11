@@ -14,6 +14,7 @@ import AddService from "../pages/provider/AddService";
 import MyBookings from "../pages/booking/MyBookings";
 import SingleMyBooking from "../pages/booking/SingleMyBooking";
 import Profile from "../pages/Profile";
+import VerifyEmail from "../pages/auth/VerifyEmail";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/auth",
         element: <Auth />,
+      },
+      {
+        path: "/auth/verify-email",
+        element: <VerifyEmail />,
       },
       {
         path: "/auth/change-password",
