@@ -14,11 +14,10 @@ import {
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
-/**
- * TODO: Fix update service for image upload
- */
+
 const AddService = () => {
   const { id } = useParams<{ id: string }>();
+
   const {
     data: service,
     isLoading: isServiceLoading,
@@ -42,6 +41,7 @@ const AddService = () => {
 
     // Append all images to formData
     for (const image of data.images) {
+      // await data.images.forEach((image: any) => {
       console.log(typeof image);
 
       if (typeof image === "string" || typeof image === "undefined") {
@@ -59,11 +59,11 @@ const AddService = () => {
     console.log("after append");
 
     try {
-      const res = !(service as TService[]).length
-        ? ((await updateService({ id: (service as TService)?._id, data: formData })) as TReduxResponse<TService>)
+      const res = id
+        ? ((await updateService({ id: id, data: formData })) as TReduxResponse<TService>)
         : ((await addService(formData)) as TReduxResponse<TService>);
       if (!res.error) {
-        toast.success(res.message || `Service ${service ? "updated" : "added"} successfully`, {
+        toast.success(res.message || `Service ${id ? "updated" : "added"} successfully`, {
           id: toastId,
           duration: 2000,
         });
@@ -74,7 +74,7 @@ const AddService = () => {
         });
       }
     } catch (error: any) {
-      toast.error(error.message || `Service ${!(service as TService[]).length ? "updating" : "adding"} failed`, {
+      toast.error(error.message || `Service ${id ? "updating" : "adding"} failed`, {
         id: toastId,
         duration: 2000,
       });
@@ -116,7 +116,7 @@ const AddService = () => {
             className="border-b-4 border-darkPrimary"
           >
             <p className={`text-center text-xl font-semibold text-grayBlack py-2 cursor-pointer bg-grayWhite`}>
-              {!(service as TService[]).length ? "Update Service" : "Add Service"}
+              {service ? "Update Service" : "Add Service"}
             </p>
             <hr className={`h-2 w-full bg-darkPrimary`} />
           </Col>
@@ -129,7 +129,7 @@ const AddService = () => {
           <Col span={24}>
             <RForm
               onSubmit={onSubmit}
-              defaultValues={service as TService}
+              defaultValues={service}
             >
               <Row gutter={8}>
                 <Col
@@ -194,7 +194,7 @@ const AddService = () => {
                   <RMultipleImageUploader
                     name="images"
                     label="Image"
-                    defaultImages={(service as TService)?.images || []}
+                    defaultImages={service?.images || []}
                   />
                 </Col>
               </Row>
@@ -206,7 +206,7 @@ const AddService = () => {
                   span={8}
                   className="text-center"
                 >
-                  <CommonButton htmlType="submit">{service ? "Update" : "Add"}</CommonButton>
+                  <CommonButton htmlType="submit">{id ? "Update" : "Add"}</CommonButton>
                 </Col>
               </Row>
             </RForm>

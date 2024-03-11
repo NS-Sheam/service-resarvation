@@ -41,7 +41,7 @@ const serviceApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["service"],
-      transformResponse: (response: TReduxResponse<TService | TService[]>) => response.data,
+      transformResponse: (response: TReduxResponse<TService>) => response.data,
     }),
 
     updateService: builder.mutation({
