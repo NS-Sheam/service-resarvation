@@ -20,7 +20,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const verifyEmail = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.verifyEmail(req.body);
+  const result = await AuthServices.verifyEmail(req.body.token);
   sendResponse(res, {
     statusCode: 200,
     success: true,

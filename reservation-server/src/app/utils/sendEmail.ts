@@ -4,6 +4,8 @@ import config from "../config";
 export const sendEmail = async (
   resetUrlLink: string,
   email: string,
+  heading: string,
+  buttonText: string,
   message: string,
 ) => {
   const transporter = nodemailer.createTransport({
@@ -20,8 +22,8 @@ export const sendEmail = async (
   await transporter.sendMail({
     from: config.email_from, // sender address
     to: email, // list of receivers
-    subject: "Change your password within 10 minutes!", // Subject line
+    subject: heading, // Subject line
     text: "", // plain text body
-    html: `<p>${message}</p><a href="${resetUrlLink}">Reset Password</a>`, // html body
+    html: `<p>${message}</p><a href="${resetUrlLink}">${buttonText}</a>`, // html body
   });
 };

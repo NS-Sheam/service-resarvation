@@ -8,9 +8,17 @@ import RStartAndEndTimePicker from "../form/RStartAndEndTimePicker";
 import RSelect from "../form/RSelect";
 import { useState } from "react";
 import RProfileImageUploader from "../form/RProfileImageUploader";
-import { useCustomerRegistrationMutation, useProviderRegistrationMutation } from "../../redux/auth/auth.api";
+import {
+  useCustomerRegistrationMutation,
+  useLoginMutation,
+  useProviderRegistrationMutation,
+} from "../../redux/auth/auth.api";
 import { toast } from "sonner";
-import { TResponse } from "../../types";
+import { TResponse, TUser } from "../../types";
+import { useAppDispatch } from "../../redux/hooks";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../../redux/auth/auth.Slice";
+import { verifyToken } from "../../utils/verifyToken";
 /** TODO:
  * - Add autmatic login after registration
  * - Automatically redirect to page where user was before login or want to go
@@ -21,6 +29,9 @@ const Register = () => {
   const [isCustomer, setIsCustomer] = useState(true);
   const [customerRegistration] = useCustomerRegistrationMutation();
   const [providerRegistration] = useProviderRegistrationMutation();
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Registering...");
 
@@ -64,7 +75,22 @@ const Register = () => {
         : ((await providerRegistration(formData)) as TResponse<any>);
 
       if (!res.error) {
-        toast.success("Registered successfully");
+        const res: any = await login({ email: data.email, password: data.password });
+        const user = verifyToken(res.data.data.accessToken) as TUser;
+        const userData = await fetch("http://localhost:4000/api/v1/users/me", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            authorization: res.data.data.accessToken,
+          },
+        });
+        const userInfo = await userData.json();
+        dispatch(setUser({ user: { ...user, image: userInfo?.data?.image }, token: res.data.data.accessToken }));
+        toast.success("Registered successfully. Check your email for verify.", {
+          id: toastId,
+          duration: 2000,
+        });
+        navigate("/");
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
           id: toastId,

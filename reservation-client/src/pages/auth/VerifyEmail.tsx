@@ -4,9 +4,12 @@ import { useVerifyEmailMutation } from "../../redux/auth/auth.api";
 
 import { useLocation } from "react-router-dom";
 import { TResponse } from "../../types";
+import { useState } from "react";
+import { IoIosCloudDone } from "react-icons/io";
 
 const VerifyEmail = () => {
   const [VerifyEmail] = useVerifyEmailMutation();
+  const [verify, setVerify] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token") || "";
@@ -23,6 +26,7 @@ const VerifyEmail = () => {
         });
       } else {
         toast.success("Email verified successfully", { id: toastId, duration: 2000 });
+        setVerify(true);
       }
     } catch (error: any) {
       toast.error(error.message || "Something went wrong", { id: toastId, duration: 2000 });
@@ -43,25 +47,32 @@ const VerifyEmail = () => {
         className="bg-white shadow-lg space-y-4  rounded-lg"
       >
         <div className="p-4">
-          <Row
-            justify="center"
-            align="middle"
-            gutter={[0, 8]}
-          >
-            <Col span={24}>
-              <h1 className="text-center text-2xl font-bold text-darkPrimary">Verify Your Email</h1>
-              <p className="text-center font-bold">Click the button below to verify your email</p>
-            </Col>
+          {verify ? (
+            <div className="flex flex-col justify-center items-center text-center">
+              <IoIosCloudDone className="text-7xl text-darkPrimary" />
+              <h1 className="text-xl font-bold">Email verified successfully</h1>
+            </div>
+          ) : (
+            <Row
+              justify="center"
+              align="middle"
+              gutter={[0, 8]}
+            >
+              <Col span={24}>
+                <h1 className="text-center text-2xl font-bold text-darkPrimary">Verify Your Email</h1>
+                <p className="text-center font-bold">Click the button below to verify your email</p>
+              </Col>
 
-            <Col span={24}>
-              <Button
-                onClick={handleVerify}
-                style={{ width: "100%", backgroundColor: "#0096c7", color: "white", fontWeight: "bold" }}
-              >
-                Verify
-              </Button>
-            </Col>
-          </Row>
+              <Col span={24}>
+                <Button
+                  onClick={handleVerify}
+                  style={{ width: "100%", backgroundColor: "#0096c7", color: "white", fontWeight: "bold" }}
+                >
+                  Verify
+                </Button>
+              </Col>
+            </Row>
+          )}
         </div>
       </Col>
     </Row>

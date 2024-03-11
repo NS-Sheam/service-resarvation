@@ -58,7 +58,7 @@ const loginUser = async (payload: TLoginUser) => {
 
 const verifyEmail = async (token: string) => {
   // verify the token
-  const decoded = await verifyToken(token, config.jwt_access_secret as string);
+  const decoded = verifyToken(token, config.jwt_access_secret as string);
 
   const { email, role } = decoded as JwtPayload;
   // check if the user exists
@@ -195,6 +195,8 @@ const forgetPassword = async (email: string) => {
   sendEmail(
     resetUrlLink,
     user.email,
+    "Reset your password within 10 minutes!",
+    "Reset Password",
     "Reset your password within 10 minutes! Click the link below to reset your password:",
   );
 };
@@ -217,10 +219,10 @@ const resetPassword = async (
   }
 
   // verify the token
-  const decoded = (await verifyToken(
+  const decoded = verifyToken(
     token,
     config.jwt_access_secret as string,
-  )) as JwtPayload;
+  ) as JwtPayload;
   if (decoded.email !== email) {
     throw new AppError(httpStatus.BAD_REQUEST, "Invalid token");
   }

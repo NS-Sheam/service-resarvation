@@ -67,6 +67,8 @@ const createCustomer = async (
     sendEmail(
       verifyUrl,
       newUser[0].email,
+      "Verify your email",
+      "Verify Email",
       "Verify your email by clicking the link below:",
     );
     await session.commitTransaction();
@@ -128,11 +130,13 @@ const createProvider = async (
       config.jwt_access_secret as string,
       "10d",
     );
-    const verifyUrl = `${config.client_url}/verify-email?token=${verifyEmailToken}`;
+    const verifyUrl = `${config.client_url}/auth/verify-email?token=${verifyEmailToken}`;
     // send email verification link
     sendEmail(
       verifyUrl,
       newUser[0].email,
+      "Verify your email",
+      "Verify Email",
       "Verify your email by clicking the link below:",
     );
 
@@ -148,7 +152,7 @@ const createProvider = async (
 };
 
 const getMe = async (token: string) => {
-  const decoded = await verifyToken(token, config.jwt_access_secret as string);
+  const decoded = verifyToken(token, config.jwt_access_secret as string);
 
   const { userId, role } = decoded as JwtPayload;
   // check if user exists

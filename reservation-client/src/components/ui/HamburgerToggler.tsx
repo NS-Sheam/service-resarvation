@@ -16,16 +16,16 @@ const HamburgerToggler = ({ className }: THamburgerTogglerProps) => {
         <RxCross1
           onClick={() => dispatch(toggleMenu())}
           style={{
-            border: "1px solid black",
+            border: "1px solid #00296b",
           }}
-          className="text-4xl absolute top-2 right-2 text-black rounded p-1"
+          className="text-4xl absolute top-2 right-2 text-nevyBlue rounded p-1 bg-white  bg-opacity-50 shadow-md shadow-darkPrimary"
         />
       ) : (
         <GiHamburgerMenu
           style={{
-            border: "1px solid black",
+            border: "1px solid #00296b",
           }}
-          className="text-4xl absolute top-2 right-2 text-black rounded-md p-1 "
+          className="text-4xl absolute top-2 right-2 text-nevyBlue rounded-md p-1  bg-white  bg-opacity-50 shadow-md shadow-darkPrimary"
           onClick={() => dispatch(toggleMenu())}
         />
       )}

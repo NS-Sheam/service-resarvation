@@ -13,7 +13,7 @@ import {
 } from "../../redux/features/serviceManagement/service.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddService = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,6 +27,7 @@ const AddService = () => {
   const { data: user, isLoading: isUserLoading, isFetching: isUserFetching } = useGetMyInfoQuery(undefined);
   const [addService] = useAddServiceMutation();
   const [updateService] = useUpdateServiceMutation();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading(`${service ? "Updating" : "Adding"} service...`);
@@ -64,6 +65,7 @@ const AddService = () => {
           id: toastId,
           duration: 2000,
         });
+        navigate("/services");
       } else {
         toast.error(res?.error?.data?.errorSources[0].message || res?.error?.data?.message || "Something went wrong", {
           id: toastId,
@@ -113,7 +115,7 @@ const AddService = () => {
             className="border-b-4 border-darkPrimary"
           >
             <p className={`text-center text-xl font-semibold text-grayBlack py-2 cursor-pointer bg-grayWhite`}>
-              {service ? "Update Service" : "Add Service"}
+              {id ? "Update Service" : "Add Service"}
             </p>
             <hr className={`h-2 w-full bg-darkPrimary`} />
           </Col>

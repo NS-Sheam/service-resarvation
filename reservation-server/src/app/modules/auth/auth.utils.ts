@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import AppError from "../../errors/AppError";
 
 export const createToken = (
@@ -11,17 +11,12 @@ export const createToken = (
 ) => {
   return jwt.sign(jwtPayload, secret, { expiresIn });
 };
-export const verifyToken = (
-  token: string,
-  secret: string,
-): Promise<JwtPayload> => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, secret, (err, decoded) => {
-      if (!err) {
-        return resolve(decoded as JwtPayload);
-      } else {
-        return reject(new AppError(401, "Invalid token"));
-      }
-    });
-  });
+
+export const verifyToken = (token: string, secret: string) => {
+  try {
+    const decoded = jwt.verify(token, secret);
+    return decoded;
+  } catch (error) {
+    throw new AppError(401, "Invalid token");
+  }
 };
