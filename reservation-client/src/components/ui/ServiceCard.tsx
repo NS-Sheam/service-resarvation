@@ -11,9 +11,11 @@ const ServiceCard = ({ service }: TServiceCardProps) => {
     <Row
       align="middle"
       justify="center"
-      className="bg-white p-4 rounded-md shadow-md"
+      className="item-card relative bg-white p-4 rounded-md shadow-md overflow-hidden"
       gutter={[8, 8]}
     >
+      <div className="triangle triangle1"></div>
+      <div className="triangle triangle2"></div>
       <Col
         span={8}
         md={{ span: 4 }}
