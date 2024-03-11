@@ -21,7 +21,7 @@ const Login = () => {
     try {
       const res: any = await login(data);
       const user = verifyToken(res.data.data.accessToken) as TUser;
-      const userData = await fetch("http://localhost:4000/api/v1/users/me", {
+      const userData = await fetch(`${import.meta.env.VITE_BASE_URL}/users/me`, {
         method: "GET",
         credentials: "include",
         headers: {

@@ -12,6 +12,7 @@ import UserContactCard from "../../components/ui/UserContactCard";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 import { TResponse } from "../../types";
+import PageHead from "../../components/PageHead";
 
 const SingleMyBooking = () => {
   const { id } = useParams<{ id: string }>();
@@ -89,6 +90,7 @@ const SingleMyBooking = () => {
       gutter={[0, 8]}
       className="my-container shadow-lg py-8 rounded-md min-h-screen"
     >
+      <PageHead title={`Booking | ${bookingData?.service?.name}`} />
       {/* service information side */}
       <Col
         span={24}

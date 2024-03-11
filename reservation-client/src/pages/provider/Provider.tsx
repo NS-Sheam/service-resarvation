@@ -13,6 +13,8 @@ import { useAppSelector } from "../../redux/hooks";
 import { TResponse } from "../../types";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+import HamburgerToggler from "../../components/ui/HamburgerToggler";
+import PageHead from "../../components/PageHead";
 
 const Provider = () => {
   const { id } = useParams<{ id: string }>();
@@ -78,84 +80,88 @@ const Provider = () => {
   };
 
   return (
-    <Row
-      justify="space-between"
-      align="top"
-      gutter={[0, 8]}
-      className="my-container shadow-lg py-8 rounded-md min-h-screen"
-    >
-      {/* provider information side */}
-      <Col
-        span={24}
-        md={{ span: 16 }}
-        className="bg-white p-4 rounded-md min-h-[calc(100vh-20vh)]"
+    <div className="min-h-screen">
+      <PageHead title="Provider" />
+      <HamburgerToggler className="text-white" />
+      <Row
+        justify="space-between"
+        align="top"
+        gutter={[0, 8]}
+        className="my-container shadow-lg py-8 rounded-md min-h-screen"
       >
-        <Row
-          justify="start"
-          align="middle"
-          gutter={[8, 8]}
+        {/* provider information side */}
+        <Col
+          span={24}
+          md={{ span: 16 }}
+          className="bg-white p-4 rounded-md min-h-[calc(100vh-20vh)]"
         >
-          <Col
-            span={24}
-            className="space-y-1 "
+          <Row
+            justify="start"
+            align="middle"
+            gutter={[8, 8]}
           >
-            <h2>Provider Details</h2>
-            <div className="rounded-md p-2 shadow-sm shadow-darkPrimary w-48 h-48">
-              <img
-                src={provider?.image}
-                alt={provider?.name}
-                className="w-full h-full object-cover rounded-md"
-              />
-            </div>
-            <h1 className="text-3xl lg:text-4xl font-semibold text-nevyBlue ">{provider?.name}</h1>
-            {contactInfo.map(({ info, icon }, index) => (
-              <p
-                key={index}
-                className="flex items-center gap-1"
-              >
-                <span className="text-darkPrimary text-2xl flex items-center justify-center">{icon}</span>
-                <span className="text-grayBlack font-bold">{info}</span>
-              </p>
-            ))}
-          </Col>
-          {user?.role === "admin" && (
             <Col
-              span={12}
-              md={{ span: 8 }}
+              span={24}
+              className="space-y-1 "
             >
-              <CommonButton
-                size="large"
-                backgroundColor="#ff4d4f"
-                onClick={handleDeleteProvider}
-              >
-                Delete Provider
-              </CommonButton>
+              <h2>Provider Details</h2>
+              <div className="rounded-md p-2 shadow-sm shadow-darkPrimary w-48 h-48">
+                <img
+                  src={provider?.image}
+                  alt={provider?.name}
+                  className="w-full h-full object-cover rounded-md"
+                />
+              </div>
+              <h1 className="text-3xl lg:text-4xl font-semibold text-nevyBlue ">{provider?.name}</h1>
+              {contactInfo.map(({ info, icon }, index) => (
+                <p
+                  key={index}
+                  className="flex items-center gap-1"
+                >
+                  <span className="text-darkPrimary text-2xl flex items-center justify-center">{icon}</span>
+                  <span className="text-grayBlack font-bold">{info}</span>
+                </p>
+              ))}
             </Col>
-          )}
-        </Row>
-      </Col>
-      {/* provider or customer information side */}
-      <Col
-        span={24}
-        md={{ span: 7 }}
-        className="space-y-4 bg-grayWhite p-4 rounded-md md:min-h-[calc(100vh-20vh)] "
-      >
-        <h3 className="font-bold text-darkPrimary">Provider Services</h3>
+            {user?.role === "admin" && (
+              <Col
+                span={12}
+                md={{ span: 8 }}
+              >
+                <CommonButton
+                  size="large"
+                  backgroundColor="#ff4d4f"
+                  onClick={handleDeleteProvider}
+                >
+                  Delete Provider
+                </CommonButton>
+              </Col>
+            )}
+          </Row>
+        </Col>
+        {/* provider or customer information side */}
+        <Col
+          span={24}
+          md={{ span: 7 }}
+          className="space-y-4 bg-grayWhite p-4 rounded-md md:min-h-[calc(100vh-20vh)] "
+        >
+          <h3 className="font-bold text-darkPrimary">Provider Services</h3>
 
-        <div className="scrollable-content w-full mt-1 space-y-1 max-h-96 overflow-x-scroll">
-          {services?.data && services?.data?.length > 0 ? (
-            services?.data?.map((service: any) => (
-              <ServiceCard
-                key={service._id}
-                service={service}
-              />
-            ))
-          ) : (
-            <NoItemCard title="Service" />
-          )}
-        </div>
-      </Col>
-    </Row>
+          <div className="scrollable-content w-full mt-1 space-y-1 max-h-96 overflow-x-scroll">
+            {services?.data && services?.data?.length > 0 ? (
+              services?.data?.map((service: any) => (
+                <ServiceCard
+                  key={service._id}
+                  service={service}
+                />
+              ))
+            ) : (
+              <NoItemCard title="Service" />
+            )}
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

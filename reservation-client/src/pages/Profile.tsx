@@ -14,6 +14,7 @@ import {
   useUpdateProviderMutation,
 } from "../redux/features/userManagement/userManagement.api";
 import { setUser } from "../redux/auth/auth.Slice";
+import PageHead from "../components/PageHead";
 
 const Profile = () => {
   const { user, token } = useAppSelector((state) => state.auth);
@@ -114,6 +115,7 @@ const Profile = () => {
   };
   return (
     <div className="py-8">
+      <PageHead title="Profile" />
       <Row
         justify="center"
         align="middle"

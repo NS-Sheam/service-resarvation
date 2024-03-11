@@ -6,6 +6,7 @@ import ProviderCard from "../../components/ui/ProviderCard";
 import { FormEvent, useState } from "react";
 import NoItemCard from "../../components/ui/NoItemCard";
 import { useGetProvidersQuery } from "../../redux/features/userManagement/userManagement.api";
+import PageHead from "../../components/PageHead";
 /**
  * TODO:
  * 1. Fix the layout of the providers page
@@ -37,6 +38,7 @@ const Providers = () => {
 
   return (
     <div className="providers-container min-h-screen">
+      <PageHead title="Providers" />
       <HamburgerToggler />
       <Row
         justify="center"

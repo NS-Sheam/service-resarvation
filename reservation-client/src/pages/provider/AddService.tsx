@@ -14,6 +14,7 @@ import {
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
+import PageHead from "../../components/PageHead";
 
 const AddService = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +31,7 @@ const AddService = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading(`${service ? "Updating" : "Adding"} service...`);
+    const toastId = toast.loading(`${id ? "Updating" : "Adding"} service...`);
 
     const serviceInfo = {
       ...data,
@@ -101,6 +102,7 @@ const AddService = () => {
       style={{ minHeight: "100vh", position: "relative" }}
       className="shadow-md py-14 md:py-16 lg:py-20"
     >
+      <PageHead title={`Services | ${id ? "Update Service" : "Add Service"}`} />
       <Col
         span={22}
         md={{ span: 16 }}

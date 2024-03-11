@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import CommonButton from "../../components/ui/CommonButton";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetMyInfoQuery } from "../../redux/auth/auth.api";
+import PageHead from "../../components/PageHead";
 const Services = () => {
   const searchParams = new URLSearchParams(location.search);
 
@@ -51,6 +52,7 @@ const Services = () => {
 
   return (
     <div className="services-container min-h-screen">
+      <PageHead title="Services" />
       <HamburgerToggler className="text-white" />
       <Row
         justify="center"

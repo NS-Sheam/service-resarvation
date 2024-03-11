@@ -15,11 +15,13 @@ import MyBookings from "../pages/booking/MyBookings";
 import SingleMyBooking from "../pages/booking/SingleMyBooking";
 import Profile from "../pages/Profile";
 import VerifyEmail from "../pages/auth/VerifyEmail";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",

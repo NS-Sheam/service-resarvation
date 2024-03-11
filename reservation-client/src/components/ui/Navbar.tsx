@@ -58,7 +58,7 @@ const Navbar = () => {
               onClick={() => navigate("/")}
               className="text-white text-4xl cursor-pointer"
             >
-              Lo<span className=" text-primary">G</span>o
+              <span className="text-orange">B</span>oo<span className=" text-primary">K</span>Ease
             </h1>
           </Col>
           <Col
@@ -155,7 +155,7 @@ const Navbar = () => {
                 onClick={() => navigate("/")}
                 className="text-white text-4xl cursor-pointer text-center"
               >
-                Lo<span className=" text-primary">G</span>o
+                <span className="text-orange">B</span>oo<span className=" text-primary">K</span>Ease
               </h1>
             </Col>
             {user && (

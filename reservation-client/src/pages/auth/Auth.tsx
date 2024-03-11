@@ -3,12 +3,14 @@ import { useState } from "react";
 import Register from "../../components/auth/Register";
 import Login from "../../components/auth/Login";
 import HamburgerToggler from "../../components/ui/HamburgerToggler";
+import PageHead from "../../components/PageHead";
 
 const Auth = () => {
   const [showRegister, setShowRegister] = useState(false);
 
   return (
     <>
+      <PageHead title="Auth" />
       <HamburgerToggler className="md:hidden text-black" />
       <Row
         justify="center"
