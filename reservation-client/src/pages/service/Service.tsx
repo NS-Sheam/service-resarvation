@@ -43,7 +43,6 @@ const Service = () => {
       if (result.isConfirmed) {
         const toastId = toast.loading("Deleting...");
         const res = (await deleteService(id as string)) as TResponse<any>;
-        console.log(res);
 
         if (!res.error) {
           toast.success(res?.message || "Service Deleted successfully", {
