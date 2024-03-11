@@ -218,9 +218,29 @@ Authorization <ADMIN_ACCESS_TOKEN | PROVIDER_ACCESS_TOKEN>
   "success": true,
   "message": "User logged in successfully",
   "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQ0YjRmY2QxNzAxYTEyMDZmZDhiZjUiLCJlbWFpbCI6Ijc1ODJtbnNha2lic0BnbWFpbC5jb20iLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE3MDg1MTc1MjksImV4cCI6MTcxMTEwOTUyOX0.hlmYKTgdDpcKs5X0-5e4-HhU1KOG0Iy-TfwNfEZeU4A",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQ0YjRmY2QxNzAxYTEyMDZmZDhiZjUiLCJlbWFpbCI6Ijc1ODJtbnNha2lic0BnbWFpbC5jb20iLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE3MDg1MTc1MjksImV4cCI6MTcxMTEwOTUyOX0.eKqo9A1qrLDFN6AhlG5ZOGCKfaBo9SLPpKhno4yZByQ"
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQ0YjRmY2QxNzAxYTEyMDZmZDhiZjUiLCJlbWFpbCI344c1ODJtbnNha2lic0BnbWFpbC5jb20iLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE3MDg1MTc1MjksImV4cCI6MTcxMTEwOTUyOX0.hlmYKTgdDpcKs5X0-5e4-HhU1KOG0Iy-TfwNfEZeU4A",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQ0YjRmY2QxNzAxYTEyMDZmZDhiZjUiLCJlbW343CI6Ijc1ODJtbnNha2lic0BnbWFpbC5jb20iLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE3MDg1MTc1MjksImV4cCI6MTcxMTEwOTUyOX0.eKqo9A1qrLDFN6AhlG5ZOGCKfaBo9SLPpKhno4yZByQ"
   }
+}
+```
+
+### Verify Email
+
+- **Method:** **`POST`**
+- **Endpoint:** **`/verify-email`**
+
+#### Headers
+
+```bash
+Authorization <USER_VERIFICATION_EMAIL_TOKEN>
+```
+
+**Response Body:**
+
+```json
+{
+  "email": "user@gmail.com",
+  "newPassword": "user123"
 }
 ```
 
@@ -266,7 +286,7 @@ refreshToken <USER_REFRESH_TOKEN>
   "success": true,
   "message": "Token refreshed successfully",
   "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyMkBleGFtcGxlLmNvbSIsInVzZXJUeXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MDM5Njk2NDksImV4cCI6MTcwNDA1NjA0OX0.X19IltUNlQB68ktIl-W1vI9faCgU9WUrrR89dFSC_yo"
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyMkBleGFtcGxlLmNvbSIsInVzZXJUeXBlIjoiY433zdG9tZXIiLCJpYXQiOjE3MDM5Njk2NDksImV4cCI6MTcwNDA1NjA0OX0.X19IltUNlQB68ktIl-W1vI9faCgU9WUrrR89dFSC_yo"
   }
 }
 ```

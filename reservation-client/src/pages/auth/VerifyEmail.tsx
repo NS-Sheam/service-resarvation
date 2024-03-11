@@ -17,8 +17,6 @@ const VerifyEmail = () => {
       const res = (await VerifyEmail({ token })) as TResponse<any>;
 
       if (res.error) {
-        console.log("res.error", res.error);
-
         toast.error("Verification Unsuccessful", {
           id: toastId,
           duration: 2000,

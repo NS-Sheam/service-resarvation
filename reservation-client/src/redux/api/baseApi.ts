@@ -6,7 +6,7 @@ import { TReduxResponse } from "../../types";
 import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:4000/api/v1",
+  baseUrl: import.meta.env.VITE_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
