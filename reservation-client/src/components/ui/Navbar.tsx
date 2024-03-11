@@ -36,8 +36,8 @@ const Navbar = () => {
   } else {
     user?.role === "admin"
       ? mainMenuItems.push({
-          title: "Users",
-          path: "/admin/users",
+          title: "Providers",
+          path: "/providers",
         })
       : mainMenuItems.push({
           title: "booking",
@@ -100,7 +100,9 @@ const Navbar = () => {
                   <Col span={4}>
                     {user?.image ? (
                       <img
-                        onClick={() => navigate("/profile")}
+                        onClick={() => {
+                          user?.role !== "admin" && navigate("/profile");
+                        }}
                         style={{ border: "2px solid #ffffff" }}
                         src={user?.image}
                         alt="user"
@@ -108,7 +110,9 @@ const Navbar = () => {
                       />
                     ) : (
                       <FaUser
-                        onClick={() => navigate("/profile")}
+                        onClick={() => {
+                          user?.role !== "admin" && navigate("/profile");
+                        }}
                         style={{
                           border: "2px solid #ffffff",
                           padding: "0.25rem",

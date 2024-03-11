@@ -10,6 +10,7 @@ import { providerSearchableFields } from "./provider.const";
 import { Provider } from "./provider.model";
 import { TProvider } from "./provider.interface";
 import { Service } from "../service/service.model";
+import { Booking } from "../booking/booking.model";
 
 const getAllProviders = async (query: Record<string, unknown>) => {
   const providerQuery = new QueryBuilder(Provider.find(), query)
@@ -108,6 +109,27 @@ const deleteProvider = async (providerId: string) => {
     );
     if (!deletedProvider) {
       throw new AppError(httpStatus.BAD_REQUEST, "Provider deletion failed");
+    }
+    const deleteProviderServices = await Service.updateMany(
+      { provider: providerId },
+      { isDeleted: true },
+      { session },
+    );
+    if (!deleteProviderServices) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Provider services deletion failed",
+      );
+    }
+    const deleteProviderBooking = await Booking.deleteMany(
+      { provider: providerId },
+      { session },
+    );
+    if (!deleteProviderBooking) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Provider booking deletion failed",
+      );
     }
     await session.commitTransaction();
     await session.endSession();

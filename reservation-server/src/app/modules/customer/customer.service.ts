@@ -8,6 +8,7 @@ import QueryBuilder from "../../builder/QueryBuilder";
 import { customerSearchableFields } from "./customer.const";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { TUser } from "../user/user.interface";
+import { Booking } from "../booking/booking.model";
 
 const getAllCustomers = async (query: Record<string, unknown>) => {
   const customerQuery = new QueryBuilder(Customer.find(), query)
@@ -83,6 +84,16 @@ const deleteCustomer = async (customerId: string) => {
     );
     if (!deletedCustomer) {
       throw new AppError(httpStatus.BAD_REQUEST, "Customer deletion failed");
+    }
+    const deleteCustomerBooking = await Booking.deleteMany(
+      { customer: customerId },
+      { session },
+    );
+    if (!deleteCustomerBooking) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Customer booking deletion failed",
+      );
     }
     await session.commitTransaction();
     await session.endSession();

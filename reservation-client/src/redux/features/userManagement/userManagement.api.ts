@@ -77,6 +77,13 @@ const userManagementApi = baseApi.injectEndpoints({
       invalidatesTags: ["provider"],
       transformResponse: (response: TReduxResponse<TProvider>) => response.data,
     }),
+    deleteProvider: builder.mutation({
+      query: (id: string) => ({
+        url: `/providers/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["provider"],
+    }),
   }),
 });
 
@@ -87,4 +94,5 @@ export const {
   useGetProvidersQuery,
   useGetSingleProviderQuery,
   useUpdateProviderMutation,
+  useDeleteProviderMutation,
 } = userManagementApi;
