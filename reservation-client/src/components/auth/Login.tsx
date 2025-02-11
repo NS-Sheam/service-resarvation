@@ -10,7 +10,20 @@ import { verifyToken } from "../../utils/verifyToken";
 import { setUser } from "../../redux/auth/auth.Slice";
 import { Link, useNavigate } from "react-router-dom";
 import CommonButton from "../ui/CommonButton";
-
+const loginCredintials: { [key: string]: { email: string; password: string } } = {
+  admin: {
+    email: "cardik360degree@gmail.com",
+    password: "superAdmin",
+  },
+  provider: {
+    email: "7582mnsakibs@gmail.com",
+    password: "123456",
+  },
+  customer: {
+    email: "8625sakib@gmail.com",
+    password: "123456",
+  },
+};
 const Login = () => {
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
@@ -80,6 +93,17 @@ const Login = () => {
               </Col>
             </Row>
             <CommonButton htmlType="submit">Login</CommonButton>
+            {Object.keys(loginCredintials).map((key) => (
+              <CommonButton
+                className="mt-1"
+                key={key}
+                onClick={() => {
+                  onSubmit(loginCredintials[key]);
+                }}
+              >
+                Login as {key}
+              </CommonButton>
+            ))}
           </RForm>
         </Col>
       </Row>

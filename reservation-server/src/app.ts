@@ -4,6 +4,8 @@ import globalErrorHandler from "./app/middlewares/glovalErrorHandler";
 import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 import cookieParser from "cookie-parser";
+import validator from "./app/middlewares/validator";
+
 const app = express();
 
 // parser
@@ -20,7 +22,7 @@ app.use(
   }),
 );
 app.use(cookieParser());
-
+app.use(validator);
 // application route
 app.use("/api/v1", router);
 
